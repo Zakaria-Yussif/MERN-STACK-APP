@@ -1,0 +1,43 @@
+.selectImage{
+    color: #000;
+
+    display: flexbox;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    margin:100px auto;
+    width: 30%;
+    border-radius: 7px;
+    background-color:#f0f8ffa8;
+     box-shadow: 0px 0px 4px 1px rgb(160, 157, 157); 
+    position: -webkit-sticky;
+    box-sizing: border-box;
+    padding: 10px 3px 10px 3px;
+    height: auto;
+    padding-bottom: 2px;
+}
+
+h4{
+    color:rgb(27, 22, 22);
+    font: 20px Georgia, 'Times New Roman', Times, serif;
+}
+
+.Img-container{
+    width: 60%;
+    margin: 10px auto 10px;
+    border-radius: 50%;
+   
+}
+#img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    
+}
+#submit{
+    margin: 10px;
+    width: 60px;
+    color: #2e2222;
+    
+    
+}

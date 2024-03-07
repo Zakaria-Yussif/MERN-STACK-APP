@@ -1,0 +1,42 @@
+
+
+.formApp{
+   display: none;
+    margin: 1000px 300px 0px;
+    position: absolute;
+    justify-content: center;
+    text-align: center;
+    background-color: green;
+    width: 40%;
+    height: 40vh;
+    font:20px Georgia, 'Times New Roman', Times, serif;
+}
+
+.book_ms{
+    
+    flex-direction:column ;
+    margin: 30px 4px 5px ;
+    display: flex;
+    flex-direction: column;
+    
+}
+.inputMs{
+    margin:7px ; 
+    height: 20px;
+    
+    
+}
+ label{
+    color: aliceblue;
+ font:20px Georgia, 'Times New Roman', Times, serif;
+ }
+#labelMs{
+    margin: 0px 0px 0px -140px;
+ color: aliceblue;
+ font:20px Georgia, 'Times New Roman', Times, serif;
+}
+#labelMs1{
+    margin: 0px 0px 0px -43px;
+ color: aliceblue;
+ font:20px Georgia, 'Times New Roman', Times, serif;
+}

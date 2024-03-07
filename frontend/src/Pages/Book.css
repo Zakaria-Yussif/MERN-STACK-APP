@@ -1,0 +1,566 @@
+*{
+    margin: 0;
+    padding: 0;
+    height: auto;
+    
+}
+
+
+body{
+ max-width: 1500px;
+  height: 100vh;
+}
+
+.shake {
+    animation: shake 0.3s ease-in-out infinite;
+  }
+  
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    25%, 75% {
+      transform: translateX(-10px);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+  }
+
+
+h2{
+    text-align: center;
+    margin: 0px -5px;
+  color: rgb(39, 34, 34);
+  
+}
+/* .formApp{
+
+     margin: -100px auto 0px;
+     position: absolute;
+     justify-content: center;
+     text-align: center;
+  color: rgb(160, 157, 157);
+     
+     width: 100%;
+     height: 100%;
+     
+     font:  20px  'Roboto Mono', monospace;;
+ } */
+ 
+ .book_ms{
+     
+     flex-direction:column ;
+     margin: 30px 4px 10px ;
+     display: flex;
+     flex-direction: column;
+     
+ }
+ .inputMs{
+     margin:3px 0Px 20px ; 
+     height: 25px;
+     width: 200px;
+     outline-color: coral;
+     
+ }
+  label{
+  color: rgb(58, 52, 52);
+  font-weight: bold;
+  
+  display: flex;
+  
+  font:23px Georgia, 'Times New Roman', Times, serif;
+  }
+ #labelMs{
+     margin: 0px 0px 0px -80px;
+     color: rgb(160, 157, 157);
+  
+  font:20px Georgia, 'Times New Roman', Times, serif;
+ }
+ #labelMs1{
+     margin: 0px 0px 0px -40px;
+     color: rgb(160, 157, 157);
+  
+  font:  20px  'Roboto Mono', monospace;;
+ }
+
+ select option:hover{
+    background-color: aqua;
+ }
+ .confirm{
+    width: 30%;
+    height: 30px;
+    background-image: linear-gradient(#007aff,#0a2351) ;
+    border-style: none;
+    color: antiquewhite;
+    font:  20px  'Roboto Mono', monospace;;
+}
+.login_Header{
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  margin: -60px 25px;
+  color: #007aff;
+}
+.createAcc{
+  box-shadow: 0px 0px 2px 1px rgb(160, 157, 157);
+   margin: 4px 550px; 
+  justify-content: center;
+  position: fixed;
+  width: 25vw;
+  height: auto;
+  top: 490px;
+  padding: 2px;
+  color: #131212b9;
+  border-radius: 5px;
+}
+.bottom1{
+  text-align: center;
+  justify-content: center;
+  margin: 1px 30px;
+}
+b{
+  margin: 0px 3px;
+  
+}
+#b1{
+  color: rgb(160, 157, 157);
+  display: flex;
+  
+}
+#b2{
+  color: rgb(160, 157, 157);
+  display: flex;
+  margin-left: 5px;
+  font-size: 20px;
+  
+}
+
+#b3{
+  color: rgb(160, 157, 157);
+  display: flex;
+  margin-left: 20px;
+  font-size: 20px;
+  
+}
+#b4{
+  color: rgb(160, 157, 157);
+  display: flex;
+  margin-left: 20px;
+  font-size: 20px;
+  
+}
+.login_footer{
+  margin: 0px 20px;
+  position: fixed;
+  display: grid;
+  cursor: pointer;
+  grid-template-columns: 40% 40% ;
+}
+.col-2{
+  margin:10px 650px;
+  text-align: end;
+}
+#b3,#b4,#b2{
+  color: chocolate;
+}
+#b3:hover{
+  color:rgb(153, 139, 139);
+}
+#b4:hover{
+  color: rgb(119, 105, 105);
+}
+#b2:hover{
+  color: rgb(172, 159, 159);
+}
+.register1{
+    color: #f0eaea;
+
+    display: flexbox;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    margin:120px auto;
+    width: 25%;
+    border-radius: 7px;
+    background-color:#f0f8ffa8;
+     box-shadow: 0px 0px 4px 1px rgb(160, 157, 157); 
+    position: -webkit-sticky;
+    box-sizing: border-box;
+    padding-top: 10px;
+    height: auto;
+    padding-bottom: 2px;
+
+    
+    
+    
+  }
+  .reset_header{
+     color:#000;
+  }
+.resetForm{
+  color: #f0eaea;
+
+  display: flexbox;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  margin:100px auto;
+  width: 25%;
+  border-radius: 7px;
+  background-color:#f0f8ffa8;
+   box-shadow: 0px 0px 4px 1px rgb(160, 157, 157); 
+  position: -webkit-sticky;
+  box-sizing: border-box;
+  padding: 10px 5px 10px 5px;
+
+  height: auto;
+  padding-bottom: 2px;
+}
+
+.input_4{
+  margin-left: 10px;
+}
+  
+.input_el{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    text-align: center;
+    justify-content: center;
+    margin: 10px 90px ;
+    
+    
+
+}
+
+.input_el2{
+  display: flex;
+    flex-direction: column;
+    width: 80%;
+    text-align: center;
+    justify-content: center;
+    margin: 30px 90px;
+}
+label{
+  font:  17px  'Roboto Mono', monospace;;
+    margin-right: 20px;
+}
+ .submit{
+    margin: 10px 0px 0px 100px;
+    line-height: 70px;
+    width: 100px;
+    padding: 2px;
+    border-radius: 4px;
+    font-weight: bolder;
+    /* background-color: #006A4E; */
+   background-image: linear-gradient(#006A4E, #009E60) ;
+   border-style: none;
+    letter-spacing: 1px;
+    color: #e4dede;
+    font:  22px  'Roboto Mono', monospace;;
+ }
+
+ .submit2{
+    margin: 20px 50px 0px -20px;
+    line-height: 55px;
+    width:80%;;
+    /* background-color: #006A4E; */
+    background-image:  linear-gradient(#006A4E, #009E60);
+   border-style: none;
+    letter-spacing: 1px;
+    color: aliceblue;
+    font:  17px  'Roboto Mono', monospace;;
+ }
+ #hr1{
+    width: 45%;
+    position: absolute;
+    margin: 10px 15px;
+    height: 2px;
+    background-color: grey;
+    border-radius: 3px;
+ }
+ #hr2{
+    width: 45%;
+    text-align: end;
+    justify-content: right;
+    position: absolute;
+    margin: -10px 650px ;
+    float: right;
+    height: 2px;
+    background-color:grey;
+ }
+ .input_reset{
+  text-align: center;
+   font:  15px  'Roboto Mono', monospace;;
+    width:70%;
+    margin: 10px -20px;
+   border-radius:5px;
+    line-height: 27px;
+    justify-content: center;
+    padding-right: 30px;
+    position: relative;
+    outline-color:	#00bfff;
+ }
+.input_1,.input_2{
+   text-align: center;
+   font:  15px  'Roboto Mono', monospace;;
+    width:80%;
+    margin: 10px -20px;
+   border-radius:5px;
+    line-height: 27px;
+    justify-content: center;
+    position: relative;
+    outline-color:	#00bfff;
+}
+a {
+  color: #a84909;
+}
+
+
+#checkbox1{
+  position: absolute;
+  top:175px;
+  margin: 0px 105px;
+  color: green;
+  font-size: 20px;
+  z-index: 9;
+  /* background-color: green; */
+  
+}
+.input_3{
+  text-align: center;
+   font:  15px  'Roboto Mono', monospace;;
+    width:80%;
+    margin: 5px -20px;
+   border-radius:5px;
+    line-height: 20px;
+    justify-content: center;
+    position: relative;
+    outline-color:	#00bfff;
+}
+.reset{
+    margin: 25px 0px ;
+} 
+#id_create{
+  color: #4000ff;;
+  font-size: 17px;
+}
+.sign_up{
+    color:	#4000ff;
+    letter-spacing: 1px;
+    font:  20px  'Roboto Mono', monospace;;
+    position: relative;
+    cursor: pointer;
+   justify-content: right;
+   margin: 0px 20px;
+}
+.regisPage{
+   justify-content: center;
+   position: absolute;
+   top: 200px;
+   text-align: center;
+   margin: 0px 400px;
+   font:  20px  'Roboto Mono', monospace;;
+}
+.bottom2{
+  justify-content: center;
+  text-align: center;
+  margin: 1px 50px ;
+  color: #000;
+  font:  20px  'Roboto Mono', monospace;;
+  
+}
+.bottom3{
+  color: rgb(167, 76, 94);
+  font:  13PX  'Roboto Mono', monospace;;
+  margin: 0px -10px 0px 0px;
+}
+.bottom4{
+  color: #d1a6a6;
+  margin: 0px -5px 0px 0px;
+  font:  13px  'Roboto Mono', monospace;;
+}
+.SignUp_Form{
+
+
+    color: #f0eaea;
+
+    display: flexbox;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    margin:90px auto;
+    width: 25%;
+    border-radius: 7px;
+    background-color:#f0f8ffa8;
+     box-shadow: 0px 0px 4px 1px rgb(160, 157, 157); 
+    position: relative;
+    box-sizing: border-box;
+    padding-top: 7px;
+    height: auto;
+    padding-bottom: 2px;
+
+    
+    
+}
+
+.terms{
+  display: flex;
+  justify-content: start;
+  font:  17px  'Roboto Mono', monospace;;
+  color:#000;
+  
+} 
+#span_login{
+  color:#3a2720;
+  padding: 2px;
+}
+
+#span4{
+  /* color:#007aff; */
+  margin: 0px 3px;
+  cursor: pointer;
+  color:coral;
+font-weight: bold;
+font:  20px  'Roboto Mono', monospace;;
+}
+#span1{
+  color:#007aff;
+}
+#checkbox{
+  size: 30px;
+}
+
+#id_signUp{
+  position: absolute;
+  top: -70px;
+  color: #a09494;
+  text-align: center;
+  margin: 1px 50px;
+  justify-content: center;
+}
+
+
+
+
+@media (max-width:1000px){
+  .register1{
+    color: #f0eaea;
+    display: flexbox;
+    width:80%;
+    height: auto;
+    padding-bottom: 2px;
+
+    
+    
+    
+  }
+  .input_reset{
+    text-align: center;
+     font:  15px  'Roboto Mono', monospace;;
+      width:80%;
+      margin: 10px -20px;
+     border-radius:5px;
+      line-height: 27px;
+      justify-content: center;
+      padding-right: 50px;
+      padding-left: 2px;
+      position: relative;
+      outline-color:	#00bfff;
+   }
+  .SignUp_Form{
+    color: #f0eaea;
+    display: flexbox;
+    width:80%;
+    height: auto;
+    padding-bottom: 2px;
+
+  }
+  .createAcc{
+    box-shadow: 0px 0px 2px 1px rgb(160, 157, 157);
+     margin: -5px 48px ; 
+    justify-content: center;
+    width: 80%;
+    text-align: center;
+
+   
+  }
+  .col-D
+  .sign_up{
+    color:	#4000ff;
+    letter-spacing: 0.5px;
+    font:  15px  'Roboto Mono', monospace;;
+    position: absolute;
+    cursor: pointer;
+   
+   margin: 0px 10px;
+}
+.bottom2{
+  
+  margin: 1px 50px ;
+  color: #000;
+  font:  20px  'Roboto Mono', monospace;;
+  
+}
+.bottom3{
+  color: rgb(167, 76, 94);
+  font:  13PX  'Roboto Mono', monospace;;
+  margin: 0px -10px 0px 0px;
+}
+.bottom4{
+  color: #d1a6a6;
+  margin: 0px -5px 0px 0px;
+  font:  13px  'Roboto Mono', monospace;;
+}
+.bottom1{
+  margin: 0px -10px 0px -100px;
+  justify-content: start;
+  
+  
+}
+.regisPage {
+  font-size: 8px; 
+  width: 90%;
+  overflow-wrap: break-word; /* or overflow-wrap: anywhere; */
+  margin: -30px 50px;
+  display: flex; /* Add this line if you intend to use flexbox */
+  justify-content: center;
+}
+#b1{
+  color: rgb(146, 120, 120);
+  opacity:0.3;
+  top: 100px;
+  position: absolute;
+}
+.col-2{
+  display: none;
+}
+.col-1{
+margin: 100px 150px;
+position: absolute;
+}
+#checkbox1{
+  position: absolute;
+  top:142px;
+  margin: 0px 145px;
+  color: green;
+  font-size: 20px;
+  z-index: 9;
+  /* background-color: green; */
+  
+}
+#reset_header{
+  margin: -70px auto;
+  position: absolute;
+  color: #000;
+  font-family:15px Arial, Helvetica, sans-serif;
+  justify-content: center;
+  text-align: center;
+}
+.resetForm{
+  width: 95%;
+  height: auto;
+  padding: 4px;
+}
+}
