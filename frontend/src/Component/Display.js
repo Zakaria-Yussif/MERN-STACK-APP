@@ -23,7 +23,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
-const socket = io.connect("http://localhost:8700")
+const socket = io.connect("https://render-backend-28.onrender.com/api/socket")
 // import { useSelector } from 'react-redux';
 // import { useData } from '../Component/DataContext';
 
