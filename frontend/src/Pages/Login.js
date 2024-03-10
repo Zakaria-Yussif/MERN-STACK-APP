@@ -90,7 +90,7 @@ const handleSignUp = async (event) => {
   };
 
   try {
-    const responseSignUp = await axios.post("http://localhost:9000/signUp", register);
+    const responseSignUp = await axios.post("https://render-backend-29.onrender.com/api/signUp", register);
         console.log(responseSignUp)
     // Check the HTTP status codes
     if (responseSignUp.status === 200) {
