@@ -40,7 +40,7 @@ function Login() {
     };
 
     try {
-      const response = await axios.post("https://render-backend-29.onrender.com/api/login", user);
+      const response = await axios.post("https://render-backend-28.onrender.com/api/login", user);
       console.log(user)
 
         if (response.status === 200) {
@@ -90,7 +90,7 @@ const handleSignUp = async (event) => {
   };
 
   try {
-    const responseSignUp = await axios.post("https://render-backend-29.onrender.com/api/signUp", register);
+    const responseSignUp = await axios.post("https://render-backend-28.onrender.com/api/signUp", register);
         console.log(responseSignUp)
     // Check the HTTP status codes
     if (responseSignUp.status === 200) {
