@@ -30,52 +30,39 @@ function Login() {
      const [failAttempts, setAttempts] = useState(0);
    const navigate = useNavigate()
 
-   const Submit = async (event) => {
-    let storeToken = localStorage.getItem("token")
-    console.log(storeToken)
+   
+const Submit = async (event) => {
     event.preventDefault();
-    let user = {
-        email: email2,
-       password: password,
-    };
+    const email = email2; // Assuming email2 is defined somewhere
+    const password = password; // Assuming password is defined somewhere
 
     try {
-      const response = await axios.post("https://render-backend-28.onrender.com/api/login", user);
-      console.log(user)
+        const response = await axios.post("https://render-backend-28.onrender.com/api/login", { email, password });
 
-        if (response.status === 200) {
-            if (!response.data.token) {
-                // User not logged in
-                setLogin(response.data.msg);
-                setIsShaking(true);
-                setAttempts(failAttempts + 1);
-                setTimeout(() => {
-                    setIsShaking(false);
-                }, 700);
-                if (failAttempts + 1 >= 3) {
-                    setLogin("Not registered, SignUp");
-                    alert("It seems you don't have account. Please sign Up.");
-                    setIsInputDisabled(!isInputDisabled);
-                }
-            } else {
-                // User already logged in, update token and navigate
-                const newToken = response.data.token; // Use a different variable name here
-                localStorage.setItem("token", newToken);
-            
-                console.log(newToken)
-                navigate("/");
-                console.log(token)
+        if (response.status === 200 && response.data.token) {
+            // User successfully logged in
+            const newToken = response.data.token;
+            localStorage.setItem("token", newToken);
+            navigate("/");
+        } else if (response.status === 401) {
+            // Incorrect credentials or user not found
+            setLogin(response.data.msg || "Invalid credentials. Please try again.");
+            setIsShaking(true);
+            setAttempts(failAttempts + 1);
+            if (failAttempts + 1 >= 3) {
+                setLogin("Not registered, Sign Up");
+                alert("It seems you don't have an account. Please sign up.");
+                setIsInputDisabled(!isInputDisabled); // This line seems dubious. You might want to clarify its purpose.
             }
         } else {
-            setLogin("try again");
+            // Handle other status codes
+            setLogin("Server error, please try again later.");
         }
     } catch (error) {
-        // Handle error and show shaking animation
-        setLogin("Server error, try again later.");
+        // Handle network errors or other exceptions
+        setLogin("Server error, please try again later.");
     }
 };
-
-      
 
     
 
