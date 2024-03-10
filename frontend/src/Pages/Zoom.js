@@ -12,8 +12,6 @@ import clipboard from "clipboard"
 
 let socket = io.connect("https://render-backend-28.onrender.com")
 
-
-// const socket = io.connect("http://localhost:8700")
 function Zoom() {
    
     const [employeeList, setEmployeeList] = useState([]);
