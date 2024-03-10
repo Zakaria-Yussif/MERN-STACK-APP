@@ -101,7 +101,7 @@ let storedToken =localStorage.getItem("token")
   
         try {
           // Send a POST request to fetch the profile picture
-          const responsePic = await axios.post(`http://localhost:9000/getProfilePicture`, picture);
+          const responsePic = await axios.post(`https://render-backend-28.onrender.com/api/pictures/getProfilePicture`, picture);
           console.log(responsePic);
   
           // Check if the request was successful (status code 200)
@@ -207,7 +207,7 @@ setProfileVisible(true);
     };
    console.log("Email",adminUser)
     try {
-      const responseAdmin = await axios.post("http://localhost:9000/admin", adminUser);
+      const responseAdmin = await axios.post("https://render-backend-28.onrender.com/api/admin", adminUser);
   
       if (responseAdmin.status === 401) {
         // Handle unauthorized access
