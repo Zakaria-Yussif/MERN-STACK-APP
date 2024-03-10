@@ -164,7 +164,7 @@ const handleSignUp = async (event) => {
   className={`input_2 ${isShaking ? 'shake' : ''}`}
   style={{ borderColor: isShaking ? 'red' : '' }}
   onChange={(event) => setPassword(event.target.value)}
-  required
+  required autocomplete="current-password"
 />
 
               
