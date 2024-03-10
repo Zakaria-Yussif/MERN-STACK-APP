@@ -10,7 +10,7 @@ import {jwtDecode} from 'jwt-decode';
 import clipboard from "clipboard"
 // import TextField from './TextField'; 
 
-let socket = io.connect("https://render-backend-28.onrender.com/api/socket")
+let socket = io.connect("https://render-backend-28.onrender.com")
 
 
 // const socket = io.connect("http://localhost:8700")
