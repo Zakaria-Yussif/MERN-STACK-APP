@@ -13,7 +13,7 @@ import axios from 'axios';
 import io  from 'socket.io-client'
 // import jwtDecode from 'jwt-decode';
 
-const socket = io.connect("http://localhost:8700")
+const socket = io.connect("https://render-backend-28.onrender.com")
 
 
 
