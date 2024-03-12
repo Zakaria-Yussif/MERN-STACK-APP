@@ -6,6 +6,7 @@ import io  from 'socket.io-client'
 // import Peer from 'peerjs';
 import Peer from 'simple-peer'
 import axios from "axios";
+
 import {jwtDecode} from 'jwt-decode';
 import clipboard from "clipboard"
 // import TextField from './TextField'; 
@@ -28,7 +29,7 @@ function Zoom() {
     const[idToCall, setIdToCall]= useState("")
     const[name, setName]= useState("")
     const[me,setMe]=useState("")
-
+    const[imageUrl, setImageUrl]=useState("")
     const textAreaRef = useRef(null);
     
     const myVideo = useRef();
@@ -206,15 +207,35 @@ const leaveCall = ()=>{
 
 console.log("me", me)
 
+useEffect(() => {
+    // Retrieve data from localStorage
+    const imgData = localStorage.getItem('img');
+    setImageUrl(imgData)
+    // Check if the data is available (truthy) to determine visibility
+    
+  }, [setImageUrl]); //
+  
 
    
 
     return (
-        <>
-        <div className="container-fluid zoom">
+        <div >
+        <div className="zoom">
             <div className="rowHeader">
                 <div className="col_header">
-                    <h3>Connect<b style={{ color: "#000080" }}>Z</b><b style={{ marginLeft: "20px" }}>O</b> <b style={{ marginLeft: "35px" }}>O</b><b style={{ marginLeft: "49px" }}>M</b></h3>
+                
+                <Icon style={{color:"green", fontSize:"18px", zIndex:"10", margin:" 5px -60px 0px -10px"}}  icon="carbon:dot-mark" />
+                <img
+            style={{margin:"-10px 10px", zIndex:"0"}}
+          className="avatar_img"
+          alt="Profile Image"
+          
+          src={imageUrl}
+          className="avatar_img" 
+          title={ decodedName}
+        />
+        
+                    {/* <h3>Connect<b style={{ color: "#000080" }}>Z</b><b style={{ marginLeft: "20px" }}>O</b> <b style={{ marginLeft: "35px" }}>O</b><b style={{ marginLeft: "49px" }}>M</b></h3> */}
                 </div>
                 <div className="col_header">
                 <textarea
@@ -275,21 +296,21 @@ console.log("me", me)
                     </h3>
                 </div>
                 <div className="col">
-                    <h3><Icon style={{ color: "coral" }} icon="mdi:record-rec" /> <br></br>
-                        <span style={{ fontSize: "12px" }}>Record</span>
+                    <h3><Icon style={{ color: "coral",marginLeft:"10px" }} icon="mdi:record-rec" /> <br></br>
+                        <span style={{ fontSize: "12px", }}>Record</span>
                     </h3>
                 </div>
                 <div className="col">
-                    <h3><Icon style={{ color: "#1ca9c9" }} icon="fluent:people-community-add-28-filled" /> <br></br>
+                    <h3><Icon style={{ color: "#1ca9c9", marginLeft:"20px" }} icon="fluent:people-community-add-28-filled" /> <br></br>
                         <span style={{ fontSize: "12px" }}>Participants</span>
                     </h3>
                 </div>
-                <div className="col">
+                <div className="col screen">
                     <h3><Icon style={{ color: "#7FFFD4" }} icon="fluent:share-screen-person-overlay-24-regular" /><br></br>
                         <span style={{ fontSize: "12px" }}>Share Screen</span>
                     </h3>
                 </div>
-                <div className="col">
+                <div className="col chat">
                     <h3 onClick={chat}><Icon style={{ color: "#1ca9c9" }} icon="jam:messages-f" /><br></br>
                         <span style={{ fontSize: "12px" }}>Chat</span>
                     </h3>
@@ -312,17 +333,17 @@ console.log("me", me)
                         </div>
                     )}
                 </div>
-                <div className="col">
+                <div className="col security">
                     <h3><Icon style={{ color: "#1ca9c9" }} icon="ic:outline-security" /><br></br>
                         <span style={{ fontSize: "12px" }}>Security</span>
                     </h3>
                 </div>
-                <div className="col">
+                <div className="col end">
                     <h3 className="btn  btn-outline-danger"> End</h3>
                 </div>
             </div>
         </div>
-    </>
+    </div>
     );
 }
 

@@ -33,7 +33,7 @@ function  Footer() {
     return ( 
       <>
         <div className={footer || footer1 ? 'footer changeFooter, footerShow': 'footer'} >
-            <div className='shapedividers1'> </div> 
+           
             <div className='rowMenu'>
 
               <div className='col col1'>
@@ -139,7 +139,7 @@ function  Footer() {
               </div>
              
              </div>
-             <div className='shapedividers'> </div>
+        
              </div>
              
     

@@ -39,7 +39,7 @@ function ResetPass () {
             newPassword: resetPassword,
           };
       
-          const resetData = await axios.put("http://localhost:9000/updatePassword", reset);
+          const resetData = await axios.put("https://render-backend-28.onrender.com/api/password/updatePassword", reset);
       
           console.log(resetData);
       

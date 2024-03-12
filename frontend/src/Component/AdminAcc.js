@@ -106,7 +106,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:9000/adminAcc");
+        const response = await axios.get("https://render-backend-28.onrender.com/api/admin/adminAcc");
         setAdminContent(response.data.msg); //
      if(response.status===200){
       alert(response.data.msg)
@@ -166,7 +166,7 @@ useEffect(() => {
 
       if(newEmployee){
         console.log(newEmployee)
-        let response= await axios.post("http://localhost:9000/employeeList", newEmployee )
+        let response= await axios.post("https://render-backend-28.onrender.com/api/employee/employeeList", newEmployee )
        console.log(response)
          
         }
@@ -209,7 +209,7 @@ setListVisible(true)
       // Assuming newEmployee is defined somewhere in your component state or props
      
   
-      const response = await axios.get("http://localhost:9000/getEmployeeList");
+      const response = await axios.get("https://render-backend-28.onrender.com/api/employeee/getEmployeeList");
       console.log(response);
       setButtonClicked(true)
       // Update list visibility
@@ -301,7 +301,7 @@ const handleEdit = async (id, field, value) => {
   console.log(pushTableData)
   
   try {
-    const response = await axios.post("http://localhost:9000/employeeUpdates", pushTableData);
+    const response = await axios.post("https://render-backend-28.onrender.com/api/employee/employeeUpdates", pushTableData);
     console.log(response);
   } catch (error) {
     console.error("Error saving data:", error);
@@ -331,7 +331,7 @@ const Yes = async () => {
   console.log('selectedRows:', selectedRows);
 
   try {
-    const response1 = await axios.post("http://localhost:9000/deleteEmployeeInfo", deleteEmployee);
+    const response1 = await axios.post("https://render-backend-28.onrender.com/api/employee/deleteEmployeeInfo", deleteEmployee);
     console.log(response1)
 
     if(response1.status===200){
@@ -367,7 +367,7 @@ const No =  () => {
 const GetEmployee2 = async ()=>{
   try {
     setButtonClicked(true)
-    const response = await axios.get("http://localhost:9000/getAllPictures");
+    const response = await axios.get("https://render-backend-28.onrender.com/api/pictures/getAllPictures");
     console.log(response);
     if (response.status === 200) {
 
@@ -567,7 +567,7 @@ const SelectEmployee = async (min,max) => {
 
     console.log("Sending Task:", sendTask);
 
-    const responseTask = await axios.post("http://localhost:9000/task", sendTask);
+    const responseTask = await axios.post("https://render-backend-28.onrender.com/api/task/task", sendTask);
 
     console.log( responseTask);
     
@@ -634,7 +634,7 @@ function HandleChange(){
 
  const Task = async () => {
   try {
-    const getAllTask = await axios.get("http://localhost:9000/getAlltask");
+    const getAllTask = await axios.get("https://render-backend-28.onrender.com/api/task/getAlltask");
     console.log("res", getAllTask);
 
     if (getAllTask.status === 200) {
@@ -730,7 +730,7 @@ const fixedPosition = () => {
     console.log('selectedRows:', selectedRows1);
 
     try {
-      const response1 = await axios.post("http://localhost:9000/deleteEmployeeTask", deleteEmployee);
+      const response1 = await axios.post("https://render-backend-28.onrender.com/api/task/deleteEmployeeTask", deleteEmployee);
       console.log(response1);
 
       if (response1.status === 200) {
@@ -752,7 +752,7 @@ const Yes1 = async () => {
   console.log('selectedRows:', selectedRows);
 
   try {
-    const response1 = await axios.post("http://localhost:9000/deleteEmployeeInfo", deleteEmployee);
+    const response1 = await axios.post("https://render-backend-28.onrender.com/api/employee/deleteEmployeeInfo", deleteEmployee);
     console.log(response1)
 
     if(response1.status===200){

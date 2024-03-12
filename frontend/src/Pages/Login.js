@@ -33,11 +33,14 @@ function Login() {
    
 const Submit = async (event) => {
     event.preventDefault();
-    const email = email2; // Assuming email2 is defined somewhere
-    const password = password; // Assuming password is defined somewhere
+    let user={
+      email:email2,
+      password:password
+    } // Assuming email2 is defined somewhere
+  // Assuming password is defined somewhere
 
     try {
-        const response = await axios.post("https://render-backend-28.onrender.com/api/login", { email, password });
+        const response = await axios.post("https://render-backend-28.onrender.com/api/login", user);
 
         if (response.status === 200 && response.data.token) {
             // User successfully logged in
@@ -72,7 +75,7 @@ const handleSignUp = async (event) => {
   let register = {
     name: name,
     email: email1,
-    password: password,
+    password: password1,
     // confirmPass: confirmPass,
   };
 

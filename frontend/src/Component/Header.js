@@ -396,7 +396,7 @@ setIsVisible(!isVisible);
   {storedToken ? (
     
     <div className="Container-profile" >
-<div className='bell'><Icon icon="bxs:bell" /></div>
+{/* <div className='bell'><Icon icon="bxs:bell" /></div> */}
     <Icon  id="threeDots" onClick={Profile} icon="ph:dots-three-outline-vertical-fill" /> 
      {isProfileVisible1 ?( 
       
@@ -426,7 +426,7 @@ setIsVisible(!isVisible);
         <li onClick={LogOut}>LogOut</li>
       </ul>
     </div>)}
-    {/* <button className="logout"onClick={LogOut}>LogOut</button> */}
+ 
   </div>
     
 
@@ -435,7 +435,28 @@ setIsVisible(!isVisible);
     <Link  className={link ? 'solution chang2': 'link'} to='/login'>Login</Link>
   </div>
 )}
-<div className={'subMenu'} style={{ display: display ? "none" :"fixed" }}><Icon icon="ion:menu" /></div>
+
+
+{isProfileVisible && (
+<div className={'subMenu'}   >
+
+
+<ul className="profile-menu1">
+<li>{ decodedName }</li> 
+        <li onClick={changeImg}>Change Picture</li>
+        <li onClick={ChangePassword}>Change Password</li>
+        <li>Manage Account</li>
+        <li onClick={AdminAcc}>Admin Account</li>
+
+        <li onClick={LogOut}>LogOut</li>
+</ul>
+   
+
+</div>
+)}
+
+
+
   {!isNotiVisible &&(
 <div className='noti'>
 <div>
@@ -451,7 +472,7 @@ setIsVisible(!isVisible);
 
 {/* <video  id="vid" src={Vid} autoPlay loop muted/> */}
 
-<div className={subMenu? 'subMenu changeMenu': ' subMenu'} ><Icon icon="ion:menu" /></div>
+ <div className={subMenu? 'subMenu changeMenu': ' subMenu'} ><Icon onClick={Profile} icon="ion:menu" /></div> 
 
              <div id={"vid1"} style={{ display: display ? 'none' : 'flex' }}>
              <div className=" shape ">hhhhhhh</div>

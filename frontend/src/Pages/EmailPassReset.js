@@ -16,7 +16,7 @@ function EmailPassReset() {
             
           };
       
-          const resetEmail = await axios.post("http://localhost:9000/passwordResetReqest", reset);
+          const resetEmail = await axios.post("https://render-backend-28.onrender.com/api/password/passwordResetReqest", reset);
       
     }
     return (  

@@ -202,7 +202,7 @@ if (token){
   
   async function GetList() {
     try {
-      const response = await axios.get("http://localhost:9000/getEmployeeList");
+      const response = await axios.get("https://render-backend-28.onrender.com/api/employee/getEmployeeList");
       console.log("emplo",response);
   
       setButtonClicked(true);
@@ -451,7 +451,7 @@ function startUp(){
 const Task = async () => {
   
   try {
-    const response = await axios.post("http://localhost:9000/getAllTaskAsigned", {
+    const response = await axios.post("https://render-backend-28.onrender.com/api/task/getAllTaskAsigned", {
       email: decodedEmail,
     });
  console.log(response)
@@ -584,7 +584,7 @@ const taskHeaderClass = addEmployee ? 'task_header' : 'task_header change';
   const Start= async () =>{
     
     try {
-      const response = await axios.get("http://localhost:9000/getEmployeeList");
+      const response = await axios.get("https://render-backend-28.onrender.com/api/employee/getEmployeeList");
       console.log("use",response);
       if(response.status===200){
       const NewRow = response.data.uniqueArray.map((item)=>({
@@ -1038,7 +1038,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
        <img  id ="live" src="https://www.isitwp.com/wp-content/uploads/2020/06/live-chat-new-logo.png"/>
        <p>ClickUp is how our teams <br></br>centralizework, stay on track, <br></br>and easily collaborate.</p>
        <button id="elearning1">Chat...</button>
-       <div><hr hr style={{height:"5px",backgroundColor:"grey", borderRadius:"7px"}}></hr></div>
+       <div><hr hr style={{height:"5px",backgroundColor:"coral", borderRadius:"7px"}}></hr></div>
        </div>
       
        <div className='col-token2 token-eLearning' >
@@ -1047,10 +1047,10 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
 
        <p>With ClickUp we've seen a <br></br> 40% improvement in our total<br></br> go-to-market efficiency!”</p>
      <Link to="/zoom"><button id="elearning" >Meeting...</button></Link> 
-      <div><hr hr style={{height:"5px",backgroundColor:"grey", borderRadius:"7px"}}></hr></div>
+      <div><hr hr style={{height:"5px",backgroundColor:"pink", borderRadius:"7px"}}></hr></div>
        </div>
        
-    { display ? ( <div className='col-token2 token-Meetings'>
+     <div className='col-token2 token-Meetings'>
       
       <img  id ="live" src="https://i.pinimg.com/474x/23/39/7e/23397e66056aa499bcd29359fd7fe322.jpg"/>
       
@@ -1060,11 +1060,9 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
       <div><hr style={{height:"5px",backgroundColor:"grey", borderRadius:"7px"}}></hr></div>
       
        </div>
-      ):(
-       <diV className=" AI_support1">
-        
-      </diV>
-      )}
+  
+       
+      
        </div>
 
 
@@ -1092,18 +1090,20 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
 
 {token ? (
   <div className='row4-token'>
-    <div className="token4">
-      <h4 id="event">Events</h4>
-    </div>
-    <div className="token4 row4Token4 ">
-    <h4 id="b">Activities</h4>
+    <div className="token4 row4Token3">
+      
+      <h4 id="b" >Activities</h4>
     <hr></hr>
  <ul>
-  <li>Announcement <span style={{color:" #774040", fontSize:"22px"}}><Icon icon="nimbus:marketing" /></span></li>
-  <li>Appointemnts <span style={{color:" #774040", fontSize:"22px"}}><Icon icon="icon-park:appointment" /></span></li> 
-  <li>EMS Marketing                 <span style={{color:" #774040", fontSize:"22px"}}><Icon icon="fa-solid:sms" /></span></li>
-  <li>Social Marketing <span style={{color:" #774040", fontSize:"22px"}}><Icon icon="zondicons:news-paper" /></span></li>
+  <li>Announcement <span  style={{color:" #774040", fontSize:"22px"}}><Icon className="icon-small icon1" icon="nimbus:marketing" /></span></li>
+  <li>Appointemnts <span id="icon-small"  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon2" icon="icon-park:appointment" /></span></li> 
+  <li>EMS Marketing                 <span  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon3" icon="fa-solid:sms" /></span></li>
+  <li>Social Marketing <span style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon4" icon="zondicons:news-paper" /></span></li>
  </ul>
+    </div>
+    <div className="token4 row4Token4 ">
+    <h4 id="event">Events</h4>
+    <p>loremhhjkkjj</p>
     </div>
   </div>
 ):(
@@ -1173,22 +1173,22 @@ dotListClass={false}
         {token ?(
           <div className="rowDisplay2">
           
-            <div className="rowDis_token" >
+            <div className="rowDis rowDis3" >
             
             
             <div className='col-5 first' data-aos="flip-right" >
             <div><span><Icon id='icon-2' icon="mdi:computer" /></span></div>
-             <div style={{color:"#ff6666"}}>Get more from your Endpoints</div></div>
-            <div className="media">
+             <div >Get more from your Endpoints</div></div>
+            <div className="media rowDis4" data-aos="zoom-in" style={{marginLeft:"13px"}}>
              <div><span><Icon  id="icon-3" icon="material-symbols:cleaning-bucket" /></span></div>
-            <p>Customize cleaning to your business needs</p>
+            <p  style={{ marginLeft:"-12px"}}>Customize cleaning to your business </p>
             </div>
             
-            <div className="media" >
+            <div className="media rowDis5" data-aos="flip-left" >
             
   <div className='col-5 last'>
     
-    <div><span><Icon onClick={ChatDisplay} style={{ color:"#1d1160" ,fontSize:"75px",margin:"0px 100px "}} icon="jam:messages-f" /></span></div>
+    <div><span><Icon onClick={ChatDisplay} id="jamMessage" style={{ color:"#1d1160" ,fontSize:"75px",margin:"0px 20px "}} icon="jam:messages-f" /></span></div>
   
   </div>
 
