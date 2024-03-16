@@ -11,6 +11,9 @@ import { Button } from 'semantic-ui-react';
  import {jwtDecode} from 'jwt-decode';
 import axios from 'axios';
 import io  from 'socket.io-client'
+import { useDispatch } from 'react-redux';
+
+import { updateData } from './actions'
 // import jwtDecode from 'jwt-decode';
 
 const socket = io.connect("https://render-backend-28.onrender.com")
@@ -42,11 +45,11 @@ const [isNotiVisible, setIsNotiVisible] = useState(true);;
 const [isVisible, setIsVisible] = useState(false);
 const [Elements, setElements] = useState([]);
 const [dynamicElements, setDynamicElements] = useState([]);
-const [display, setDisplay] =useState(false)
+const [display, setDisplay] =useState(false);
 const [ isProfileVisible, setProfileVisible] = useState(false);
 
   const navigate = useNavigate()
-
+  const dispatch = useDispatch();
   
   
 // let decoded;
@@ -109,6 +112,7 @@ let storedToken =localStorage.getItem("token")
           // console.log(responsePic.data.profilePicture.Picture)
             const base64String = responsePic.data.profilePicture.Picture;
            
+             
             setImageUrl(base64String);
             // console.log(dataUrl)
           }
@@ -437,7 +441,7 @@ setIsVisible(!isVisible);
 )}
 
 
-{isProfileVisible && (
+{!isProfileVisible && (
 <div className={'subMenu'}   >
 
 

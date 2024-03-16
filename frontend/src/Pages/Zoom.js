@@ -6,19 +6,22 @@ import io  from 'socket.io-client'
 // import Peer from 'peerjs';
 import Peer from 'simple-peer'
 import axios from "axios";
-
+import { useSelector,useDispatch } from 'react-redux'
+import  fetchData  from '../Component/actions'; 
 import {jwtDecode} from 'jwt-decode';
 import clipboard from "clipboard"
 // import TextField from './TextField'; 
 
-let socket = io.connect("https://render-backend-28.onrender.com")
+let socket = io.connect("http://localhost:8700")
 
 function Zoom() {
    
     const [employeeList, setEmployeeList] = useState([]);
     const [isVisibleChat, setIsVisibleChat] = useState(false);
     const [decodedId, setDecodedId] = useState("");
+    const [ connectedUsers, setConnectedUsers] =useState("")
     const [decodedName, setDecodedName] = useState("");
+    const[decodedEmail,setDecodedEmail]=useState([])
     const [userIdNew, setUserIdNew] = useState("");
     const [myStream, setMyStream] = useState("");
     const [receiveCall, setReceiveCall] = useState("false");
@@ -28,6 +31,7 @@ function Zoom() {
     const[caller, setCaller]= useState("")
     const[idToCall, setIdToCall]= useState("")
     const[name, setName]= useState("")
+    const[isOnline,setIsOnline]=useState(false)
     const[me,setMe]=useState("")
     const[imageUrl, setImageUrl]=useState("")
     const textAreaRef = useRef(null);
@@ -35,43 +39,105 @@ function Zoom() {
     const myVideo = useRef();
     const userVideo= useRef()
     const connectionRef = useRef()
+
+ 
+    const  dataImg = useSelector((state) => state.data);
+     console.log("data",dataImg)
     function VideoShow(){
+
     }
 
+    
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        if (storedToken) {
-            const decoded = jwtDecode(storedToken);
-            if (!decoded) {
-                alert("Admin Authentication invalid");
-            } else {
-                setDecodedName(decoded.findName);
-                setDecodedId(decoded.userId);
-    
-                if (decoded.userId) {
-                    socket.emit('setUserId', decoded.userId);
-                    const userIdToCheck = decoded.userId; // Use decoded.userId for comparison
-    
-                    socket.emit("checkOnlineStatus", userIdToCheck, (response) => {
-                        console.log("Online status of user:", response);
-                        // Handle the response here, e.g., update UI based on online status
-                        if (decoded.userId === userIdToCheck && response.isOnline) {
-                            setUserIdNew(decoded.userId)
-                             
-                        }
-                    });
-                }
-                 
-                console.log("use",userIdNew)
-                socket.on('connectedWithId', (userId) => {
-                    console.log(`Successfully connected with ID: ${userId}`);
-                });
-            }
+      const storedToken = localStorage.getItem('token');
+      if (storedToken) {
+        const decoded = jwtDecode(storedToken);
+        if (!decoded) {
+          alert("Admin Authentication invalid");
         } else {
-            alert("Token does not exist");
-        }
-    }, [decodedId, socket,setUserIdNew, userIdNew]); // Include 'socket' in the dependency array if it's coming from props or context
+          setDecodedName(decoded.findName);
+          setDecodedId(decoded.userId);
+          setDecodedEmail(decoded.email);
     
+          if (decoded.userId) {
+            // Emit event to set user ID
+            socket.emit('setUserId', decoded.userId);
+    
+            // Emit event to check online status
+            socket.emit("checkOnlineStatus", decoded.userId, (response) => {
+              console.log("Online status of user:", response);
+              if (response && response.isOnline) {
+                setUserIdNew(response.userId);
+              } else {
+                console.log("User is not online");
+              }
+            });
+    
+            // Emit event to get all connected user IDs
+            socket.on('allConnectedUserIds', (connectedUsers) => {
+              // Update connected users state with the received list
+              if( connectedUsers){    
+                const MatchesId= connectedUsers.forEach((element)=>({
+                 
+                   connectedId:element.userId
+                }))
+            setUserIdNew();
+            console.log("con", userIdNew)
+                 }
+              
+              console.log("All connected user IDs:", connectedUsers);
+            });
+          } 
+
+          console.log("conNN", userIdNew)
+    
+          socket.on('connectedWithId', (userId) => {
+            console.log(`Successfully connected with ID: ${userId}`);
+          });
+        }
+      } else {
+        alert("Token does not exist");
+      }
+    }, [setUserIdNew,userIdNew]); 
+      
+   
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+          if (decodedId) {
+            console.log(decodedId);
+            const picture = {
+              userId: decodedId,
+            };
+            console.log(picture);
+      
+            try {
+              // Send a POST request to fetch the profile picture
+              const responsePic = await axios.post(`https://render-backend-28.onrender.com/api/pictures/getProfilePicture`, picture);
+              console.log(responsePic);
+      
+              // Check if the request was successful (status code 200)
+              if (responsePic.status === 200) {
+              // console.log(responsePic.data.profilePicture.Picture)
+                const base64String = responsePic.data.profilePicture.Picture;
+                
+               
+              
+                 
+                setImageUrl(base64String);
+                // console.log(dataUrl)
+              }
+            } catch (error) {
+              console.error("Error fetching profile picture:", error);
+              // Handle error, e.g., show an alert or set a default picture
+            }
+          }
+        };
+      
+        // Fetch data when the component mounts or when decodedId changes
+        fetchData();
+      }, [decodedId]);
 
  const handleCopyToClipboard = () => {
     if (textAreaRef.current) {
@@ -81,6 +147,9 @@ function Zoom() {
       alert('Copied to clipboard: ' + me);
     }
   };
+  function VideoCall () {
+
+  
 
     useEffect(()=>{
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -122,6 +191,7 @@ socket.on("callUser", (data)=>{
 })
 
     },[ userIdNew])
+ }
 
 
 const CallUser=(id)=>{
@@ -181,169 +251,112 @@ const leaveCall = ()=>{
     connectionRef.current.destroy()
     
 }
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("http://localhost:9000/getAllPictures");
-                if (response.status === 200) {
-                    const newRows2 = response.data.findAllPictures.map((item) => ({
-                        userId_user: item.userId,
-                        Picture: item.Picture,
-                        Name: item.name,
-                        email: item.Email,
-                    }));
-                    setEmployeeList(newRows2);
-                }
-            } catch (error) {
-                console.error(error);
-            }
+useEffect(() => {
+  const fetchData = async () => {
+      try {
+          const response = await axios.get("https://render-backend-28.onrender.com/api/pictures/getAllPictures");
+          if (response.status === 200) {
+              const newData = response.data.findAllPictures.map((item) => ({
+              
+                  userId_user: item.userId,
+                  Picture: item.Picture,
+                  Name: item.name,
+                  email: item.Email
+              }));
+ console.log(newData)
+            
+
+              // Assuming 'decodedEmail' is defined elsewher
+                
+              const updatedList = newData.filter((element) => element.email !== decodedEmail);
+          setEmployeeList(updatedList);
+          
+
+          
         }
-        fetchData();
-    }, []);
+      } catch (error) {
+          console.error(error);
+      }
+  };
+
+  fetchData();
+}, [decodedEmail, setEmployeeList,setConnectedUsers,userIdNew]);
 
     function chat() {
         setIsVisibleChat(!isVisibleChat);
     }
 
-console.log("me", me)
-
-useEffect(() => {
-    // Retrieve data from localStorage
-    const imgData = localStorage.getItem('img');
-    setImageUrl(imgData)
-    // Check if the data is available (truthy) to determine visibility
-    
-  }, [setImageUrl]); //
-  
+const removeElement = (indexToRemove) => {
+    // Create a new array by excluding the element with matching email
+    const updatedList = employeeList.filter((element) => element.email !== decodedEmail);
+  console.log("gaes", updatedList)
+    setEmployeeList(updatedList);
+};
 
    
 
     return (
-        <div >
+        <>
         <div className="zoom">
-            <div className="rowHeader">
-                <div className="col_header">
-                
-                <Icon style={{color:"green", fontSize:"18px", zIndex:"10", margin:" 5px -60px 0px -10px"}}  icon="carbon:dot-mark" />
-                <img
-            style={{margin:"-10px 10px", zIndex:"0"}}
-          className="avatar_img"
-          alt="Profile Image"
-          
-          src={imageUrl}
-          className="avatar_img" 
-          title={ decodedName}
-        />
+         <div className="zoomHeader">
+            <div className="header you">
+            <span className="dotRound"> <Icon id="dot"  icon="carbon:dot-mark" /> </span>
         
-                    {/* <h3>Connect<b style={{ color: "#000080" }}>Z</b><b style={{ marginLeft: "20px" }}>O</b> <b style={{ marginLeft: "35px" }}>O</b><b style={{ marginLeft: "49px" }}>M</b></h3> */}
-                </div>
-                <div className="col_header">
-                <textarea
-        ref={textAreaRef}
-        value={me}
-        readOnly // Make the textarea read-only
-        style={{ position: 'absolute', left: '-9999px' }} // Hide the textarea from view
-      />
-      {/* Multiple buttons to copy the value to the clipboard */}
-      <button variant="contain" onClick={handleCopyToClipboard}>Copy ID</button>
-
-                </div>
-                <div className="col_header">
-                    {callAccepted && !CallEnd ? (
-                        <button variant="contain" onClick={leaveCall} text={me}>CallEnd</button>
-
-                    ):( <button variant="contain" onClick={()=>CallUser(idToCall)}>call</button>)}
-                </div>
-                <div className="col_header">hwoo</div>
+             <img
+       style={{margin:"7px 12px", zIndex:"0"}}
+   className="avatar_img"
+   id="chatImg"
+   alt="Profile Image"
+          
+   src={imageUrl} className="avatar_img"  title={ decodedName}
+      /><br></br>
+      <span style={{color:"grey", margin:"2px 5px 0px 10px"}}> You</span>
             </div>
+            <div className="header search"><input id="chatSearch"  placeholder="Search ..."type="search"/></div>
+            <div className="header add"> <spa><Icon icon="fluent-mdl2:add-friend" style={{margin:"0px 5px"}} /></spa>Add Friend</div>
+            <div className="header settings"><Icon style={{fontSize:"30px"}}icon="icon-park:setting" /> Settings</div>
+         </div>
 
-            <div className="rowContent">
-                <div className="contentHeader list1">
-{myStream && <video playsInline muted ref={myVideo} autoPlay style={{width:"400px"}}/>}
-                
-                {callAccepted && ! CallEnd ? <video playsInline  autoPlay ref={userVideo} style={{width:"400px"}} /> : null}
-
-
-
-                </div>
-                <div className="contentHeader list">
-                    <h6 className=" bg-primary te" id="zoom_title">employeee</h6>
-                    {employeeList.map((item, k) => (
-                        <div key={k}>
-                            <table className="  table table-dark " style={{ width: "90%", height: "2.5vh", overflow: "scroll", cursor: "pointer" }}>
-                                <tbody>
-                                    <tr >
-                                        <td ><Icon  icon="carbon:dot-mark" /></td>
-                                        <td>{item.Name}</td>
-                                        <td><img src={item.Picture} style={{ width: "40px", borderRadius: "50PX", height: "30px" }} /></td>
-                                        <td>invite</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div className="rowDown">
-                <div className="col">
-                    <h3><Icon style={{ color: "#1ca9c9" }} icon="flowbite:microphone-solid" /><br></br>
-                        <span style={{ fontSize: "10px" }}>Mic</span>
-                    </h3>
-                </div>
-                <div className="col">
-                    <h3><Icon  onClick={VideoShow} style={{ color: "#1ca9c9" }} icon="gg:camera" /> <br></br>
-                        <span style={{ fontSize: "12px" }}>Stop Camera</span>
-                    </h3>
-                </div>
-                <div className="col">
-                    <h3><Icon style={{ color: "coral",marginLeft:"10px" }} icon="mdi:record-rec" /> <br></br>
-                        <span style={{ fontSize: "12px", }}>Record</span>
-                    </h3>
-                </div>
-                <div className="col">
-                    <h3><Icon style={{ color: "#1ca9c9", marginLeft:"20px" }} icon="fluent:people-community-add-28-filled" /> <br></br>
-                        <span style={{ fontSize: "12px" }}>Participants</span>
-                    </h3>
-                </div>
-                <div className="col screen">
-                    <h3><Icon style={{ color: "#7FFFD4" }} icon="fluent:share-screen-person-overlay-24-regular" /><br></br>
-                        <span style={{ fontSize: "12px" }}>Share Screen</span>
-                    </h3>
-                </div>
-                <div className="col chat">
-                    <h3 onClick={chat}><Icon style={{ color: "#1ca9c9" }} icon="jam:messages-f" /><br></br>
-                        <span style={{ fontSize: "12px" }}>Chat</span>
-                    </h3>
-                    {!isVisibleChat && (
-                        <div className="chatBox">
-                            {employeeList.map((item, k) => (
-                                <div key={k}>
-                                    <table className="  table table-dark " style={{ width: "90%", height: "2.5vh", overflow: "scroll", cursor: "pointer" }}>
-                                        <tbody>
-                                            <tr >
-                                                <td><input type="checkbox" /></td>
-                                                <td>{item.Name}</td>
-                                                <td><img src={item.Picture} style={{ width: "40px", borderRadius: "50PX", height: "30px" }} /></td>
-                                                <td>Chat</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-                <div className="col security">
-                    <h3><Icon style={{ color: "#1ca9c9" }} icon="ic:outline-security" /><br></br>
-                        <span style={{ fontSize: "12px" }}>Security</span>
-                    </h3>
-                </div>
-                <div className="col end">
-                    <h3 className="btn  btn-outline-danger"> End</h3>
-                </div>
+         <div className="contentZoom">
+         <div className="content contentAside">
+    {employeeList.map((item, k) => (
+        <div key={k}>
+            <div className="tableRender">
+                <ul>
+                    <li className="rounded-circle">
+                        <img src={item.Picture} className="online" alt="Profile" />
+                        {item.userIdNew &&item.userIdNew.map((ele, index) => (
+                            <span key={index} className="dotRound2">
+                                <Icon id="dot2" style={{ color: ele.connectedId === item.userId_user ? "green" : "grey" }} icon="carbon:dot-mark" />
+                            </span>
+                        ))}
+                    </li>
+                    <li id="messUp">
+                        {item.Name}<br />
+                        <span style={{ fontSize: "12px", margin: "-12px 5px", color: "grey" }}>You: Thank you</span>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    ))}
+</div>
+
+            <div className="content contentCenter">
+                <div className="messageHeader"> <span> <Icon  icon="jam:messages-alt-f" /> Message...</span></div>
+                <div className="messageContent">conn</div>
+                <div className="messageFooter">
+                    
+                    <textarea className=" outline-primary inputText" rows="4" cols="40" ></textarea>
+                    <span> <Icon style={{fontSize:"30px" ,marginTop:"-20px"}} icon="zondicons:send" /></span>
+                    <span><Icon style={{fontSize:"30px",marginTop:"-20px"}}  icon="fluent:call-add-24-filled" /></span>
+                    <span onClick={VideoCall}><Icon  style={{ fontSize:"30px",marginTop:"-20px"}} icon="flat-color-icons:video-call" /></span>
+                    <span><Icon style={{ fontSize:"30px",marginTop:"-20px"}} icon="fluent:add-24-filled" /></span>
+                </div>
+            </div>
+         </div>
+        </div>
+    </>
+    
     );
 }
 

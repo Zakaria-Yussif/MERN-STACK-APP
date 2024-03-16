@@ -583,7 +583,7 @@ if (copiedArrayData1){
   
   
     dispatch(updateData(copiedArrayData1))
-    console.log("hello" ,dispatch)
+  
     
 }
   
