@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy":"https://render-backend-28.onrender.com",
+  "proxy": "https://render-backend-28.onrender.com",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -29,7 +29,7 @@
     "react-redux": "^9.1.0",
     "react-router": "^6.15.0",
     "react-router-dom": "^6.20.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-simple-chatbot": "^0.6.1",
     "react-zoom-pan-pinch": "^3.4.2",
     "redux": "^5.0.1",
