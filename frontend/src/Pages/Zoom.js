@@ -16,7 +16,7 @@ import Peer from "simple-peer";
 import { set, trusted } from "mongoose";
 // import TextField from './TextField'; 
 
-let socket = io.connect("http://localhost:8700")
+let socket = io.connect("https://render-backend-28.onrender.com")
 console.log(socket)
 
 function Zoom() {
@@ -852,7 +852,7 @@ const leaveCall = () => {
               <div className="messageHeader"> 
 
 
-              <div className="smile">
+              <div className="smile" >
 
               { readyToChat ? (
                
@@ -1061,10 +1061,9 @@ const leaveCall = () => {
                 <li onClick={tagUser}>
                   <img src={item.Picture} className="online" alt="Profile" />
                    
-                    <span style={{margin:"10px  0px 0px -100px",position:"absolute"}}>online</span>
-                   ):(<span style={{margin:"40px  0px 0px -100px",position:"absolute"}}>offline</span>
+                    
                   {connectedUsersData && connectedUsersData.map((ele, j) => (
-  <span key={j} style={{ position: "absolute", margin: "10px 0px 0px -100px" }}>
+  <span key={j} style={{ position: "absolute", margin: "40px 0px 0px -40px" }}>
     {item.userId_user === ele.connectedUserId ? (
       <span>online</span>
     ) : (
