@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useInsertionEffect } from "react";
 import './zoom.css';
 import { Icon } from '@iconify/react';
 import { useState, useEffect,useRef } from "react";
 import io  from 'socket.io-client'
 import sounds from '../Component/sounds/Snapchat notification sound (2022)-mc.mp3'
 import ringing from '../Component/sounds/Skype ringtone.mp3'
-
+import internalRing from '../Component/sounds/Great Britain Internal Phone Ringing (Dial-Call Tones) - Sound Effect for ed_256k.mp3'
+import TypingSound  from '../Component/sounds/Messenger typing sound.mp3'
 import axios from "axios";
 import { useSelector,useDispatch } from 'react-redux'
 import  fetchData  from '../Component/actions'; 
@@ -15,7 +16,8 @@ import Peer from "simple-peer";
 import { set, trusted } from "mongoose";
 // import TextField from './TextField'; 
 
-let socket = io.connect("https://render-backend-28.onrender.com")
+let socket = io.connect("http://localhost:8700")
+console.log(socket)
 
 function Zoom() {
   const [incomingCall, setIncomingCall] = useState(false);
@@ -51,11 +53,11 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const [recievedMessage, setRecievedMessage]= useState([])
     const [renderMessage,setRenderMessage]=useState([])
     const [receiveCall, setReceiveCall] = useState("false");
-   
+    const [startTime, setStartTime] = useState(null);
     const [CallEnd, setCallEnd] = useState("false");
     const[callSignal, setCallSignal]= useState("")
     const [chatPerson, setChatPerson]= useState([])
-   const [chatMes, setChatMes]=useState(" Messaging...")
+   const [chatMes, setChatMes]=useState("Chat...")
    const [callMs, setCallMs]=useState(" Calling...")
    const [VidoeMs, setVideoMs]=useState(" Video...")
     const[imageUrl, setImageUrl]=useState("")
@@ -68,7 +70,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const [me, setMe] = useState("");
     const [callRejected, setCallRejected]=useState(false)
     const [stream, setStream] = useState();
-    const [streamVideo, setStreamVideo] = useState();
+    const [readyToChat, setReadyToChat] = useState(false);
     const [receivingCall, setReceivingCall] = useState(false);
     const [caller, setCaller] = useState("");
     const [callerSignal, setCallerSignal] = useState();
@@ -77,6 +79,9 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const [callEnded, setCallEnded] = useState(false);
     const [name, setName] = useState("");
     const [text, setText] = useState('');
+    const [isRunning, setIsRunning] = useState(false);
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const intervalRef = useRef(null);
     const inputRef = useRef(null);
     const userVideo = useRef();
     const connectionRef = useRef();
@@ -85,7 +90,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const userVideo1 = useRef();
     const connectionRef1 = useRef();
     const myVideo1 = useRef();
-
+    const audioRef = React.useRef(null);
  
   
 
@@ -106,7 +111,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
           if (decoded.userId) {
             // Emit event to set user ID
             socket.emit('setUserId', {userId:decoded.userId});
-    
+              console.log(decoded.userId)
             // Emit event to check online status
             socket.emit("checkOnlineStatus", decoded.userId, (response) => {
               console.log("Online status of user:", response);
@@ -146,7 +151,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
       }
     }, [ ]); // Dependency array is empty since this effect doesn't depend on any props or state
     
-    console.log("c", connectedUsersData)
+   
     useEffect(() => {
         const fetchData = async () => {
           if (decodedId) {
@@ -225,10 +230,14 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     Picture:item.Picture,
 
   }))
+
+  
+
+  setReadyToChat(true)
   setChatPerson(readyToChat)
   setCallId(userId_user)
   
-  
+    
 
 }
 
@@ -241,31 +250,68 @@ const playNotificationSound = () => {
   const audio = new Audio(sounds); // Adjust the path to the notification sound file
   audio.play();
 };
+
+const playNotificationInternalRinging = () => {
+  const audio = new Audio(internalRing); // Adjust the path to the notification sound file
+  audio.play();
+};
+
+const playNotificationChatting = () => {
+  const audio = new Audio(internalRing); // Adjust the path to the notification sound file
+  audio.play();
+};
+
+
 const playNotificationRinging = () => {
   const audio = new Audio(ringing); // Adjust the path to the notification sound file
   audio.play();
 };
+
+const playNotificationTypingSound= () => {
+  const audio = new Audio(TypingSound)
+  audio.currentTime = 0; // Reset audio to start
+  audio.play();
+}
+
+
 const stopNotificationRinging = () => {
   const audio = new Audio(ringing); // Adjust the path to the notification sound file
   audio.pause()
 };
 
 const handleTyping = (e) => {
-  const typedMessage = e.target.value;
+  const typedMessage = e.target.value
+    console.log("yees")
+   // Set isTyping to true if message is not empty
   setSendingMsg(typedMessage);
-  setIsTyping(typedMessage !== ''); // Set isTyping to true if message is not empty
-
   // Emit typing event to the server
-  const data = {
-    typedMessage: typedMessage,
-    userId: callId
-  };
-  socket.emit("typing", data);
+  
+  // socket.emit("typingData",{userId: callId});
+  
+  
+
 };
+
+useEffect(()=>{
+  if (sendingMsg.length!==0){
+    console.log("typingDataSending")
+
+    socket.emit("typingData",{userId: callId});
+  playNotificationTypingSound()
+   
+  } else{
+      
+    console.log("no data")
+  }
+},[sendingMsg])
+
 
 function emoji (){
   setIsEmoji(!isEmoji)
 }
+
+ 
+
 
 const tagEmoji = (emoji) => {
   const input = inputRef.current;
@@ -286,14 +332,18 @@ useEffect(() => {
   socket.on('typing', (data) => {
     // Handle typing event from the server
     console.log("Typing event received:", data);
+    setIsTyping(true)
+    setMessage("typing...")
     // You can update the UI or take any action based on the typing event data
   });
 
   // Clean up the event listener on component unmount
   return () => {
     socket.off('typing');
+    setIsTyping(false)
+
   };
-}, []); 
+}, [socket]); 
  
 
 
@@ -331,7 +381,7 @@ useEffect((decodedId) => {
     // Handle the received data here
     console.log("Received message:", data);
     setRenderMessage(prevState => [...prevState, data]);
-
+setIsTyping(false)
     if (Notification.permission === 'granted') {
       new Notification('New Message Received');
       playNotificationSound();
@@ -483,9 +533,14 @@ trickle: false,
 
 
 const callUser = (id) => {
+
+playNotificationInternalRinging()
+  
   setAudioCalling(true)
   
   setChatMes("Calling...")
+  if(navigator.mediaDevices){
+
   
     navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
       console.log("StreamM",stream)
@@ -518,15 +573,24 @@ const callUser = (id) => {
 
   socket.on("callAccepted", (signal) => {
     setCallAccepted(true);
+    setImgeAudio(signal.callImg)
     peer.signal(signal);
+    intervalRef.current = setInterval(() => {
+      setStartTime(prevElapsedTime => prevElapsedTime + 1);
+    }, 1000);
+    
   });
 
   connectionRef.current = peer;
+}else{
+  console.log("no media")
+}
 };
 
 const answerCall = () => {
-setChatMes("Messaging...")
+setChatMes("Call")
 setReceiveCall(true)
+
   
     navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
       setStream(stream);
@@ -547,7 +611,7 @@ setReceiveCall(true)
   });
 
   peer.on("signal", (data) => {
-    socket.emit("answerCall", { signal: data, to: caller });
+    socket.emit("answerCall", { signal: data, to: caller, });
   });
 
   peer.on("stream", (stream) => {
@@ -557,8 +621,22 @@ setReceiveCall(true)
 
   peer.signal(callerSignal);
   connectionRef.current = peer;
-};
 
+  intervalRef.current = setInterval(() => {
+    setStartTime(prevElapsedTime => prevElapsedTime + 1);
+  }, 1000);
+
+  
+};
+ 
+// useEffect(()=>{
+//   if(callAccepted){
+//     intervalRef.current = setInterval(() => {
+//       setStartTime(prevElapsedTime => prevElapsedTime + 1);
+//     }, 1000);
+  
+//   }
+// })
 const reject=()=>{
   stopNotificationRinging();
 
@@ -577,6 +655,7 @@ const rejectVideo=()=>{
   setIncomingVideoCall(false)
    
   socket.emit("rejectCallVideo" ,{imageUrl,caller ,decodedId })
+  
 }
 
 
@@ -609,8 +688,21 @@ useEffect(()=>{
 const leaveCall = () => {
   setCallEnded(true);
   connectionRef.current.destroy();
+  clearInterval(intervalRef.current);
+    setIsRunning(false);
 };
 
+const resetStopwatch = () => {
+  clearInterval(intervalRef.current);
+  setIsRunning(false);
+  setStartTime(0);
+};
+
+const formatTime = (timeInSeconds) => {
+  const minutes = Math.floor(timeInSeconds / 60);
+  const seconds = timeInSeconds % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+};
 // function  VideoCall (){
 
 // }
@@ -656,13 +748,17 @@ const removeElement = (indexToRemove) => {
 
 
 
-
    
 
     return (
         <>
         <div className="zoom">
          <div className="zoomHeader">
+
+
+
+
+
             <div className="header you">
             <span className="dotRound"> <Icon id="dot"  icon="carbon:dot-mark" /> </span>
         
@@ -674,11 +770,42 @@ const removeElement = (indexToRemove) => {
           
    src={imageUrl} className="avatar_img"  title={ decodedName}
       /><br></br>
-      <span style={{color:"grey", margin:"2px 5px 0px 10px"}}> You</span>
+      <span id="you"> You</span>
             </div>
+            <div className="desktop">
             <div className="header search"><input id="chatSearch"  placeholder="Search ..."type="search"/></div>
             <div className="header add"> <spa><Icon icon="fluent-mdl2:add-friend" style={{margin:"0px 5px"}} /></spa>Add Friend</div>
             <div className="header settings"><Icon style={{fontSize:"30px"}}icon="icon-park:setting" /> Settings</div>
+            </div>
+
+            <div className="phoneFooter">
+            {readyToChat ?
+            ( <div className="phoneFooter_menu">
+              
+              <div className="col_phone textPhone"><textarea
+              id="textAreaPhone"
+        className="outline-primary inputText"
+        value={sendingMsg}
+        ref={inputRef} 
+         onChange={handleTyping}
+      onChange={(e) => setSendingMsg(e.target.value)}
+        rows="4"
+        cols="40"
+      > </textarea>
+       <audio ref={audioRef} src={playNotificationTypingSound} />
+       </div>
+                   <div className="col_phone emojiPhone">  <span onClick={emoji} ><Icon style={{width:"30px",color:"white",margin:"10px 0px"}} icon="fluent:emoji-add-24-regular" /></span></div>
+                    <div className="col_phone send"><span onClick={SendMessage}> <Icon style={{fontSize:"30px" ,margin:"20px -350px"}} icon="zondicons:send" /></span></div>
+                     
+            </div>
+            ):( 
+              <div>
+            <div className="header search"><input id="chatSearch"  placeholder="Search ..."type="search"/></div>
+            <div className="header add"> <spa><Icon icon="fluent-mdl2:add-friend" style={{margin:"0px 5px"}} /></spa>Add Friend</div>
+            <div className="header settings"><Icon style={{fontSize:"30px"}}icon="icon-park:setting" /> Settings</div>
+            </div>
+            )}
+            </div>
          </div>
 
          <div className="contentZoom">
@@ -715,15 +842,247 @@ const removeElement = (indexToRemove) => {
 
             <div className="content contentCenter">
               <div className="messageHeader"> 
+
+
+              <div className="smile">
+
+              { readyToChat ? (
+               
+              <div className="smileHeader"> 
+              <div >
+  {chatPerson.map((item, i) => (
+    <span  key={i}>
+      <img src={item.Picture} style={{top:"-2px", width:"35px",height:"35px", borderRadius:"100%"}} className="readyToChatImg" alt="Profile" />
+    </span>
+  ))} 
+  </div>
+
+  <div> {isTyping ? (
+    <span>typing...</span>):(<span>{chatMes}</span>)} </div>
+  <div  >
+  <span onClick={callUser}><Icon style={{fontSize:"30px",margin:"0px 0px"}}  icon="fluent:call-add-24-filled" /></span>
+                    <span onClick={VideoCall}><Icon  style={{ fontSize:"30px",margin:"0px -10px"}} icon="flat-color-icons:video-call" /></span>
+                    
+  </div>
+  <div>Add</div>
+  </div>
+):( 
+  <div className="smileHeader">
+              <div>Chats</div>
+              <div>Updates</div>
+              <div>Calls</div>
+</div>
+) }
+              </div>
+
+              <div className="desktop">
+
+
                 {chatPerson.map((item, i) => (
     <span style={{textAlign:"start", margin:"0px 0px 0px -500px"}} key={i}>
       <img src={item.Picture} style={{top:"-2px", width:"30px",height:"30px"}} className="online" alt="Profile" />
     </span>
   ))} <span> <Icon  icon="jam:messages-alt-f" /> {chatMes} </span>
-
+</div>              
   </div>
 
   <div className="messageContent" id="messageContent">
+
+
+  <div className="smilePhone">
+  {readyToChat ? (
+    <div>
+
+    {incomingCall && ( 
+        <div className="inComingCall" >
+        <audio src={ringing}  autoPlay id="notificationSound" />
+          <p className="incomingData">Incoming Call  </p><br></br>
+          <span> <img src={callerImg} style={{margin:"-15px 0px 5px",borderRadius:"100%", width:"60px",height:"60px"}} className="caller" alt="Caller" /></span><br></br>
+          <span style={{margin:"7px", width:"auto",height:"30px", color:"white"}}>{name}</span><br></br>
+          <button className=" btn btn-outline-success bg-success answer" onClick={stopNotificationRinging} onClick={answerCall} ><Icon style={{fontSize:"30px",marginTop:"0px",color:"white"}}  icon="fluent:call-add-24-filled" /></button>
+          <button className="btn btn-outline-danger bg-danger  reject"  onClick={reject}><Icon  style={{fontSize:"27px",marginTop:"-3px",color:"white"}} icon="subway:call-3" /></button>
+        </div>
+     )} 
+
+     {incomingVideoCall && ( 
+      
+        <div className="inComingCall" >
+          <p className="incomingData">Incoming Video Call  </p><br></br>
+          <span> <img src={callerImg} style={{margin:"-15px 0px 5px",borderRadius:"100%", width:"60px",height:"60px"}} className="caller" alt="Caller" /></span><br></br>
+          <span style={{margin:"7px", width:"auto",height:"30px", color:"white"}}>{name}</span><br></br>
+          <button className=" btn btn-outline-success bg-success answer" onClick={answerCallVideoCall} ><Icon style={{fontSize:"30px",marginTop:"0px",color:"white"}}  icon="fluent:call-add-24-filled" /></button>
+          <button className="btn btn-outline-danger bg-danger  reject"  onClick={rejectVideo}><Icon  style={{fontSize:"27px",marginTop:"-3px",color:"white"}} icon="subway:call-3" /></button>
+        </div>
+     )}
+{/* myAudioSteam phone */}
+{stream &&(
+  <div>
+                <audio
+                  className="rounded-full"
+                  playsInline
+                  muted
+                  ref={myVideo}
+                  autoPlay
+                  style={{ width: "300px" }}
+                /> 
+
+{/* <img src={imgeAudio} ref={myVideo} style={{width:"100px",height:"100px"}}/> */}
+
+               
+               </div>
+)}
+ 
+     {/* userAudiostream */}
+     {callAccepted && !callEnded && (
+            <div>
+              <audio
+                className="rounded-full"
+                playsInline
+                ref={userVideo}
+                autoPlay
+                style={{ width: "300px" }}
+
+              />
+              <div style={{margin:"200px -30px"}}>
+              {/* <div> <img src={callerImg} ref={userVideo} style={{width:"100px",height:"100px"}}/></div> */}
+              
+              </div>
+              <span style={{margin:"20px 0px"}}> {formatTime(startTime)}</span>
+              <span style={{margin:"300px -40px"}}  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
+             
+              </div>
+
+              
+              
+              )}
+
+{/* UserAudioStream */}
+
+      {renderMessage.map((item, i) => (
+        <div key={i} style={{zIndex:"0"}}>
+          {item.userId === decodedId && (
+            <audio src={sounds} id="notificationSound" />
+            
+          )}
+
+          {item.userId === decodedId && (
+        <audio srcObject={item.audioStream} autoPlay controls id={`audioElement-${i}`} />
+      )}
+          <ul className={item.userId === decodedId ? "receivedMessPhone" : "sendMessPhone"}>
+            <li className={item.userId === decodedId ? "receivedMessagePhone" : "sendMessagePhone"}>
+              {item.Message} <span  id="time" style={{ fontSize: "10px" }}>{item.Time}</span>
+            </li>
+            <li>
+              <img
+                src={item.Img}
+                className={item.userId === decodedId ? "receivedImgPhone" : "sendImgPhone"}
+                style={{ width: '25px', height: '25px' }}
+              />
+            </li>
+          </ul>
+          {/* <span className={item.userId === decodedId ? "receivedTime" : "sendTime"}>{item.Name}</span> */}
+          
+        </div>
+        
+      ))}
+
+    
+    </div>
+
+
+
+
+  ) : (
+    <div>
+    
+    {incomingCall && ( 
+        <div className="inComingCall" >
+        <audio src={ringing}  autoPlay id="notificationSound" />
+          <p className="incomingData">Incoming Call  </p><br></br>
+          <span> <img src={callerImg} style={{margin:"-15px 0px 5px",borderRadius:"100%", width:"60px",height:"60px"}} className="caller" alt="Caller" /></span><br></br>
+          <span style={{margin:"7px", width:"auto",height:"30px", color:"white"}}>{name}</span><br></br>
+          <button className=" btn btn-outline-success bg-success answer" onClick={stopNotificationRinging} onClick={answerCall} ><Icon style={{fontSize:"30px",marginTop:"0px",color:"white"}}  icon="fluent:call-add-24-filled" /></button>
+          <button className="btn btn-outline-danger bg-danger  reject"  onClick={reject}><Icon  style={{fontSize:"27px",marginTop:"-3px",color:"white"}} icon="subway:call-3" /></button>
+        </div>
+     )} 
+
+     {incomingVideoCall && ( 
+      
+        <div className="inComingCall" >
+          <p className="incomingData">Incoming Video Call  </p><br></br>
+          <span> <img src={callerImg} style={{margin:"-15px 0px 5px",borderRadius:"100%", width:"60px",height:"60px"}} className="caller" alt="Caller" /></span><br></br>
+          <span style={{margin:"7px", width:"auto",height:"30px", color:"white"}}>{name}</span><br></br>
+          <button className=" btn btn-outline-success bg-success answer" onClick={answerCallVideoCall} ><Icon style={{fontSize:"30px",marginTop:"0px",color:"white"}}  icon="fluent:call-add-24-filled" /></button>
+          <button className="btn btn-outline-danger bg-danger  reject"  onClick={rejectVideo}><Icon  style={{fontSize:"27px",marginTop:"-3px",color:"white"}} icon="subway:call-3" /></button>
+        </div>
+     )}
+
+     {incomingCall || incomingVideoCall  ? (
+      null
+     ):(
+      <div>
+   
+   
+      {callAccepted && !callEnded ?(
+      <div className="phoneCallDis"> 
+      <img src={callerImg} style={{width:"100px", height:"100px", margin:"15px 100px", borderRadius:"10px"}}/>
+      <span style={{margin:"15px 100px"}}> {formatTime(startTime)}</span>
+              <span style={{margin:"100px 300px"}}   onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
+               </div>):(null)}
+
+
+      <div className="renderPeople">
+        {/* Rendering list of employees */}
+        {employeeList.map((item, k) => (
+          <div key={k} className="renderPhone">
+            <div className="tableRender" onClick={() => tagUser(item.userId_user)}>
+              <ul>
+                <li onClick={tagUser}>
+                  <img src={item.Picture} className="online" alt="Profile" />
+                  {/* Displaying online status */}
+                  {connectedUsersData && connectedUsersData.map((ele, j) => (
+                    <span className="rounded-circle" key={j} style={{zIndex:"0"}}>
+                      <Icon  className={item.userId_user === ele.connectedUserId ? "green" : "grey"} id="dot2" icon="carbon:dot-mark" />
+                    </span>
+                  ))}
+                </li>
+                <li onClick={tagUser} id="messUp" style={{ width: "auto" }}>
+                  {item.Name}<br />
+                  {/* Displaying call status */}
+                  {callRejected ? (
+                    <span className={item.userId_user === declineId ? "showDecline" : "nonShow"} style={{ color: "red", margin: "5px 5px", fontSize: "13.9px" }}>
+                      {declineMessage} <Icon style={{ fontSize: "15px", margin: "5px", color: "red" }} icon="subway:call-3" />
+                    </span>
+                  ) : (
+                    <span>You</span>
+                  )}
+                </li>
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Different content based on screen size */}
+      <div>
+        <h6 className="h6">Call Logs</h6>
+        <div>hello</div>
+      </div>
+      </div>
+      
+     )}
+     {/* End of incomingCall */}
+
+
+    </div>
+  )}
+
+
+</div>
+
+
+<div className="desktop">
+
    {incomingCall && ( 
         <div className="inComingCall" >
         <audio src={ringing}  autoPlay id="notificationSound" />
@@ -815,7 +1174,17 @@ const removeElement = (indexToRemove) => {
               </div>
             )}
           </div>
-       
+
+
+
+          heloo
+          </div>
+
+
+
+
+
+
   
 </div>
 
@@ -902,6 +1271,9 @@ const removeElement = (indexToRemove) => {
         rows="4"
         cols="40"
       > </textarea>
+      
+      <audio ref={audioRef} src={playNotificationTypingSound} />
+
                      <span onClick={emoji} className="typing"><Icon style={{width:"30px",color:"white"}} icon="fluent:emoji-add-24-regular" /></span>
                     <span onClick={SendMessage}> <Icon style={{fontSize:"30px" ,marginTop:"-20px"}} icon="zondicons:send" /></span>
                     <span onClick={callUser}><Icon style={{fontSize:"30px",marginTop:"-20px"}}  icon="fluent:call-add-24-filled" /></span>

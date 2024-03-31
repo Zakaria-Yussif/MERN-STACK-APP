@@ -426,6 +426,7 @@ color:grey;
     list-style: none;
      margin: 0px 0px;
     font-size: 15px;
+    color: rgb(77, 71, 71);
     margin: 3px;
 }
 
@@ -479,7 +480,11 @@ color:grey;
 
 .sendTIme{
      display: none; 
-    color: green;
+    color: rgb(207, 208, 216);
+}
+
+#time{
+    color:rgb(186, 197, 185);
 }
 
 .inComingCall{
@@ -541,6 +546,7 @@ right: -90px;
     color: var(--color--white);
     /* direction: ltr; */
     height: auto;
+    color: gray;
      margin:0px 70px 0px 0px; 
     overflow-wrap: break-word;
     padding: 3px 6px 3px 6px;
@@ -559,9 +565,19 @@ margin: 0px 30px;
     padding: 3px 6px 3px 6px;
     border-radius: 10px 0% 10px 10px;
 }
+.smileHeader{
+    display: none;
+}
 
-
-
+.smilePhone{
+    display: none;
+}
+.desktop{
+    display: block;
+}
+.phoneFooter{
+    display: none;
+}
 .leaveCall{
     width:100px;
     margin:0px 3px;
@@ -644,9 +660,347 @@ margin: 0px 30px;
     height: 3.5vh;
     margin: 1px 2px;
 }
+
+
+
 @media   (max-width:1000px){
     
 
+    .zoom{
+        
+        background: linear-gradient(200deg,var(--color--blue-800), var(--color--black), var(--color--blue-800)); 
+        height: 100vh;
+        width:120vw  ;
+        color:#fff;
+         margin: 0px; 
+       
+        
+    
+}
+.zoomHeader {
+    position: fixed; /* or absolute, depending on your layout */
+    bottom: 0;
+    left: 0; /* Adjust left position if necessary */
+    width: 98%; /* Ensures it spans the full width */
+    margin: 5px 4px;
+    background: linear-gradient( 10deg, var(--color--black), var(--color--black-50),var(--color--black));
+    justify-content: center;
+    text-align: center;
+    height: 12vh;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.header{
+    justify-content:baseline;
+    margin: 5px 0px;
+}
+
+#chatImg{
+    z-index: 0;
+    position: absolute;
+    left: 0px;
+    width: 40px;
+    height: 40px;
+
+    
+}
+
+#you{
+ margin: 25px 0px 0px -48px;
+ position: absolute;
+ font-size: 12px;
+ 
+}
+
+#dot{
+    position: absolute; 
+    margin: 30px -30px;
+}
+.settings{
+    display: none;
+}
+.search{
+ display: none;
+}
+
+.add{
+    right: 30px;
+    position: absolute;
+    margin: 10px 0px;
+}
+
+.contentZoom{
+    display: grid;
+    grid-template-columns: 0% 100%;
+     height: 60vh; 
+    justify-content: center;
+    margin: 10px 100px;
+    
+
+}
+.messageContent{
+    margin: 50px 5px  0px -90px ;
+    height: 75vh;
+    position: absolute;
+    display: block;
+    
+    background-color: #0000009a ;
+    width: 80%;
+  
+  overflow-y: scroll;
+  overflow-x: hidden;
+    border-radius: 10px;
+    font-size: 20px;
+    
+}
+
+
+.messageHeader{
+    background-color:#0000009d;
+    width: 97%;
+    position: fixed;
+    height: auto;
+    padding:4px;
+    justify-content: center; 
+    
+    border-radius: 10px;
+    font-size: 20px;
+    margin: 4px 0px 0px -93px ;
+}
+.messageFooter{
+  display: none;
+}
+
+.contentAside{
+    display: none;
+}
+.desktop{
+    display: none;
+}
+.smilePhone{
+    display: grid;
+   
+    grid-template-columns: 98% 98% 98% ;
+
+
+}
+.smileHeader{
+    display: grid;
+    grid-template-columns: 30% 20% 30% 20%;
+    margin: 10px 0px;
+    color: grey;
+}
+.phoneFooter{
+    display: block;
+}
+
+.emoji{
+    margin: 210px 10px;
+
+
+}
+}
+
+
+
+@media   (max-width:950px){
+    
+    .zoom{
+        
+        background: linear-gradient(200deg,var(--color--blue-800), var(--color--black), var(--color--blue-800)); 
+        height: 100vh;
+        width:120vw  ;
+        color:#fff;
+         margin: 0px; 
+       
+        
+    
+}
+.zoomHeader {
+    position: fixed; /* or absolute, depending on your layout */
+    bottom: 0;
+    left: 0; /* Adjust left position if necessary */
+    width: 98%; /* Ensures it spans the full width */
+    margin: 5px 4px;
+    background: linear-gradient( 10deg, var(--color--black), var(--color--black-50),var(--color--black));
+    justify-content: center;
+    text-align: center;
+    height: 10vh;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.header{
+    justify-content:baseline;
+    margin: 5px 0px;
+}
+
+#chatImg{
+    z-index: 0;
+    position: absolute;
+    left: 0px;
+    width: 45px;
+    height: 45px;
+
+    
+}
+
+#you{
+ margin: 27px 0px 0px 50px;
+ position: absolute;
+ font-size: 15px;
+ 
+}
+
+#dot{
+    position: absolute; 
+    margin: 30px 100px;
+}
+.settings{
+    display: none;
+}
+.search{
+ display: none;
+}
+
+.add{
+    right: 30px;
+    position: absolute;
+    margin: 10px 0px;
+}
+
+.contentZoom{
+    display: grid;
+    grid-template-columns: 0% 100%;
+     height: 60vh; 
+    justify-content: center;
+    margin: 20px 100px;
+    
+
+}
+.phoneFooter{
+    display: block;
+}
+
+
+.sendMessPhone {
+    display: flex;
+    min-width: 10px;
+    max-width: 70px;
+    overflow: wrap;
+    text-align: start;
+    overflow-wrap: break-word;
+    justify-content: flex-start;
+    align-items: center; /* Vertically center-align items */
+    height: auto;
+    border-radius: 10px;
+    overflow-wrap: break-word;
+    margin: 0px 0px 0px 10px;
+    direction: ltr;
+}
+
+.sendMessPhone li {
+    list-style: none;
+    
+    font-size: 15px;
+    margin: 5px;
+}
+
+.receivedMessPhone {
+    display: flex;
+    flex-direction: row; /* Ensure messages stack horizontally */
+     margin: 0px 0px -26px 290px; 
+    text-align: end;
+    justify-content: end;
+    min-width: 10px;
+    max-width: 70px;
+
+    left:300px;
+    /* position: absolute; */
+    border-radius: 10px;
+    
+    overflow-wrap: break-word;
+    height: auto;
+    /* background-color: rgba(128, 128, 128, 0.555);   */
+    font-size: 20px;
+}
+
+.receivedMessPhone li {
+    list-style: none;
+    margin: 7px;
+    font-size: 15px;
+}
+
+
+.sendMessagePhone{
+    /* background-color: rgba(128, 128, 128, 0.671); */
+    background-color:var(--color--pink-800);
+   min-width: 100px;
+   width: 300px;
+    color: var(--color--white);
+    /* direction: ltr; */
+    overflow: wrap;
+    text-align: start;
+    overflow-wrap: break-word;
+    justify-content: flex-start;
+    height: auto;
+     margin:0px 100px 0px 0px; 
+    overflow-wrap: break-word;
+    padding: 3px 6px 3px 6px;
+margin: 0px 30px;
+    border-radius: 0% 10px 0% 10px;
+    
+}
+.receivedMessagePhone{
+    background-color:var(--color--blue-800);
+    min-width: 100px;
+    width: 300px;
+    color: var(--color--white);
+    direction: ltr;
+    overflow: wrap;
+    height: auto;
+    margin:10px 15px 10px 0px;
+    overflow-wrap: break-word;
+    padding: 3px 3px 3px 6px;
+    border-radius: 10px 0% 10px 0%;
+    
+}
+.sendImgPhone{
+    border-radius:100%;
+    left: 90px;
+    margin: -14px -80px;
+    justify-content: start;
+     position: absolute;  
+}
+.receivedImgPhone{
+    border-radius:100%;
+
+}
+#dot2{
+    z-index: 0;
+}
+.phoneCallDis{
+    display: flex;
+    flex-direction: column;
+    position: absolute; 
+    text-align: center;
+    justify-content: ;
+    border-radius: 10px;
+    margin: 10px 100px ;
+    width: 80%;
+    position: absolute;
+    height: 30vh;
+    z-index: 10;
+    background: linear-gradient(40deg,var(--color--blue-800), var(--color--black), var(--color--blue-800)); 
+}
+}
+
+
+
+
+@media   (max-width:800px){
+    
     .zoom{
         
         background: linear-gradient(200deg,var(--color--blue-800), var(--color--blue-400), var(--color--blue-800)); 
@@ -656,96 +1010,186 @@ margin: 0px 30px;
          margin: 0px; 
        
         
-    }
-    .zoomHeader{
-        display: grid;
-        grid-template-columns: 20% 30% 20% ;
-        margin: 20px 10px;
-        background: linear-gradient(200deg,var(--color--blue-800), var(--color--blue-800), var(--color--800));
-        justify-content: center;
-        text-align: center;
-        height: 7vh;
-        width: 80%;
-    }
     
-    .settings{
-        display: none;
-    }
-    .rowHeader{
-        display: grid;
-        grid-template-columns: 20% 35% 35% 10%;
-    
-        /* position: absolute; */
-    }
-    .rowContent{
-        display: grid;
-        grid-template-columns: 90%;
-        /* height: 60vh; */
-        gap: 0px;
-        position: relative;
-        
-    
-    }
-    
-    .contentHeader{
-        margin:-10px 20px;
-        text-align: center;
-    }
-    .render{
-        display: flex;
-    }
-   
-    .list1{
-        box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.5);
-        /* margin-top: -20px; */
-        width: 100%;
-        height: 60vh;
-    }
-    .list{
-        box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.5);
-        height: 60vh;
-        display: none;
-         position: absolute;
-        justify-content: left;
-        left: 295px;
-         width: 21%; 
-    }
-    .rowDown{
-        display: grid;
-        grid-template-columns: 10% 10% 13% 12% 12% 10% 10% 10%;
-        background-color: #fff;
-      height: 20vh;
-       margin-top: 50px;
-       justify-content: baseline;
-    }
-    .col{
-        text-align: center;
-        margin-top: 50px;
-    }
-    .col_header{
-        justify-content: center;
-        text-align: center;
-        height: 10vh;
-        margin: 30px 4px;
-         /* position: absolute; */
-    } 
-    .end{
-       margin-left:  60px;
-    }
-    .security{
-        display: none;
-    }
-.chat{
-    margin-left: 50px;
-} .screen{
-    margin-left: 50px;
 }
-    #zoom_title{
-        background-color: aquamarine;
-        color:"white";
-        width: 98%;
-        height: 3.5vh;
-        margin: 1px 2px;
-    }
+.zoomHeader {
+    position: fixed; /* or absolute, depending on your layout */
+    bottom: 0;
+    left: 0; /* Adjust left position if necessary */
+    width: 98%; /* Ensures it spans the full width */
+    margin: 5px 4px;
+    background: linear-gradient( 10deg, var(--color--black), var(--color--black-50),var(--color--black));
+    justify-content: center;
+    text-align: center;
+    min-height: 10vh;
+      height: 12vh;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.header{
+    justify-content:baseline;
+    margin: 5px 0px;
+}
+
+#chatImg{
+    z-index: 0;
+    position: absolute;
+    left: 0px;
+    width: 50px;
+    height: 50px;
+
+    
+}
+
+#you{
+ margin: 35px 0px 0px -10px;
+ position: absolute;
+ font-size: 15px;
+ 
+}
+
+#dot{
+    position: absolute; 
+    margin: 40px 5px;
+}
+.settings{
+    display: none;
+}
+.search{
+ display: none;
+}
+
+.add{
+    right: 30px;
+    position: absolute;
+    margin: 10px 0px;
+}
+
+.contentZoom{
+    display: grid;
+    grid-template-columns: 0% 100%;
+     height: 70vh; 
+    justify-content: center;
+    margin: 20px 100px;
+    
 
 }
+
+.people{
+    /* margin: 20px 10px 10px; */
+    width: 100%;
+}
+
+.renderPeople{
+    margin-top: 50px;
+    width: 100%;
+}
+
+.renderPhone{
+ margin: 10px 5px ;
+ width: 100%;
+}
+
+.h6{
+    height: 10px;
+   margin: 10px 0px 20px ;
+
+}
+.h6:hover{
+    width: 100px;
+    background-color: BLACK;
+    height: 3vh;
+    border-radius: 20px;
+    position: absolute;
+
+}
+.desktop{
+    display: none;
+}
+
+.messageHeader{
+    height: 9vh;
+    top: 4px;
+}
+.messageContent{
+    margin-top: 70px ;
+    height: 76vh;
+   background-color: none;
+}
+
+#textAreaPhone{
+    width: 200px;
+    min-height: 30px;
+     height: 50px; 
+    margin: 10px 3px;
+    /* position: absolute; */
+    
+    
+}
+.phoneFooter{
+    max-width: 600px;
+     width: 100%;
+    
+    /* position: absolute; */
+    margin: 0px -10px;
+}
+.phoneFooter_menu{
+    display: flex;
+    /* grid-template-columns: 50% 15% 15% 15%; */
+    margin: 0px 0px;
+    width: 98%;
+}
+
+.col_phone{
+
+
+}
+.textPhone{
+    width: 100%;
+}
+
+.emojiPhone{
+width: 100%;
+background-color: rgb(202, 193, 193);
+margin: 20px 70px;
+border-radius: 0px 10px 10px 0px;
+height: 50px;
+margin: 10px 80px;
+}
+
+.emoji{
+    width: 400px;
+    margin: 500px -10px;
+}
+
+.send{
+    margin: 0px -40px;
+}
+.sendPhone{
+    width: 100px;
+    left:100px
+
+}
+.emoji ul  {
+    /* margin: 10px; */
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(12, 30px); /* Adjusted grid-template-columns */
+    /* height: 30vh; */
+    width: inherit;
+    overflow-wrap: break-word;
+    /* background-color: var(--color--blue-100); */
+  }
+.emoji ul li{
+    margin:3px;
+}
+
+.emoji li:hover{
+     border: 1px solid lightblue; 
+    width: 30px;
+    /* font-size: 10px; */
+}
+
+}
+
