@@ -685,12 +685,19 @@ useEffect(()=>{
     },[socket,setDeclineMessage,setDeclineId])
 
 
-const leaveCall = () => {
-  setCallEnded(true);
-  connectionRef.current.destroy();
-  clearInterval(intervalRef.current);
-    setIsRunning(false);
-};
+// const leaveCall = ()  => {
+//   setCallEnded(true);
+//   clearInterval(intervalRef.current);
+//   if(callEnded){
+// console.log("call ended")
+//     socket.emit("callDestroyed", {Id:decodedId})
+//     connectionRef.current.destroy();
+//     window.location.reload();
+//   }
+ 
+ 
+
+// };
 
 const resetStopwatch = () => {
   clearInterval(intervalRef.current);
@@ -713,23 +720,6 @@ const formatTime = (timeInSeconds) => {
 // }
 
 
-const leaveCallVideo = () => {
-   setCallEnded(true);
-  
-setStream(null)
-//   // Check if connectionRef and connectionRef.current are defined
-  if (connectionRef1 && connectionRef1.current) {
-//     // Check if destroy() method exists on connectionRef.current
- if (typeof connectionRef1.current.destroy === 'function') {
-     connectionRef1.current.destroy();
-  } else {
-    console.error('destroy() method is not available on connectionRef.current');
-   }
-  } else {    console.error('connectionRef or connectionRef.current is undefined');
-  }
-};
-
-
     function chat() {
         setIsVisibleChat(!isVisibleChat);
     }
@@ -742,7 +732,25 @@ const removeElement = (indexToRemove) => {
 };
 
 
+const leaveCall = () => {
+  setCallEnded(true);
+  setStream(null);
 
+  if (connectionRef.current && typeof connectionRef.current.destroy === 'function') {
+    connectionRef.current.destroy();
+  } else {
+    console.error('connectionRef or connectionRef.current is undefined or destroy method is not available');
+  }
+
+  if (connectionRef1.current && typeof connectionRef1.current.destroy === 'function') {
+    connectionRef1.current.destroy();
+  } else {
+    console.error('connectionRef1 or connectionRef1.current is undefined or destroy method is not available');
+  }
+
+  // Optionally reload the page
+  window.location.reload();
+};
 
 
 
@@ -931,6 +939,8 @@ const removeElement = (indexToRemove) => {
                
                </div>
 )}
+
+
  
      {/* userAudiostream */}
      {callAccepted && !callEnded && (
@@ -947,8 +957,18 @@ const removeElement = (indexToRemove) => {
               {/* <div> <img src={callerImg} ref={userVideo} style={{width:"100px",height:"100px"}}/></div> */}
               
               </div>
-              <span style={{margin:"20px 0px"}}> {formatTime(startTime)}</span>
-              <span style={{margin:"300px -40px"}}  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
+              <div className="phoneCallDis">
+      <span style={{margin:"5px 130px"}}> {formatTime(startTime)}</span> 
+      {chatPerson.map((item, i) => (
+    <span  key={i}>
+      <img src={item.Picture} style={{margin:"4px 100px", width:"100px",height:"100px", borderRadius:"10px"}} className="readyToChatImg" alt="Profile" />
+    </span>
+  ))} 
+      
+      
+              <span id="leavePhone"  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
+               </div>
+             
              
               </div>
 
@@ -1024,10 +1044,11 @@ const removeElement = (indexToRemove) => {
    
    
       {callAccepted && !callEnded ?(
-      <div className="phoneCallDis"> 
+      <div className="phoneCallDis">
+      <span style={{margin:"5px 130px"}}> {formatTime(startTime)}</span> 
       <img src={callerImg} style={{width:"100px", height:"100px", margin:"15px 100px", borderRadius:"10px"}}/>
-      <span style={{margin:"15px 100px"}}> {formatTime(startTime)}</span>
-              <span style={{margin:"100px 300px"}}   onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
+      
+              <span id="leavePhone"  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
                </div>):(null)}
 
 
@@ -1039,12 +1060,18 @@ const removeElement = (indexToRemove) => {
               <ul>
                 <li onClick={tagUser}>
                   <img src={item.Picture} className="online" alt="Profile" />
-                  {/* Displaying online status */}
+                   
+                    <span style={{margin:"10px  0px 0px -100px",position:"absolute"}}>online</span>
+                   ):(<span style={{margin:"40px  0px 0px -100px",position:"absolute"}}>offline</span>
                   {connectedUsersData && connectedUsersData.map((ele, j) => (
-                    <span className="rounded-circle" key={j} style={{zIndex:"0"}}>
-                      <Icon  className={item.userId_user === ele.connectedUserId ? "green" : "grey"} id="dot2" icon="carbon:dot-mark" />
-                    </span>
-                  ))}
+  <span key={j} style={{ position: "absolute", margin: "10px 0px 0px -100px" }}>
+    {item.userId_user === ele.connectedUserId ? (
+      <span>online</span>
+    ) : (
+      <span>offline</span>
+    )}
+  </span>
+))}
                 </li>
                 <li onClick={tagUser} id="messUp" style={{ width: "auto" }}>
                   {item.Name}<br />
@@ -1064,10 +1091,7 @@ const removeElement = (indexToRemove) => {
       </div>
 
       {/* Different content based on screen size */}
-      <div>
-        <h6 className="h6">Call Logs</h6>
-        <div>hello</div>
-      </div>
+      
       </div>
       
      )}

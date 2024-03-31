@@ -987,12 +987,18 @@ margin: 0px 30px;
     text-align: center;
     justify-content: ;
     border-radius: 10px;
-    margin: 10px 100px ;
-    width: 80%;
+    margin:  20px 14px ;
+    width: 90%;
     position: absolute;
-    height: 30vh;
+    min-height: 40vh;
+    height: auto;
     z-index: 10;
     background: linear-gradient(40deg,var(--color--blue-800), var(--color--black), var(--color--blue-800)); 
+}
+#leavePhone{
+    margin:250px 20px;
+    justify-content: flex-end;
+    left:190px;
 }
 }
 
