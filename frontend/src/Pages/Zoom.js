@@ -16,7 +16,7 @@ import Peer from "simple-peer";
 import { set, trusted } from "mongoose";
 // import TextField from './TextField'; 
 
-let socket = io.connect("https://render-backend-28.onrender.com")
+let socket = io.connect("http://localhost:8700")
 console.log(socket)
 
 function Zoom() {
@@ -69,7 +69,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const[audioCalling, setAudioCalling]=useState(false)
     const [me, setMe] = useState("");
     const [callRejected, setCallRejected]=useState(false)
-    const [stream, setStream] = useState();
+    const [stream, setStream] = useState("");
     const [readyToChat, setReadyToChat] = useState(false);
     const [receivingCall, setReceivingCall] = useState(false);
     const [caller, setCaller] = useState("");
@@ -253,7 +253,7 @@ const playNotificationSound = () => {
 
 const playNotificationInternalRinging = () => {
   const audio = new Audio(internalRing); // Adjust the path to the notification sound file
-  audio.play();
+  audio.pause();
 };
 
 const playNotificationChatting = () => {
@@ -264,7 +264,7 @@ const playNotificationChatting = () => {
 
 const playNotificationRinging = () => {
   const audio = new Audio(ringing); // Adjust the path to the notification sound file
-  audio.play();
+  audio.pause();
 };
 
 const playNotificationTypingSound= () => {
@@ -303,7 +303,7 @@ useEffect(()=>{
       
     console.log("no data")
   }
-},[sendingMsg])
+},[])
 
 
 function emoji (){
@@ -389,7 +389,18 @@ setIsTyping(false)
   });
 }, []); // Ensu
 
+ useEffect(()=>{
+  if(navigator.mediaDevices){
 
+  
+    navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
+      console.log("StreamM",stream)
+      setStream(stream);
+      if(myVideo.current)
+      myVideo.current.srcObject = stream;
+    });
+  }
+ },[setStream, stream])
 
 
 useEffect(() => {
@@ -407,13 +418,13 @@ useEffect(() => {
     setCallerImg(data.img);
     setCallerSignal(data.signal);
  // Check if browser supports notifications and permission is granted
- if ('Notification' in window && Notification.permission === 'granted') {
-  // Create a new notification
-  new Notification('Incoming Call');
-}
+//  if ('Notification' in window && Notification.permission === 'granted') {
+//   // Create a new notification
+//   new Notification('Incoming Call');
+// }
 
 // Play notification ringing sound
-playNotificationRinging();
+// playNotificationRinging();
   });
 
   // Clean up by removing the event listeners when the component unmounts
@@ -446,7 +457,7 @@ setCallerImg(data.img);
    }
 
     // Play notification ringing sound
-   playNotificationRinging();
+  //  playNotificationRinging();
 
     });
 
@@ -485,7 +496,9 @@ img:imageUrl,
  });
 
  peer.on("stream", (stream) => {
+  console.log("stream", stream)
   userVideo.current.srcObject = stream;
+  // console.log("stream", stream)
   });
 
 socket.on("callAcceptedVideo", (signal) => {
@@ -539,17 +552,17 @@ playNotificationInternalRinging()
   setAudioCalling(true)
   
   setChatMes("Calling...")
-  if(navigator.mediaDevices){
+  // if(navigator.mediaDevices){
 
   
-    navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
-      console.log("StreamM",stream)
-      setStream(stream);
-      if(myVideo.current)
-      myVideo.current.srcObject = stream;
-    });
+  //   navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
+  //     console.log("StreamM",stream)
+  //     setStream(stream);
+  //     if(myVideo.current)
+  //     myVideo.current.srcObject = stream;
+  //   });
     
-
+    console.log("streamIt", stream)
   const peer = new Peer({
     initiator: true,
     trickle: false,
@@ -568,13 +581,14 @@ playNotificationInternalRinging()
 
   peer.on("stream", (stream) => {
     userVideo.current.srcObject = stream;
-    // console.log("streaming2", stream)
+     console.log("streaming2", stream)
   });
 
   socket.on("callAccepted", (signal) => {
     setCallAccepted(true);
     setImgeAudio(signal.callImg)
     peer.signal(signal);
+    console.log("callAccepted")
     intervalRef.current = setInterval(() => {
       setStartTime(prevElapsedTime => prevElapsedTime + 1);
     }, 1000);
@@ -582,9 +596,9 @@ playNotificationInternalRinging()
   });
 
   connectionRef.current = peer;
-}else{
-  console.log("no media")
-}
+// }else{
+//   console.log("no media")
+// }
 };
 
 const answerCall = () => {
@@ -592,17 +606,18 @@ setChatMes("Call")
 setReceiveCall(true)
 
   
-    navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
-      setStream(stream);
-      if(myVideo.current)
-      myVideo.current.srcObject = stream;
-    });
+    // navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
+    //   console.log(stream)
+    //   setStream(stream);
+    //   if(myVideo.current)
+    //   myVideo.current.srcObject = stream;
+    // });
     
   setCallAccepted(true)
   setIncomingCall(false)
   stopNotificationRinging();
    
-    
+    console.log("streamR", stream)
   
   const peer = new Peer({
     initiator: false,
@@ -617,6 +632,7 @@ setReceiveCall(true)
   peer.on("stream", (stream) => {
     console.log("streaming", stream)
     userVideo.current.srcObject = stream;
+    
   });
 
   peer.signal(callerSignal);
@@ -629,14 +645,18 @@ setReceiveCall(true)
   
 };
  
-// useEffect(()=>{
-//   if(callAccepted){
-//     intervalRef.current = setInterval(() => {
-//       setStartTime(prevElapsedTime => prevElapsedTime + 1);
-//     }, 1000);
-  
-//   }
-// })
+
+
+useEffect(()=>{
+ console.log("streamAccessing media")
+},[setStream, stream])
+
+
+
+
+
+
+
 const reject=()=>{
   stopNotificationRinging();
 
@@ -852,7 +872,7 @@ const leaveCall = () => {
               <div className="messageHeader"> 
 
 
-              <div className="smile" >
+              <div className="smile">
 
               { readyToChat ? (
                
