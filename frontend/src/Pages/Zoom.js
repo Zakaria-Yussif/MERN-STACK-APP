@@ -16,7 +16,7 @@ import Peer from "simple-peer";
 import { set, trusted } from "mongoose";
 // import TextField from './TextField'; 
 
-let socket = io.connect("http://localhost:8700")
+let socket = io.connect("https://render-backend-28.onrender.com")
 console.log(socket)
 
 function Zoom() {
