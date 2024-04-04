@@ -16,7 +16,7 @@ import Peer from "simple-peer";
 import { set, trusted } from "mongoose";
 // import TextField from './TextField'; 
 
-let socket = io.connect("http://localhost:8700")
+let socket = io.connect("https://render-backend-28.onrender.com")
 console.log(socket)
 
 function Zoom() {
@@ -52,12 +52,14 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
   const[callId, setCallId]=useState("")
     const [recievedMessage, setRecievedMessage]= useState([])
     const [renderMessage,setRenderMessage]=useState([])
+     const [renderMessageData,setRenderMessageData]=useState([])
     const [receiveCall, setReceiveCall] = useState("false");
     const [startTime, setStartTime] = useState(null);
     const [CallEnd, setCallEnd] = useState("false");
     const[callSignal, setCallSignal]= useState("")
     const [chatPerson, setChatPerson]= useState([])
    const [chatMes, setChatMes]=useState("Chat...")
+  //  const [chatMes, setChatMes]=useState("Chat...")
    const [callMs, setCallMs]=useState(" Calling...")
    const [VidoeMs, setVideoMs]=useState(" Video...")
     const[imageUrl, setImageUrl]=useState("")
@@ -67,9 +69,11 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
    const[declineId,setDeclineId]=useState("")
     const[callerImg,setCallerImg]=useState("")
     const[audioCalling, setAudioCalling]=useState(false)
+    const[videoStream, setVideoStream]=useState(false)
+   const [mess, setMess]=useState("")
     const [me, setMe] = useState("");
     const [callRejected, setCallRejected]=useState(false)
-    const [stream, setStream] = useState("");
+    const [stream, setStream] = useState(false);
     const [readyToChat, setReadyToChat] = useState(false);
     const [receivingCall, setReceivingCall] = useState(false);
     const [caller, setCaller] = useState("");
@@ -231,15 +235,47 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
 
   }))
 
+
   
+  // socket.emit("storedChatData", {userId:userId_user, senderId:decodedId})
 
   setReadyToChat(true)
   setChatPerson(readyToChat)
   setCallId(userId_user)
+
   
     
 
 }
+
+
+useEffect(()=>{
+  socket.emit("storedChatData", {userId:callId, senderId:decodedId})
+  
+  socket.on('messagesStored',  (data)=>{
+  
+   console.log("data",data)
+   const newData= data.messages.map((item)=>({
+   Message:item.Message,
+   Time:item.Time,
+   Img:item.Img,
+   TimeStamp:item.timestamp,
+   userId:item.userId
+
+
+   }))
+   console.log("new",newData)
+setRenderMessageData(newData)
+console.log("red", renderMessageData)
+
+
+  });
+return () => {
+    socket.off("messagesStored");
+    socket.off("storedChatData");
+  };
+
+},[callId,setRenderMessageData])
 
 useEffect(() => {
   // Request permission for notifications
@@ -361,13 +397,16 @@ const SendMessage = (e) => {
     const Time = hours + ':' + minutes;
 
     const DataSend = { 
-      userId: callId, 
+      userId: callId,
+      senderId:decodedId, 
       Message: sendingMsg, 
       Img: imageUrl,
       Time: Time,
       Name: decodedName
     };
     
+localStorage.setItem("mess", sendingMsg)
+
     socket.emit('sendMessage', DataSend);
     setRenderMessage(prevState => [...prevState, DataSend]);
     setSendingMsg("");
@@ -381,7 +420,7 @@ useEffect((decodedId) => {
     // Handle the received data here
     console.log("Received message:", data);
     setRenderMessage(prevState => [...prevState, data]);
-setIsTyping(false)
+        setIsTyping(false)
     if (Notification.permission === 'granted') {
       new Notification('New Message Received');
       playNotificationSound();
@@ -389,25 +428,17 @@ setIsTyping(false)
   });
 }, []); // Ensu
 
- useEffect(()=>{
-  if(navigator.mediaDevices){
 
-  
-    navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
-      console.log("StreamM",stream)
-      setStream(stream);
-      if(myVideo.current)
-      myVideo.current.srcObject = stream;
-    });
-  }
- },[setStream, stream])
+
 
 
 useEffect(() => {
   // Define the event handlers within the useEffect hook
+  const message = localStorage.getItem("mess")
+  setMess(message)
   socket.on("me", (id) => {
     setMe(id);
-  });
+  },[setMess,mess]);
 
   socket.on("callUser", (data) => {
     setChatMes("Calling...");
@@ -467,189 +498,233 @@ setCallerImg(data.img);
  socket.off("callUserVideo");
  }; }, []); // Ad
 
-const VideoCall = (id) => {
-  
-  
- setChatMes("Video Calling")
- if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
- setStream(stream);
-if(myVideo1.current)
-myVideo1.current.srcObject = stream;
- });
-   }
 
-const peer = new Peer({
-  initiator: true,
-trickle: false,
- stream: stream,
-});
+const videoStreaming = () => {
+  return new Promise((resolve, reject) => {
+    navigator.mediaDevices.getUserMedia({ video:true, audio: true })
+      .then((stream) => {
 
- peer.on("signal", (data) => {
-socket.emit("callUserVideo", {
- userToCall: callId,
-  signalData: data,
- from: decodedId,
- name: decodedName,
-img:imageUrl,
-  });
- });
-
- peer.on("stream", (stream) => {
-  console.log("stream", stream)
-  userVideo.current.srcObject = stream;
-  // console.log("stream", stream)
-  });
-
-socket.on("callAcceptedVideo", (signal) => {
- setCallAccepted(true);
-   peer.signal(signal);
- });
-
- connectionRef1.current = peer;
- };
-
-
-const answerCallVideoCall = () => {
-
- setChatMes("  Video Calling...")
- if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-   navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
-    setStream(stream);
-     if(myVideo1.current)  
-      myVideo1.current.srcObject = stream;
-   });
-   }
- setCallAccepted(true)
- setIncomingVideoCall(false)
-stopNotificationRinging();
-     
       
-    
- const peer = new Peer({  
-  initiator: false,
-trickle: false,
-   stream: stream,
+        console.log("Video stream:", stream);
+
+        resolve(stream);
+
+      })
+      .catch((error) => {
+        console.error("Error accessing audio stream:", error);
+        reject(error);
+      });
   });
-  
-  peer.on("signal", (data) => {
- socket.emit("answerCallVideo", { signal: data, to: caller });
-  });
-  
- peer.on("stream", (stream) => {
-   userVideo1.current.srcObject = stream;
- });
-  
- peer.signal(callerSignal);
- connectionRef1.current = peer;
- };
-
-
-const callUser = (id) => {
-
-playNotificationInternalRinging()
-  
-  setAudioCalling(true)
-  
-  setChatMes("Calling...")
-  // if(navigator.mediaDevices){
-
-  
-  //   navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
-  //     console.log("StreamM",stream)
-  //     setStream(stream);
-  //     if(myVideo.current)
-  //     myVideo.current.srcObject = stream;
-  //   });
-    
-    console.log("streamIt", stream)
-  const peer = new Peer({
-    initiator: true,
-    trickle: false,
-    stream: stream,
-  });
-
-  peer.on("signal", (data) => {
-    socket.emit("callUser", {
-      userToCall: callId,
-      signalData: data,
-      from: decodedId,
-      name: decodedName,
-      img:imageUrl,
-    });
-  });
-
-  peer.on("stream", (stream) => {
-    userVideo.current.srcObject = stream;
-     console.log("streaming2", stream)
-  });
-
-  socket.on("callAccepted", (signal) => {
-    setCallAccepted(true);
-    setImgeAudio(signal.callImg)
-    peer.signal(signal);
-    console.log("callAccepted")
-    intervalRef.current = setInterval(() => {
-      setStartTime(prevElapsedTime => prevElapsedTime + 1);
-    }, 1000);
-    
-  });
-
-  connectionRef.current = peer;
-// }else{
-//   console.log("no media")
-// }
 };
 
-const answerCall = () => {
-setChatMes("Call")
-setReceiveCall(true)
+const VideoCall = (id) => {
+  setChatMes("Video Calling");
+  
+  videoStreaming()
+    .then((stream) => {
+       
+      setVideoStream(true)
 
+      if (myVideo1.current)  
+      myVideo1.current.srcObject = stream;
+
+      const peer = new Peer({
+        initiator: true,
+        trickle: false,
+        stream: stream,
+      });
+
+      peer.on("signal", (data) => {
+        socket.emit("callUserVideo", {
+          userToCall: callId,
+          signalData: data,
+          from: decodedId,
+          name: decodedName,
+          img: imageUrl,
+        });
+      });
+
+      peer.on("stream", (stream) => {
+        console.log("Received video stream:", stream);
+        userVideo1.current.srcObject = stream;
+      });
+
+      socket.on("callAcceptedVideo", (signal) => {
+        setCallAccepted(true);
+         
+        peer.signal(signal);
+      });
+
+      connectionRef1.current = peer;
+    })
+    .catch((error) => {
+      console.error("Error initiating video call:", error);
+    });
+};
+
+const answerCallVideoCall = () => {
+  setChatMes("  Video Calling...");
   
-    // navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream) => {
-    //   console.log(stream)
-    //   setStream(stream);
-    //   if(myVideo.current)
-    //   myVideo.current.srcObject = stream;
-    // });
-    
-  setCallAccepted(true)
-  setIncomingCall(false)
+  videoStreaming()
+    .then((stream) => {
+       setVideoStream(true)
+      if (myVideo1.current)  
+        myVideo1.current.srcObject = stream;
+    })
+    .catch((error) => {
+      console.error("Error answering video call:", error);
+    });
+
+  setCallAccepted(true);
+  setIncomingVideoCall(false);
   stopNotificationRinging();
-   
-    console.log("streamR", stream)
-  
-  const peer = new Peer({
+
+  const peer = new Peer({  
     initiator: false,
     trickle: false,
     stream: stream,
   });
 
   peer.on("signal", (data) => {
-    socket.emit("answerCall", { signal: data, to: caller, });
+    socket.emit("answerCallVideo", { signal: data, to: caller });
   });
 
   peer.on("stream", (stream) => {
-    console.log("streaming", stream)
-    userVideo.current.srcObject = stream;
-    
+    userVideo1.current.srcObject = stream;
+    console.log("streaming55", stream)
   });
 
   peer.signal(callerSignal);
-  connectionRef.current = peer;
-
-  intervalRef.current = setInterval(() => {
-    setStartTime(prevElapsedTime => prevElapsedTime + 1);
-  }, 1000);
-
-  
+  connectionRef1.current = peer;
 };
+
+
+
+const audioStreaming = () => {
+  return new Promise((resolve, reject) => {
+    navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+      .then((stream) => {
+        console.log("Audio stream:", stream);
+        resolve(stream);
+      })
+      .catch((error) => {
+        console.error("Error accessing audio stream:", error);
+        reject(error);
+      });
+  });
+};
+
+const callUser = () => {
+  // Call audioStreaming to get the audio stream
+  audioStreaming()
+    .then((audioStream) => {
+      if (audioStream) {
+        // If the audio stream is obtained successfully
+        console.log("Audio stream obtained:", audioStream);
+        
+        // Proceed with the call setup
+        playNotificationInternalRinging();
+        setAudioCalling(true);
+        setChatMes("Calling...");
+        
+        // Set up Peer connection with the obtained audio stream
+        const peer = new Peer({
+          initiator: true,
+          trickle: false,
+          stream: audioStream,
+        });
+
+        // Handle Peer events
+        peer.on("signal", (data) => {
+          socket.emit("callUser", {
+            userToCall: callId,
+            signalData: data,
+            from: decodedId,
+            name: decodedName,
+            img: imageUrl,
+          });
+        });
+
+        peer.on("stream", (stream) => {
+          userVideo.current.srcObject = stream;
+          console.log("streaming2", stream);
+        });
+
+        socket.on("callAccepted", (signal) => {
+          setCallAccepted(true);
+          setImgeAudio(signal.callImg);
+          peer.signal(signal);
+          console.log("callAccepted");
+          intervalRef.current = setInterval(() => {
+            setStartTime((prevElapsedTime) => prevElapsedTime + 1);
+          }, 1000);
+        });
+
+        connectionRef.current = peer;
+      } else {
+        // Handle case when audio stream cannot be obtained
+        console.error("Failed to obtain audio stream.");
+      }
+    })
+    .catch((error) => {
+      // Handle any errors that occur during audio stream acquisition
+      console.error("Error accessing audio stream:", error);
+    });
+};
+
  
+const answerCall = () => {
+  // Call audioStreaming to get the audio stream
+  audioStreaming()
+    .then((stream) => {
+      // Check if the stream is obtained successfully
+      if (stream) {
+        // Set chat message and call status
+        setChatMes("Call");
+        setReceiveCall(true);
+        setAudioCalling(true)
+        setCallAccepted(true);
+        setIncomingCall(false);
+        stopNotificationRinging();
 
+        // Log the stream
+        console.log("streamR", stream);
 
-useEffect(()=>{
- console.log("streamAccessing media")
-},[setStream, stream])
+        // Set up Peer connection with the obtained audio stream
+        const peer = new Peer({
+          initiator: false,
+          trickle: false,
+          stream: stream,
+        });
+
+        // Handle Peer events
+        peer.on("signal", (data) => {
+          socket.emit("answerCall", { signal: data, to: caller });
+        });
+
+        peer.on("stream", (stream) => {
+          console.log("streaming22", stream);
+          userVideo.current.srcObject = stream;
+        });
+
+        peer.signal(callerSignal);
+        connectionRef.current = peer;
+
+        // Start the call timer
+        intervalRef.current = setInterval(() => {
+          setStartTime((prevElapsedTime) => prevElapsedTime + 1);
+        }, 1000);
+      } else {
+        // Handle case when audio stream cannot be obtained
+        console.error("Failed to obtain audio stream.");
+      }
+    })
+    .catch((error) => {
+      // Handle any errors that occur during audio stream acquisition
+      console.error("Error accessing audio stream:", error);
+    });
+};
+
 
 
 
@@ -705,19 +780,6 @@ useEffect(()=>{
     },[socket,setDeclineMessage,setDeclineId])
 
 
-// const leaveCall = ()  => {
-//   setCallEnded(true);
-//   clearInterval(intervalRef.current);
-//   if(callEnded){
-// console.log("call ended")
-//     socket.emit("callDestroyed", {Id:decodedId})
-//     connectionRef.current.destroy();
-//     window.location.reload();
-//   }
- 
- 
-
-// };
 
 const resetStopwatch = () => {
   clearInterval(intervalRef.current);
@@ -730,15 +792,6 @@ const formatTime = (timeInSeconds) => {
   const seconds = timeInSeconds % 60;
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 };
-// function  VideoCall (){
-
-// }
-
-// function answerCallVideoCall(){
-
-
-// }
-
 
     function chat() {
         setIsVisibleChat(!isVisibleChat);
@@ -795,7 +848,7 @@ const leaveCall = () => {
    className="avatar_img"
    id="chatImg"
    alt="Profile Image"
-          
+          onClick={(e)=>setReadyToChat(false)}
    src={imageUrl} className="avatar_img"  title={ decodedName}
       /><br></br>
       <span id="you"> You</span>
@@ -858,7 +911,7 @@ const leaveCall = () => {
                         {item.Name}<br />
                         
                         { callRejected  ?(<span  className={item.userId_user=== declineId ? "showDecline" :"nonShow"} style={{color:"red", margin:"5px 5px" ,fontSize:"13.9px"}}> {declineMessage} <Icon  style={{fontSize:"15px",margin:"5px",color:"red"}} icon="subway:call-3" /></span>
-):(<span>You</span>)}
+):(<span>You{mess}</span>)}
 
                         
                     </li>
@@ -873,13 +926,15 @@ const leaveCall = () => {
 
 
               <div className="smile">
-
+        
               { readyToChat ? (
                
               <div className="smileHeader"> 
+
               <div >
   {chatPerson.map((item, i) => (
     <span  key={i}>
+    {/* <div> <Icon icon="entypo:arrow-left" /></div> */}
       <img src={item.Picture} style={{top:"-2px", width:"35px",height:"35px", borderRadius:"100%"}} className="readyToChatImg" alt="Profile" />
     </span>
   ))} 
@@ -895,10 +950,10 @@ const leaveCall = () => {
   <div>Add</div>
   </div>
 ):( 
-  <div className="smileHeader">
-              <div>Chats</div>
-              <div>Updates</div>
-              <div>Calls</div>
+  <div className="smileHeader2">
+              <div className="showHeader">Chats</div>
+              <div className="showHeader">Updates</div>
+              <div className="showHeader">Calls</div>
 </div>
 ) }
               </div>
@@ -943,7 +998,7 @@ const leaveCall = () => {
         </div>
      )}
 {/* myAudioSteam phone */}
-{stream &&(
+{audioCalling &&(
   <div>
                 <audio
                   className="rounded-full"
@@ -953,17 +1008,27 @@ const leaveCall = () => {
                   autoPlay
                   style={{ width: "300px" }}
                 /> 
-
-{/* <img src={imgeAudio} ref={myVideo} style={{width:"100px",height:"100px"}}/> */}
-
                
+               </div>
+)}
+
+{ videoStream &&(
+  <div  className="myVideo" >
+  hfhhf
+                <video
+        ref={myVideo1}
+        autoPlay
+        playsInline
+        muted // Muted to prevent echo from self
+        style={{ width: '100%', height: 'auto' }} // Adjust width and height as needed
+      ></video>
                </div>
 )}
 
 
  
      {/* userAudiostream */}
-     {callAccepted && !callEnded && (
+     {callAccepted && audioCalling && !callEnded && (
             <div>
               <audio
                 className="rounded-full"
@@ -985,18 +1050,80 @@ const leaveCall = () => {
     </span>
   ))} 
       
-      
               <span id="leavePhone"  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
                </div>
-             
+
              
               </div>
+              )}
 
+
+              {callAccepted && videoStream && !callEnded && (
+            <div>
+              {/* <video
+        ref={myVideo1}
+        autoPlay
+        id="userVideo"
+        playsInline
+        muted // Muted to prevent echo from self
+        style={{ width: '100%', height: 'auto' }} // Adjust width and height as needed
+      ></video> */}
+              <div style={{margin:"200px -30px"}}>
+              {/* <div> <img src={callerImg} ref={userVideo} style={{width:"100px",height:"100px"}}/></div> */}
               
+              </div>
+              <div className="phoneCallDisVideo">
+      <span style={{margin:"5px 130px"}}> {formatTime(startTime)}</span> 
+      
+      <video
+        ref={userVideo1}
+        autoPlay
+        playsInline
+        id="userVideo"
+        // Muted to prevent echo from self
+        style={{ width: '100%', height: 'auto' }} // Adjust width and height as needed
+      ></video>
+              <span style={{ margin:"360px 0px"}}  id="leavePhone"  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
+               </div>
+             
+              </div>
               
               )}
 
 {/* UserAudioStream */}
+
+{renderMessageData.map((item, j) => (
+  <div key={j}>
+    {/* Check if the message is from the current user and play a notification sound */}
+    {item.userId === decodedId && (
+      <audio src={sounds} id="notificationSound" />
+    )}
+
+    {/* Render an audio element for the message if it's from the current user */}
+    {item.userId === decodedId && (
+      <audio srcObject={item.audioStream} autoPlay controls id={`audioElement-${j}`} />
+    )}
+
+    {/* Render the message with appropriate styles based on sender */}
+    <ul className={item.userId === decodedId ? "receivedMessPhone" : "sendMessPhone"}>
+      <li className={item.userId === decodedId ? "receivedMessagePhone" : "sendMessagePhone"}>
+        {/* Display the message content and time */}
+        {item.Message} <span id="time" style={{ fontSize: "10px" }}>{item.Time}</span>
+      </li>
+      <li>
+        {/* Display the sender's image */}
+        <img
+          src={item.Img}
+          className={item.userId === decodedId ? "receivedImgPhone" : "sendImgPhone"}
+          style={{ width: '25px', height: '25px' }}
+        />
+      </li>
+    </ul>
+    {/* <span>{item.TimeStamp}</span> */}
+  </div>
+))}
+
+
 
       {renderMessage.map((item, i) => (
         <div key={i} style={{zIndex:"0"}}>
@@ -1025,6 +1152,7 @@ const leaveCall = () => {
         </div>
         
       ))}
+
 
     
     </div>
@@ -1063,13 +1191,29 @@ const leaveCall = () => {
       <div>
    
    
-      {callAccepted && !callEnded ?(
+      {callAccepted && audioCalling && !callEnded ?(
       <div className="phoneCallDis">
       <span style={{margin:"5px 130px"}}> {formatTime(startTime)}</span> 
       <img src={callerImg} style={{width:"100px", height:"100px", margin:"15px 100px", borderRadius:"10px"}}/>
       
               <span id="leavePhone"  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
                </div>):(null)}
+
+{callAccepted && videoStream && !callEnded ?(
+      <div className="phoneCallDis">
+      <span style={{margin:"5px 130px"}}> {formatTime(startTime)}</span> 
+      <video
+        ref={userVideo1}
+        autoPlay
+        playsInline
+        muted // Muted to prevent echo from self
+        style={{ width: '100%', height: 'auto' }} // Adjust width and height as needed
+      ></video>
+      
+              <span id="leavePhone"  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
+               </div>):(null)}
+
+
 
 
       <div className="renderPeople">
@@ -1085,9 +1229,9 @@ const leaveCall = () => {
                   {connectedUsersData && connectedUsersData.map((ele, j) => (
   <span key={j} style={{ position: "absolute", margin: "40px 0px 0px -40px" }}>
     {item.userId_user === ele.connectedUserId ? (
-      <span>online</span>
+      <span className={item.userId===ele.connectedUserId ? "showM":"nonShow"}>online</span>
     ) : (
-      <span>offline</span>
+      <span className={item.userId===ele.connectedUserId ? "showM":"nonShow"}>offline</span>
     )}
   </span>
 ))}
@@ -1100,7 +1244,12 @@ const leaveCall = () => {
                       {declineMessage} <Icon style={{ fontSize: "15px", margin: "5px", color: "red" }} icon="subway:call-3" />
                     </span>
                   ) : (
-                    <span>You</span>
+                   <div> 
+                   { callRejected  ?(<span  className={item.userId_user=== declineId ? "showDecline" :"nonShow"} style={{color:"red" ,fontSize:"13.9px"}}> {declineMessage} <Icon  style={{fontSize:"15px",margin:"5px",color:"red"}} icon="subway:call-3" /></span>
+):(<span>You:<span className={item.userId_user=== callId ? "showM" :"nonShow"} style={{margin:"-20px 50px ",}} >{mess}</span></span>)} </div>
+
+
+
                   )}
                 </li>
               </ul>
