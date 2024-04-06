@@ -5,6 +5,8 @@ import { Icon } from '@iconify/react'
 import { Checkbox } from 'semantic-ui-react';
 import { FaStar } from 'react-icons/fa'
 import Display from '../Component/Display'
+import './Display.css'
+
 // import DatePicker from 'react-datepicker';
 // import { useData } from '../Component/DataContext';
 import { useDispatch } from 'react-redux';

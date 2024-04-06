@@ -13,15 +13,17 @@ import  fetchData  from '../Component/actions';
 import {jwtDecode} from 'jwt-decode';
 import clipboard from "clipboard"
 import Peer from "simple-peer";
+
 import { set, trusted } from "mongoose";
 // import TextField from './TextField'; 
 
-let socket = io.connect("https://render-backend-28.onrender.com")
+let socket = io.connect("http://8700")
 console.log(socket)
 
 function Zoom() {
   const [incomingCall, setIncomingCall] = useState(false);
   const [incomingVideoCall, setIncomingVideoCall] = useState(false);
+  const [userInput, setUserInput] = useState(" ")
   const [emojis, setEmojis] = useState([
     "😄", "😃", "😀", "😊", "😉", "😍", "😘", "😚",
     "😗", "😙", "😜", "😝", "😛", "😳", "😁", "😔",
@@ -47,6 +49,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const[sendingMsg,setSendingMsg]= useState("");
     const[callerIdData, setCallerIdData]= useState("")
     const[callIdData, setCallIdData]= useState("")
+    const [saveTime,setSaveTime]=useState("")
     const [imgeAudio, setImgeAudio]= useState("");
     const [isEmoji,setIsEmoji]=useState(false)
   const[callId, setCallId]=useState("")
@@ -616,6 +619,14 @@ const audioStreaming = () => {
 
 const callUser = () => {
   // Call audioStreaming to get the audio stream
+  let userInput = prompt("Purpose of meeting:");
+if (userInput !== null) {
+    console.log("User entered:", userInput);
+    setUserInput(userInput)
+} else {
+    console.log("User clicked Cancel.");
+}
+
   audioStreaming()
     .then((audioStream) => {
       if (audioStream) {
@@ -781,11 +792,6 @@ useEffect(()=>{
 
 
 
-const resetStopwatch = () => {
-  clearInterval(intervalRef.current);
-  setIsRunning(false);
-  setStartTime(0);
-};
 
 const formatTime = (timeInSeconds) => {
   const minutes = Math.floor(timeInSeconds / 60);
@@ -808,7 +814,26 @@ const removeElement = (indexToRemove) => {
 const leaveCall = () => {
   setCallEnded(true);
   setStream(null);
+  // Stop the call timer
+clearInterval(intervalRef.current);
 
+// Save the elapsed time to your database
+setSaveTime(startTime)
+
+if(saveTime){
+  const data={
+    Name:name,
+    callerImg:imgeAudio,
+    myImg:imageUrl,
+    myName:decodedName
+
+  }
+
+  const sendInfo= axios.post("http://8700/saveTime", data)
+  console.log(sendInfo)
+}
+
+setStartTime(0);
   if (connectionRef.current && typeof connectionRef.current.destroy === 'function') {
     connectionRef.current.destroy();
   } else {
@@ -826,7 +851,10 @@ const leaveCall = () => {
 };
 
 
-
+useEffect(()=>{
+  
+  
+})
 
 
    
