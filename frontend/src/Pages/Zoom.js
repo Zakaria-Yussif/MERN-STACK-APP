@@ -286,23 +286,23 @@ useEffect(() => {
 }, []);
 
 const playNotificationSound = () => {
-  const audio = new Audio(sounds); // Adjust the path to the notification sound file
+  const audio = new Audio(sounds); 
   audio.play();
 };
 
-const playNotificationInternalRinging = () => {
-  const audio = new Audio(internalRing); // Adjust the path to the notification sound file
+const stopNotificationInternalRinging = () => {
+  const audio = new Audio(internalRing); 
   audio.pause();
 };
 
-const playNotificationChatting = () => {
-  const audio = new Audio(internalRing); // Adjust the path to the notification sound file
+const playNotificationInternalRing = () => {
+  const audio = new Audio(internalRing);
   audio.play();
 };
 
 
 const playNotificationRinging = () => {
-  const audio = new Audio(ringing); // Adjust the path to the notification sound file
+  const audio = new Audio(ringing); 
   audio.pause();
 };
 
@@ -313,8 +313,12 @@ const playNotificationTypingSound= () => {
 }
 
 
+  const stopNotificationChatting = () => {
+  const audio = new Audio(internalRing);
+  audio.pause();
+};
 const stopNotificationRinging = () => {
-  const audio = new Audio(ringing); // Adjust the path to the notification sound file
+  const audio = new Audio(ringing); 
   audio.pause()
 };
 
@@ -452,13 +456,11 @@ useEffect(() => {
     setCallerImg(data.img);
     setCallerSignal(data.signal);
  // Check if browser supports notifications and permission is granted
-//  if ('Notification' in window && Notification.permission === 'granted') {
+if ('Notification' in window && Notification.permission === 'granted') {
 //   // Create a new notification
-//   new Notification('Incoming Call');
-// }
-
-// Play notification ringing sound
-// playNotificationRinging();
+  new Notification('Incoming Call');
+}
+playNotificationRinging();
   });
 
   // Clean up by removing the event listeners when the component unmounts
@@ -491,7 +493,7 @@ setCallerImg(data.img);
    }
 
     // Play notification ringing sound
-  //  playNotificationRinging();
+    playNotificationRinging();
 
     });
 
@@ -522,7 +524,7 @@ const videoStreaming = () => {
 
 const VideoCall = (id) => {
   setChatMes("Video Calling");
-  
+   playNotificationInternalRing()
   videoStreaming()
     .then((stream) => {
        
@@ -567,7 +569,7 @@ const VideoCall = (id) => {
 
 const answerCallVideoCall = () => {
   setChatMes("  Video Calling...");
-  
+   stopNotificationInternalRing()
   videoStreaming()
     .then((stream) => {
        setVideoStream(true)
@@ -619,6 +621,7 @@ const audioStreaming = () => {
 
 const callUser = () => {
   // Call audioStreaming to get the audio stream
+<<<<<<< HEAD
   let userInput = prompt("Purpose of meeting:");
 if (userInput !== null) {
     console.log("User entered:", userInput);
@@ -627,6 +630,9 @@ if (userInput !== null) {
     console.log("User clicked Cancel.");
 }
 
+=======
+   playNotificationInternalRing()
+>>>>>>> 36e1c125339a0db686463aa7618a48b825c9cffa
   audioStreaming()
     .then((audioStream) => {
       if (audioStream) {
@@ -686,6 +692,7 @@ if (userInput !== null) {
  
 const answerCall = () => {
   // Call audioStreaming to get the audio stream
+   stopNotificationInternalRing()
   audioStreaming()
     .then((stream) => {
       // Check if the stream is obtained successfully
@@ -782,6 +789,7 @@ useEffect(()=>{
     socket.on("declineMessageVideo",(data)=>{
       if(data){
       setStream(null)
+         stopNotificationInternalRing()
      setCallRejected(true)
       setDeclineMessage(data.message)
       setDeclineId(data.Id)
