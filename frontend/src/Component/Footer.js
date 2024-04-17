@@ -104,7 +104,7 @@ function  Footer() {
  <li>Invoicing</li>
 <li>Expenses</li>
 
-<li>SpreedSheets</li>
+
 <li>Documents</li>
 <li>Sign</li>
               </ul>
@@ -116,7 +116,6 @@ function  Footer() {
                 <ul>
                 <li>Purchase</li>
  <li>Rental</li>
- <li>Maintainance</li>
 <li>Invetory</li>
 
 <li>Manufacturing</li>
@@ -124,8 +123,8 @@ function  Footer() {
               </ul>
               </div>
              
-             <div className='col col1'>
-                <h5  id="h7">Websites</h5>
+             <div className='col col2'>
+                <h5  style={{color:"green"}} id="h7">Websites</h5>
                 <hr id="line2"></hr>
                 <ul>
                 <li>eLearning</li>

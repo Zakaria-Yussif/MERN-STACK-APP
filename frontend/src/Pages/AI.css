@@ -1,0 +1,162 @@
+
+.AI{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    z-index: 0;
+    background: linear-gradient(200deg,var(--color--blue-800), var(--color--blue-800), var(--color--blue-800)); 
+}
+
+.AI_container{
+    /* background-color: rgba(196, 196, 196, 0.103); */
+    opacity: 1;
+    width: 97%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    border-radius: 10px;
+    
+    position: fixed;
+    justify-content: center;
+    margin: 20px 10px;
+    z-index: 10;
+}
+
+.AI_image{
+    position: fixed;
+    z-index: 5;
+    width: 50%;
+    margin:100px 100px;
+    justify-content: center;
+}
+
+#AI_imgUrl{
+    width: 100%;
+}
+
+.AI_message{
+    width: 100%;
+    justify-self: center;
+    min-height: 80vh;
+    text-align: center;
+}
+#textAreaPhone{
+    width: 500px;
+   min-height: 6vh;
+   height: 10vh;
+   outline-style: none;
+   padding: 2px;
+   text-align: center;
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   margin: 0px -40px 0px 40px ;
+   color: gray;
+   border-radius:10px;
+}
+.AI_footer{
+    width: 100%;
+    justify-self: center;
+    height: 10vh ;
+    display: flex;
+    justify-content: center;
+    
+    margin: 20px auto ;
+
+    text-align: center;
+
+
+
+
+
+
+}
+
+#AI_ICON{
+   width: 80px;
+   color: rgb(226, 217, 217);
+   border-style: none;
+   border-radius: 0% 10px 10px 0%;
+   background: linear-gradient(200deg,var(--color--blue-400), var(--color--blue-400), var(--color--blue-400));
+    
+      
+}
+@media  (max-width: 1000px)  {
+   
+.AI{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    z-index: 0;
+    background: linear-gradient(200deg,var(--color--blue-800), var(--color--blue-800), var(--color--blue-800)); 
+}
+
+.AI_container{
+    background-color: rgba(196, 196, 196, 0.103);
+    opacity: 1;
+    width: 97%;
+    height: 96%;
+    top: 0;
+    left: 0;
+    position: fixed;
+
+    margin: 20px 10px;
+    z-index: 10;
+}
+
+.AI_image{
+    position: fixed;
+    z-index: 5;
+    width: 94%;
+    height: 50%;
+    margin:200px 20px;
+    justify-content: center;
+}
+
+#AI_imgUrl{
+    width: 100%;
+    height: 80%;
+    z-index: 10;
+    background-size: cover;
+}
+
+#textAreaPhone{
+   max-width: 1900px;
+    
+}
+.AI_footer{
+    width: 100%;
+    height: 10vh ;
+    display: flex;
+    
+    
+    margin: 20px auto ;
+
+    
+
+
+
+
+
+
+}
+
+#AI_ICON{
+    width: 80px;
+    color: rgb(226, 217, 217);
+    border-style: none;
+    border-radius: 0% 10px 10px 0%;
+    margin: 0px 300px 0px 0px;
+    position: absolute;
+    background: linear-gradient(200deg,var(--color--blue-400), var(--color--blue-400), var(--color--blue-400));
+     
+       
+ }
+
+}

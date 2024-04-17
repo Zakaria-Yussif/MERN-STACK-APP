@@ -57,7 +57,7 @@ function ResetPass () {
             setIsMarkVisible1(!isMarkVisible1)
             setIsMarkVisible1(true)
             setIsForm(!isForm)
-           alert("Password updated Succesfully")
+           alert("Password updated Successfully")
             navigate("/login")
             
             console.log("pass")

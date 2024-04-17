@@ -11,8 +11,11 @@ import io  from 'socket.io-client'
 import 'aos/dist/aos.css'
 import ChatBot from 'react-simple-chatbot'
 import segment from 'semantic-ui-react'
+// import {BarGraph} from './BarGraph';
 // import {AdminAcc} from '../Component/AdminAcc'
+// import DatePicker from 'react-datepicker';
 import { useSelector,useDispatch } from 'react-redux'
+import { Bar } from 'react-chartjs-2';
 import  fetchData  from './actions'; 
 import axios from "axios";
 import { Link, json } from 'react-router-dom';
@@ -23,9 +26,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
+// import { BarChart } from '@mui/x-charts/BarChart';
+import { axisClasses } from '@mui/x-charts';
+import { BarChart } from '@mui/x-charts/BarChart';
+
+
 const socket = io.connect("https://render-backend-28.onrender.com")
-// import { useSelector } from 'react-redux';
-// import { useData } from '../Component/DataContext';
+
 
 
 
@@ -39,9 +46,9 @@ const [buttonClicked, setButtonClicked] = useState(false);
 const [matchOccurred, setMatchOccurred] = useState(false);
 // const { copiedArrayData, setCopiedArrayData } = useData();
 // const { copiedArrayData } = useData();
-const [isListVisible1, setIsListVisible1] = useState(false);
+const [isListVisible1, setIsListVisible1] = useState("false");
 const [Online, setOnline] = useState(false);
-const [isListVisible, setIsListVisible] = useState(false);
+const [isListVisible, setIsListVisible] = useState("false");
 const[addEmployee, setAddEmployee]=useState(true)
 const [ Employeelist1, setEmployeelist1] = useState([]);
 const [ EmployeeList, setEmployeelistData]=useState([])
@@ -64,9 +71,11 @@ const [taskNumber, setTaskNuber] = useState(false);
 const [isVisible, setVisible] = useState(false);
 const [isVisibleBook, setVisibleBook] = useState(true);
 const [isVisiblechat, setVisibleChat] = useState(false);
-const [isVisibleTimeSheet, setIsListVisibleTimeSheet] = useState(false);
+const [isVisibleTimeSheet, setIsListVisibleTimeSheet] = useState("false");
 const [selectedDate, setSelectedDate] = useState(null)
 const addEmployeeRef = useRef(null);
+const[event, setEvent]=useState(false)
+const [coursel, setCoursel]=useState(false)
 const [userId1, setUserId]= useState("");
 const [search, setSearch]= useState("");
 const [tel, setTel]= useState("");
@@ -78,9 +87,12 @@ const[decodedEmail, setDecodeEmail]=useState("")
  const [imageUrl, setImageUrl] = useState('');
  const[decodedName, setDecodedName]=useState(" ")
  const[decodedId, setDecodedId]=useState(" ")
-// const [date, setSelectedDate]= useState("");
+ const [emsMarketing, setEmsMarketing] = useState(false)
+ const [isAppointment,setIsAppointment]=useState(false)
+const [social,setSocial]=useState(false)
 const [address, setAddress]= useState("");
 const [option, setService]= useState("");
+const [isReport, setIsReport]= useState("false");
 // let token = localStorage.getItem("token")
 const navigate = useNavigate()
 let  storedNum;
@@ -92,7 +104,8 @@ const  data = useSelector((state) => state.data);
   
 
 
-let token = localStorage.getItem("token")
+//  let token = localStorage.getItem("token")
+let token ="helo"
 if (token){
   console.log("token available")
 }else{
@@ -135,7 +148,7 @@ if (token){
           
           
       }else{
-        alert("Token not exist")
+        // alert("Token not exist")
       }
     
     
@@ -346,18 +359,7 @@ const MyCarousel = () => {
   setVisibleChat(true)
 
  }
-// function handleSubmit (event ){
-//    event.preventDefault()
 
-//    if (message) {
-//     setLoading(true);
-//      setMessages(prevMessages => [...prevMessages, message]);
-//      socket.emit('send_message', { message });
-//      setMessage('');
-//      setTypingUser('')
-//    }
-   
-//  }
   async function handleChange(event){
     event.preventDefault();
 
@@ -406,12 +408,6 @@ const MyCarousel = () => {
 
    
 
-//  useEffect(() => {
-//   setLoading(false);
-//   socket.on('received_message', data => {
-//     setReceivedMessages(prevMessages => [...prevMessages, data.message]);
-//   });
-// }, []);
 
   useEffect(()=>{
 AOS.init({duration:2000})
@@ -419,24 +415,10 @@ AOS.init({duration:2000})
 
   },[])
 
-  // socket.on('typing', data => {
-  //   setTypingUser(data.username);
-  // });
-
-  // useEffect(() => {
-  //   // Effect logic here
   
-  //   // Cleanup function to remove event listeners when component unmounts
-  //   return () => {
-  //     socket.off('received_message');
-  //     socket.off('typing');
-  //   };
-  // }, []);
 
   
-// function handleTyping() {
-//   socket.emit('typing', { username: 'User' }); 
-// }
+
 const handleDateChange = (date) => {
   setSelectedDate(date);
 };
@@ -532,6 +514,7 @@ function List (){
   setIsListVisible(true)
   setIsListVisible1(!isListVisible1)
   setIsListVisibleTimeSheet(true)
+  setIsReport(true)
 }
 useEffect(() => {
   const fetchData = async () => {
@@ -553,6 +536,8 @@ const fixedPosition = () => {
     setAddEmployee(true);
   }
 };
+
+
 
 useEffect(() => {
   const element = document.querySelector('.addEmployeeTask'); // You can replace this with your actual selector or use addEmployeeRef.current if applicable
@@ -577,6 +562,7 @@ const taskHeaderClass = addEmployee ? 'task_header' : 'task_header change';
  const TimeSheet = ()=>{
   setIsListVisible1(true);
   setIsListVisible(true);
+  setIsReport(true)
   setIsListVisibleTimeSheet(!isVisibleTimeSheet)
  }
 
@@ -629,10 +615,132 @@ function Support(){
  setDisplay(!display)
 }
 
+const appoint = ()=>{
+  setCoursel(true)
+  setIsAppointment(!isAppointment)
+  setEmsMarketing(false)
+  setSocial(false)
+}
 
+const marketing = ()=>{
+  setCoursel(true)
+  setEmsMarketing(!emsMarketing)
+  setSocial(false)
+  setIsAppointment(false)
+}
 
+const socialMedia = ()=>{
+  setCoursel(true)
+  setSocial(!social)
+  setIsAppointment(false)
+  setEmsMarketing(false)
+}
 
+const report =()=>{
+  setIsReport(!isReport)
+  setIsListVisible(true)
+  setIsListVisible1(true)
+  setIsListVisibleTimeSheet(true)
+  
+}
 
+const chartSetting = {
+  xAxis: [
+    {
+      label: 'rainfall (mm)',
+    },
+  ],
+  width: 500,
+  height: 400,
+};
+const dataset = [
+  {
+    london: 59,
+    paris: 57,
+    newYork: 86,
+    seoul: 21,
+    month: 'Jan',
+  },
+  {
+    london: 50,
+    paris: 52,
+    newYork: 78,
+    seoul: 28,
+    month: 'Fev',
+  },
+  {
+    london: 47,
+    paris: 53,
+    newYork: 106,
+    seoul: 41,
+    month: 'Mar',
+  },
+  {
+    london: 54,
+    paris: 56,
+    newYork: 92,
+    seoul: 73,
+    month: 'Apr',
+  },
+  {
+    london: 57,
+    paris: 69,
+    newYork: 92,
+    seoul: 99,
+    month: 'May',
+  },
+  {
+    london: 60,
+    paris: 63,
+    newYork: 103,
+    seoul: 144,
+    month: 'June',
+  },
+  {
+    london: 59,
+    paris: 60,
+    newYork: 105,
+    seoul: 319,
+    month: 'July',
+  },
+  {
+    london: 65,
+    paris: 60,
+    newYork: 106,
+    seoul: 249,
+    month: 'Aug',
+  },
+  {
+    london: 51,
+    paris: 51,
+    newYork: 95,
+    seoul: 131,
+    month: 'Sept',
+  },
+  {
+    london: 60,
+    paris: 65,
+    newYork: 97,
+    seoul: 55,
+    month: 'Oct',
+  },
+  {
+    london: 67,
+    paris: 64,
+    newYork: 76,
+    seoul: 48,
+    month: 'Nov',
+  },
+  {
+    london: 61,
+    paris: 70,
+    newYork: 103,
+    seoul: 25,
+    month: 'Dec',
+  },
+];
+
+const valueFormatter = (value: number | null) => `${value}mm`;
 
 
 
@@ -656,7 +764,7 @@ function Support(){
   <li>Planning</li>
   <li>Purchase</li>
   
-  <li>Report</li> 
+  <li onClick={report}>Report</li> 
   
 
  </ul>
@@ -823,7 +931,7 @@ function Support(){
     <td>{row.Contract}</td>
     <td>{row.Position}</td>
     <td><img className='img_Online' style={{width:"50px", height:"30px"}} src={row.Picture}/>
-     <span  style={{backgroundColor: Online  ? "green":" red"}}><Icon icon="carbon:dot-mark" /></span>
+    
     </td>
   </tr>
 ))}
@@ -839,7 +947,8 @@ function Support(){
            {/* Add More */}
            
           
-         { !isVisibleTimeSheet &&(  <div  className='addEmployeeTask'> 
+         { !isVisibleTimeSheet &&
+         (  <div  className='addEmployeeTask'> 
             <h4 className={headerTitle1} style={{ textAlign: "center" }}> Employee TimeSheet</h4>
 
             <table className="table-img"  >
@@ -991,7 +1100,101 @@ function Support(){
 
           )}
 
+
+
+          
+{!isReport && (
+  <div  className='addEmployeeTask' style={{height:"20vh"}}> 
+            <h4 className={headerTitle1} id="report" style={{ textAlign: "center", justifyContent:"center" , margin:" 0px 0px"}}> Employee  Report</h4>
+
+            <table className="table"  style={{margin:"30px 0px", fontSize:"20px"}} >
+          <tr>
+          <th >
+           <span className="text-success"  >Name:
+             <span style={{borderBottom:"2px solid green"}}>James</span>
+
+
+             </span> 
+          </th>
+      
+            
+            <th><span className="text-success" style={{fontSize:"14px", color:"green" }} > Date of Report: <span  style={{fontSize:"17px",borderBottom:"2px solid green"}}>24/06/2024</span></span></th>
+            
+          </tr>
+          <tr>
+            
+          </tr>
+        </table>
+
+        <table className="table"  style={{margin:"-20px 0px", fontSize:"20px"}} >
+          <tr>
+          <th >
+           <span className="text-success"  >Title/Position:
+             <span style={{borderBottom:"2px solid green"}}>General Manager</span>
+             </span> 
+          </th>
+      
+            
+            <th><span className="text-success" style={{fontSize:"17px", }} > Report Incident Number:<span  style={{fontSize:"17px", borderBottom:"2px solid green"}}>IN063737</span> </span></th>
+            
+          </tr>
+          <tr>
+            
+          </tr>
+        </table>
+<div className="incident">
+<span className=' bg-success text-white gg ' style={{width:"70%", height:"4vh", color:"white"}}>
+  <span style={{color:"white", fontSize:"18PX"}}>EMPLOYEE INCIDENT INFORMATION</span></span>
+  <div className='incident_info'>
+    <div style={{width:"70%", height:"4vh", color:"green", margin:"20px 0px 20px"}}>
+    <span >incident </span><br></br>
+    <span><textarea 
+    rows="4"
+    id="incident_input"
+        cols="40"
+    style={{width:"70%", height:"10vh", outline:"none", borderRadius:"10PX"}} /></span>
+  
+    </div>
+    <div style={{width:"70%", height:"4vh", color:"green", margin:"40px 0px 40px"}}>
+    <span >incident </span><br></br>
+    <span><textarea 
+    rows="4"
+    id="incident_input"
+        cols="40"
+    style={{width:"70%", height:"10vh", outline:"none", borderRadius:"10PX"}} /></span>
+  
+    </div>
+    
+    <div style={{width:"70%", height:"4vh", color:"green", margin:"40px 0px 20px"}}>
+    <span >incident </span><br></br>
+    <span><textarea 
+    rows="4"
+    id="incident_input"
+        cols="40"
+    style={{width:"70%", height:"10vh", outline:"none", borderRadius:"10PX"}} /></span>
+  
+    </div>
+  </div>
+</div>
+
+<div className="incident_footer">
+
+<div >Signature:
+<span style={{borderBottom:"2px solid green", width:"300px"}} >nn</span></div>
+<div><input type="checkbox"/> Emergency</div>
+<div style={{width:"100px"}} className='btn btn-outline-danger'>Submit</div>
  </div>
+
+
+</div>
+
+)}
+
+
+
+
+ </div>
+
 
 
 
@@ -1038,7 +1241,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     
        <img  id ="live" src="https://www.isitwp.com/wp-content/uploads/2020/06/live-chat-new-logo.png"/>
        <p>ClickUp is how our teams <br></br>centralizework, stay on track, <br></br>and easily collaborate.</p>
-       <button id="elearning1">Chat...</button>
+       <button  id="elearning1">Chat...</button>
        <div><hr hr style={{height:"5px",backgroundColor:"coral", borderRadius:"7px"}}></hr></div>
        </div>
       
@@ -1057,7 +1260,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
       
       <p>ClickUp has helped us 3x <br></br>our productivity without having<br></br> to scale our team.”</p>
 
-      <button id="elearning2" onClick={Support} >eLearning...</button>
+      <Link to="/AI_support"> <button id="elearning2" onClick={Support} >eLearning...</button></Link>
       <div><hr style={{height:"5px",backgroundColor:"grey", borderRadius:"7px"}}></hr></div>
       
        </div>
@@ -1097,20 +1300,124 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     <hr></hr>
  <ul>
   <li>Announcement <span  style={{color:" #774040", fontSize:"22px"}}><Icon className="icon-small icon1" icon="nimbus:marketing" /></span></li>
-  <li>Appointemnts <span id="icon-small"  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon2" icon="icon-park:appointment" /></span></li> 
-  <li>EMS Marketing                 <span  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon3" icon="fa-solid:sms" /></span></li>
-  <li>Social Marketing <span style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon4" icon="zondicons:news-paper" /></span></li>
+  <li onClick={appoint}>Appointemnts <span id="icon-small"  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon2" icon="icon-park:appointment" /></span></li> 
+  <li onClick={marketing}>Work Schedules                <span  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon3" icon="fa-solid:sms" /></span></li>
+  <li onClick={socialMedia}>Social Marketing <span style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon4" icon="zondicons:news-paper" /></span></li>
  </ul>
     </div>
-    <div className="token4 row4Token4 ">
-    <h4 id="event">Events</h4>
-    <p>loremhhjkkjj</p>
+    <div className="token4 row4Token4 " >
+    <h4 id="event" >Events</h4>
+    {coursel ? (
+    <div style={{justifyContent:"center", textAlign:"center", margin:"20px 100px"}}>
+        {isAppointment && (
+            <div className="appoint">
+            
+               <b style={{fontSize:"24px", borderBottom:"2px solid grey", margin:"0px 180px ", }}>Book Appointment</b>
+               <div className="appoint2">
+               <div style={{ display:"flex", flexDirection:"column" ,width:"100%", justificationContent:"start", right:"20px"}}>
+               <span className='btn btn-outline-warning' style={{margin:"0px 0px"}}>Select Person <Icon icon="ri:arrow-drop-down-line" /></span>
+          <span className='renderBooking'>render</span>
+               </div>
+               <div style={{ display:"flex", flexDirection:"column", margin:"0px 50px", width:"100%"}}>
+
+              <span> Date & Time  <DatePicker
+        selected={selectedDate}
+        className='outline-primary'
+        onChange={handleDateChange}
+        dateFormat="dd/MM/yyyy HH:mm"
+        showTimeSelect
+        // timeFormat="HH:mm"
+        timeIntervals={15}
+        timeCaption="Time"
+      />
+    </span>
+
+
+            <span> 
+            Message...
+            <textarea 
+              style={{width:"300px"}}
+        className="outline-primary "
+        // value={sendingMsg}
+        // ref={inputRef} 
+        //  onChange={handleTyping}
+    //  onChange={(e) => setSendingMsg(e.target.value)}
+        rows="4"
+        cols="40"
+      > </textarea></span>
+
+      <span className='btn btn-outline-primary'>Book</span>
+               </div>
+               </div>
+            </div>
+        )}
+        {emsMarketing && (
+            <div>
+              emsmkerting
+            </div>
+        )}
+        {social && (
+            <div>
+                social Media
+            </div>
+        )}
+    </div>
+) : (
+    <div>
+    <Carousel className="corousel" 
+           swipeable={true}
+  draggable={true}
+  showDots={false}
+  responsive={responsive}
+  ssr={true} // means to render carousel on server-side.
+  infinite={true}
+  autoPlay={true}
+  slidesToSlide={1}
+  autoPlaySpeed={7000}
+  keyBoardControl={true}
+  customTransition="all .5"
+  transitionDuration={100}
+  containerClass="carousel-container"
+  removeArrowOnDeviceType={["tablet", "mobile","desktop"]}
+  //  deviceType={this.props.deviceType}
+dotListClass={false}
+   itemClass="carousel-item-padding-0-px"
+   
+   afterChange={(previousSlide, { currentSlide, onMove }) => {
+        doSpecialThing();
+      }}
+      onMove={({ index, onMove }) => {
+        // You can perform custom logic here before the move
+        console.log(`About to move to slide ${index}`);
+        // You can prevent the move by calling onMove(false);
+        // onMove(true) allows the move to proceed
+        onMove(true);
+      }}
+      
+  
+    >
+  
+  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div><img className='display-img' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+
+</Carousel>;
+
+
+
+
+    </div>
+)}
+
+
+
+
     </div>
   </div>
 ):(
          <div className='row4' >
            
-           <div className='team4 ' >
+           <div className='team4 ' >v
            
            <Carousel className="corousel" 
            swipeable={true}
@@ -1174,30 +1481,31 @@ dotListClass={false}
         {token ?(
           <div className="rowDisplay2">
           
-            <div className="rowDis rowDis3" >
+            <div className="rowDis " >
             
             
             <div className='col-5 first' data-aos="flip-right" >
             <div><span><Icon id='icon-2' icon="mdi:computer" /></span></div>
              <div >Get more from your Endpoints</div></div>
+
             <div className="media rowDis4" data-aos="zoom-in" style={{marginLeft:"13px"}}>
              <div><span><Icon  id="icon-3" icon="material-symbols:cleaning-bucket" /></span></div>
             <p  style={{ marginLeft:"-12px"}}>Customize cleaning to your business </p>
             </div>
             
-            <div className="media rowDis5" data-aos="flip-left" >
+            <div className="media rowDis4"  >
             
   <div className='col-5 last'>
     
-    <div><span><Icon onClick={ChatDisplay} id="jamMessage" style={{ color:"#1d1160" ,fontSize:"75px",margin:"0px 20px "}} icon="jam:messages-f" /></span></div>
+    <div><span><Icon onClick={ChatDisplay} id="jamMessage" style={{ color:"#1d1160" ,fontSize:"75px",margin:"0px 30px "}} icon="jam:messages-f" /> Help desk</span></div>
   
   </div>
 
 
-  {!isVisiblechat &&( 
-    <div className='CHAT'>
+  {isVisiblechat &&( 
+    <div className='CHAT' style={{margin:"10px 300px", height:"20vh" ,zIndex:"100" }} >
     <segment> 
-    <p  style={{margin:"10px 0px", position:"absolute", zIndex:"10"}}>hellosd</p>
+    <p  style={{margin:"10px 0px", position:"absolute", zIndex:"10", right:"100px"}}>hellosd</p>
       <ChatBot id="chabotz" steps={steps}  />
     </segment>
   </div>
@@ -1236,150 +1544,25 @@ dotListClass={false}
          
         )}
          
-         {/* <div className='row4' daa-aos="slide-left">
-            
-
-            <div className='col-4'>
-               <img id='img' src='https://media.istockphoto.com/id/1410957558/photo/young-housekeeper-woman-holding-bucket-of-cleaning-products-ready-for-cleaning-home-on.jpg?s=1024x1024&w=is&k=20&c=0pjbg-dbjV_lRlSHPtrqs3S0k1XKqbp2VCf193rD_sw='/>
-            </div>
-            <div className='col-4'>
-            <p>The comfort of home can't be beat.Home Care services let people flourish in the everyday life they already known and love-while getting  a little help to stay independent 
-            and mobile.Local Home insted Office seek to provide personalized care plans that can offer support to family memberrs and help keep those strong family bonds intact</p>
-            
-            { token ?  <button  className='book' onClick={Book} >Book appointemnt</button>: navigate("/login")}
-              
-              {!isVisibleBook && (
-                
-              <form className="book_file" onSubmit={handleChange}>
-              <div className='input_el'>
-               <label htmlFor="input-1">Address: 
-                <input type="text" autoComplete="on"  className= "input_2" onChange={(event)=>setAddress(event.target.value)} required/>
-                </label>
-                <label htmlFor="input-1">Tel: 
-                <input type="tel" autoComplete="on"  className= "input_2" onChange={(event)=>setTel(event.target.value)} required/>
-                </label>
-                <label>
-                
-          Select Service:
-          <select onChange={(event)=>setService(event.target.value)}>
-            <option value="House Keeping">House Keeping</option>
-            <option value="Car warsh">Car Wash</option>
-            <option value="Personal Care">Personal Care</option>
-            
-          </select>
-        </label>
-
-        <h2>Select a Date</h2>
-        <DatePicker
-  selected={selectedDate}
-  onChange={(date) => setSelectedDate(date)} // Directly pass the date to setSelectedDate
-  dateFormat="MM/dd/yyyy"
-  placeholderText="Select a date"
-/>
-{selectedDate && <p>Selected date</p>}
-
-      <button type='submit' className="Book-file" onClick={BookForm} >Book</button>
-                </div>
-                
-              </form>)}
-            </div>
-
-
-            <div className='col-4'>
-            {token ? (null):(
-<div className='show'> <img id='img' src='https://media.istockphoto.com/id/1343501473/photo/shot-of-a-father-and-his-daughter-washing-their-car-outside.jpg?s=612x612&w=0&k=20&c=geYWSjjL_TndmERVCOOfXaN_IscHVSX93pet3t50TWs='/></div>
-
-)}
-{token &&  (
-  <>
-{!isVisible ?(
-            <segment > 
-    <ChatBot id="chabotz" steps={steps} />
-  </segment>
-
-):(
-        <div className='chatBox' floated='right'>
-          <div className='message'>
-            <p>Messages..</p>
-          </div>
-          <div className='rowChat'>
-            <div className='col_chat message1'>
-              <ul >
-              
-                {messages.map((message, index) => (
-                
-                  <li key={index}>
-    {message} <img
-          
-          id="icon-img"
-          alt="Profile Image"
-          src={localStorage.getItem('img')}
-          className="avatar_img" 
-        /></li>
-                ))}
-                <div id="space"></div>
-              </ul>
-              {typingUser && (
-          <p>
-            {typingUser} is typing<span className='dots'>...</span>
-          </p>
-        )}
-            </div>
-            <div className='col_chat received'>
-              <ul>
-
-              <div id="space"></div>
-                {receivedMessages.map((messageRev, index) => (
-                  <li key={index}>{messageRev}<img
-          
-          id="icon-img"
-          alt="Profile Image"
-          src={localStorage.getItem('img')}
-          className="avatar_img" 
-        /> </li>
-                ))}
-                <div id="space"></div>
-              </ul>
-            </div>
-          </div>
-          <div className='messBox'>
-            <input
-              id='msg_input'
-              onChange={event => setMessage(event.target.value)}
-              type='text'
-              aria-rowspan={10}
-              aria-colspan={10}
-              maxLength={100}
-              value={message}
-              placeholder='Type your message....'
-            onFocus={handleTyping}
-            onBlur={() => setTypingUser('')}
-            
-          />
-            
-            <button onClick={handleSubmit} id='msg_btn'>
-              Send
-            </button>
-          </div>
-        </div>
-        )}
-        </> )}
-     
-      </div>
-
-      <div >
-      
-      {dynamicElements.map((element, index) => (
-        <div key={index}>{element}</div>
-      ))}
-      </div> */}
-    
-     
+        
     {/* </div> */}
-{token? (null):(
+{token? (
+  <div className="row20">
+  <h3>Employee Progress</h3>
+  <BarChart
+      dataset={dataset}
+      yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
+      series={[{ dataKey: 'seoul', label: 'Seoul rainfall', valueFormatter }]}
+      layout="horizontal"
+      grid={{ vertical: true }}
+      {...chartSetting}
+    />
+
+  </div>
+):(
     <div className='row20 ' >
-    {/* <p>The comfort of home can't be beat.Home Care services let people flourish in the everyday life they already known and love-while getting  a little help to stay independent 
-            and mobile.Local Home insted Office seek to provide personalized care plans that can offer support to family memberrs and help keep those strong family bonds intact</p> */}
+    <p>The comfort of home can't be beat.Home Care services let people flourish in the everyday life they already known and love-while getting  a little help to stay independent 
+            and mobile.Local Home insted Office seek to provide personalized care plans that can offer support to family memberrs and help keep those strong family bonds intact</p> 
     </div>
     )}
         

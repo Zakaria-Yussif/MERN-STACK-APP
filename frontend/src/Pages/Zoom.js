@@ -17,7 +17,7 @@ import Peer from "simple-peer";
 import { set, trusted } from "mongoose";
 // import TextField from './TextField'; 
 
-let socket = io.connect("http://8700")
+let socket = io.connect("http://loclahost:8700")
 console.log(socket)
 
 function Zoom() {
@@ -170,7 +170,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
       
             try {
               // Send a POST request to fetch the profile picture
-              const responsePic = await axios.post(`https://render-backend-28.onrender.com/api/pictures/getProfilePicture`, picture);
+              const responsePic = await axios.post(`http://9000/api/pictures/getProfilePicture`, picture);
               console.log(responsePic);
       
               // Check if the request was successful (status code 200)
@@ -199,7 +199,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await axios.get("https://render-backend-28.onrender.com/api/pictures/getAllPictures");
+            const response = await axios.get("http://9000/api/pictures/getAllPictures");
             if (response.status === 200) {
                 const newData = response.data.findAllPictures.map((item) => ({
                 
@@ -290,7 +290,7 @@ const playNotificationSound = () => {
   audio.play();
 };
 
-const stopNotificationInternalRinging = () => {
+const stopNotificationInternalRing = () => {
   const audio = new Audio(internalRing); 
   audio.pause();
 };
@@ -621,7 +621,7 @@ const audioStreaming = () => {
 
 const callUser = () => {
   // Call audioStreaming to get the audio stream
-<<<<<<< HEAD
+
   let userInput = prompt("Purpose of meeting:");
 if (userInput !== null) {
     console.log("User entered:", userInput);
@@ -630,9 +630,7 @@ if (userInput !== null) {
     console.log("User clicked Cancel.");
 }
 
-=======
    playNotificationInternalRing()
->>>>>>> 36e1c125339a0db686463aa7618a48b825c9cffa
   audioStreaming()
     .then((audioStream) => {
       if (audioStream) {
@@ -640,7 +638,7 @@ if (userInput !== null) {
         console.log("Audio stream obtained:", audioStream);
         
         // Proceed with the call setup
-        playNotificationInternalRinging();
+      playNotificationInternalRing()
         setAudioCalling(true);
         setChatMes("Calling...");
         
@@ -891,8 +889,8 @@ useEffect(()=>{
             </div>
             <div className="desktop">
             <div className="header search"><input id="chatSearch"  placeholder="Search ..."type="search"/></div>
-            <div className="header add"> <spa><Icon icon="fluent-mdl2:add-friend" style={{margin:"0px 5px"}} /></spa>Add Friend</div>
-            <div className="header settings"><Icon style={{fontSize:"30px"}}icon="icon-park:setting" /> Settings</div>
+            {/* <div className="header add"> <spa><Icon icon="fluent-mdl2:add-friend" style={{margin:"-100px 5px"}} /></spa>Add Friend</div> */}
+            {/* <div className="header settings"><Icon style={{fontSize:"30px" ,left:"100px"}}icon="icon-park:setting" /> Settings</div> */}
             </div>
 
             <div className="phoneFooter">
@@ -1050,7 +1048,7 @@ useEffect(()=>{
 
 { videoStream &&(
   <div  className="myVideo" >
-  hfhhf
+  
                 <video
         ref={myVideo1}
         autoPlay
@@ -1405,7 +1403,7 @@ useEffect(()=>{
 
 
 
-          heloo
+        
           </div>
 
 
