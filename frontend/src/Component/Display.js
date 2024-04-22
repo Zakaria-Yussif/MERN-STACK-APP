@@ -1289,12 +1289,12 @@ const SendMessageData = (e) => {
 
 <div className="incident_footer">
 
-<div >Signature:<SignaturePad style={{borderBottom:"2px solid green", width:"300px"}} ref={signaturePadRef} />
-{signature ? (<span style={{height:"2vh",  margin:"-100px -100px", position:"absolute"}} > <button style={{margin:" 0px 30px"}} onClick={clearSignature}>Clear</button>
-      <button onClick={saveSignature}>Save</button></span>):(null)}
+// <div >Signature:<SignaturePad style={{borderBottom:"2px solid green", width:"300px"}} ref={signaturePadRef} />
+// {signature ? (<span style={{height:"2vh",  margin:"-100px -100px", position:"absolute"}} > <button style={{margin:" 0px 30px"}} onClick={clearSignature}>Clear</button>
+//       <button onClick={saveSignature}>Save</button></span>):(null)}
       
       
-      </div>
+//       </div>
 <div><input type="checkbox"/> Immediate Following </div>
 <div style={{width:"100px", height:"6vh"}} onClick={submitIncident} className='btn btn-outline-danger'>Submit</div>
  </div>
