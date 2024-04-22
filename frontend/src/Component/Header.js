@@ -46,7 +46,7 @@ const [isVisible, setIsVisible] = useState(false);
 const [Elements, setElements] = useState([]);
 const [dynamicElements, setDynamicElements] = useState([]);
 const [display, setDisplay] =useState(false);
-const [ isProfileVisible, setProfileVisible] = useState(false);
+const [ isProfileVisible, setProfileVisible] = useState("false");
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ let storedToken =localStorage.getItem("token")
       
          
       }else{
-        alert("Token not exist")
+      
       }
       
     
@@ -146,12 +146,14 @@ useEffect(() => {
 const changeColor =()=>{
    if(window.scrollY >=100){
     setDisplay(true)
+    setLink(true)
     setNavBar(true)
     setSubMenu(true)
    } else{
     setNavBar(false)
     setDisplay(false)
     setSubMenu(false)
+    setLink(false)
 }
 if(window.scrollY >=100){
   setlogo(true)
@@ -436,30 +438,35 @@ setIsVisible(!isVisible);
 
 ) : (
   <div className='join'>
-    <Link  className={link ? 'solution chang2': 'link'} to='/login'>Login</Link>
+    <Link  className= 'link' to='/login'>Login</Link>
   </div>
 )}
 
-
 {!isProfileVisible && (
-<div className={'subMenu'}   >
-
-
-<ul className="profile-menu1">
-<li>{ decodedName }</li> 
+  storedToken ? (
+    <div className={'subMenu'}>
+      <ul className="profile-menu1">
+        <li>{decodedName}</li> 
         <li onClick={changeImg}>Change Picture</li>
         <li onClick={ChangePassword}>Change Password</li>
         <li>Manage Account</li>
         <li onClick={AdminAcc}>Admin Account</li>
-
         <li onClick={LogOut}>LogOut</li>
-</ul>
-   
-
-</div>
+      </ul>
+    </div>
+  ) : (
+    <div className={'subMenu'}>
+      <ul className="profile-menu1">
+        <Link style={{listStyle:"none" ,fontSize:"21"}} to="/login">Join for free</Link> 
+        {/* <li onClick={changeImg}>Change Picture</li>
+        <li onClick={ChangePassword}>Change Password</li>
+        <li>Manage Account</li>
+        <li onClick={AdminAcc}>Admin Account</li>
+        <li onClick={LogOut}>LogOut</li> */}
+      </ul>
+    </div>
+  )
 )}
-
-
 
   {!isNotiVisible &&(
 <div className='noti'>
@@ -479,20 +486,18 @@ setIsVisible(!isVisible);
  <div className={subMenu? 'subMenu changeMenu': ' subMenu'} ><Icon onClick={Profile} icon="ion:menu" /></div> 
 
              <div id={"vid1"} style={{ display: display ? 'none' : 'flex' }}>
-             <div className=" shape ">hhhhhhh</div>
+             
               <div className='rowDisplay'> 
-
+{/* 
               {/* <div className=" shape ">hhhhhhh</div> */}
               <div className=' colDisplay col_D1'>
-               {/* <div className={'subMenu'} style={{ display: display ? "flex" :"flex" }}><Icon icon="ion:menu" /></div>  */}
-                <p> <h2 id="h2_header">ConnectBusiness most Trusted, Rate And <br></br>
-                Easy to Connect ...</h2>
-                <hr id="h2_line"></hr>
-                  <span className="header_mgs">You can manage your team from anywhere</span><br></br> <span className="header_mgs">Simplifying day-to-day activities and saves  time</span> <br></br>
-                 <span>.....WeConnneted! </span></p>
+               
+              
+                
+               
                 
                           
-                <Button id="start" onClick={Start}>Start <span data-aos="slide-right"><Icon data-aos="slide-right" data-aos-once="true" data-aos-easing="ease-in-out" id=" start_icon" icon="formkit:arrowright" /></span></Button>
+                
               </div>
               <div className=' colDisplay col_D2'>
               {/* <div className="container curve"> */}
@@ -521,7 +526,7 @@ setIsVisible(!isVisible);
               
              
             </nav>
-            <div className="logo" style={{ color: logo ? 'blue' : 'white' }} >
+            <div className="logo" id="idLogo" style={{ color: logo ? 'blue' : 'white' }} >
             ConnectBusiness
               <span className='log1'>
               <Icon id="logo2" icon="carbon:circle-filled" />

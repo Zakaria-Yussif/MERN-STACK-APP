@@ -37,6 +37,7 @@ function AI() {
         //  onChange={handleTyping}
      onChange={(e) => setSendingMsg(e.target.value)}
         rows="4"
+        className="form-control" aria-label="With textarea"
         cols="40"
       > </textarea>
 

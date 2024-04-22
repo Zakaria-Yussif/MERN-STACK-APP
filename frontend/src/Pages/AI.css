@@ -11,7 +11,7 @@
 }
 
 .AI_container{
-    /* background-color: rgba(196, 196, 196, 0.103); */
+    background-color: rgba(196, 196, 196, 0.103); 
     opacity: 1;
     width: 97%;
     height: 100%;
@@ -83,7 +83,11 @@
    background: linear-gradient(200deg,var(--color--blue-400), var(--color--blue-400), var(--color--blue-400));
     
       
+
+
 }
+
+/*     
 @media  (max-width: 1000px)  {
    
 .AI{
@@ -159,4 +163,4 @@
        
  }
 
-}
+} */

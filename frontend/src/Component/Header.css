@@ -102,16 +102,17 @@
 }
 
 .navBar{
-    background-image: linear-gradient(200deg, var(--color--blue-800) ,var(--color--blue-400));    
+    background-image: linear-gradient(200deg, var(--color--blue-800) ,var(--color--blue-800) ,var(--color--blue-800));    
  /* background-image: url("../Component/vid/video.mp4");  */
-    border-bottom: 25px solid transparent; 
+    /* border-bottom: 25px solid transparent;  */
     display: grid;
   justify-content: right;
- box-shadow: 0px 0px 5px 0px; 
+ top:0;
   position: fixed;
    width: 100%;
    cursor: pointer;
-  height: 45vh ;
+   box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+  height: 10vh ;
 z-index: 1000;
    display: flex; 
    font: 20px Georgia, 'Times New Roman', Times, serif;
@@ -123,8 +124,8 @@ z-index: 1000;
     
 }
 .navBar.change{
-    background-image: linear-gradient(200deg, var(--color--blue-800) ,var(--color--white)); 
-     height: 50px; 
+    background-image: linear-gradient(300deg, var(--color--blue-800) ,var(--color--blue-400), var(--color--white)); 
+     height: 10; 
      
      
     z-index: 40;
@@ -182,6 +183,9 @@ span{
 
     cursor: pointer;
 }
+#idLogo{
+    margin-top: 10px;
+}
 .profile-menu{
     background-image: linear-gradient(200deg, var(--color--blue-400) ,var(--color--white)); 
     position: absolute;
@@ -199,13 +203,13 @@ span{
 .profile-menu1{
     display: none;
 }
-.bell{
+/* .bell{
     position: absolute;
     right: 110px;
     top: 20px;
     font-size: 20px;
     color:  var(--color--blue-200);
-}
+} */
 .profile-menu ul li{
     outline-style: none ;
     list-style:none;
@@ -238,12 +242,12 @@ span{
     justify-content: center;
 }
 
-.curve .shadow{
+/* .curve .shadow{
     position: relative;
     width: 95%;
     height: 173px;
     margin: 0px 5px;
-}
+} */
 
 
   .img11{
@@ -298,7 +302,7 @@ margin: 15px 10px;
     background-color:inherit;
     width:100%; 
    position: relative;
-    border-top: 3px  solid gold;
+    /* border-top: 3px  solid gold; */
     border-top-right-radius: 5px;
      height: 100%;
      justify-content: center; 
@@ -582,12 +586,13 @@ font:  20px  'Roboto Mono', monospace;;
     color:var(--color--red-50);
     font-size: 20px;
     width: 100px;
+    margin: 0px 20px;
 }
-.link.change2{
+.solution.change2{
     box-shadow: none;
     outline-style: none;
     font-size: 20px;
-    
+    display: none;
     position: absolute;
     margin: 20px 0px ;
     
@@ -639,7 +644,7 @@ font:  20px  'Roboto Mono', monospace;;
     .navBar.change{
         /* display: fixed; */
          background-color:#030303a2;
-       height: 60px; 
+       height: 40px; 
       color: #fff;
          
     } 
@@ -723,7 +728,7 @@ font:  20px  'Roboto Mono', monospace;;
     
 }
 .subMenu.changeMenu{
-   color: gold;
+   color: black;
 }
 .subMenu{
     display:flex;
@@ -763,8 +768,11 @@ font:  20px  'Roboto Mono', monospace;;
     width: 20px;
     box-shadow: none;
 
-    justify-content: center;
-    margin: -1px -100px 0px -100px;
+    justify-content: end;
+    /* margin: -1px -100px 0px 100px; */
+}
+.join{
+    margin: 0px 70px;
 }
 
 }

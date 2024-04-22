@@ -899,7 +899,8 @@ useEffect(()=>{
               
               <div className="col_phone textPhone"><textarea
               id="textAreaPhone"
-        className="outline-primary inputText"
+        className=" form-control outline-primary inputText"
+        aria-label=" textarea"
         value={sendingMsg}
         ref={inputRef} 
          onChange={handleTyping}

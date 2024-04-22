@@ -123,12 +123,13 @@ const handleSignUp = async (event) => {
     return ( 
         
         <div>
+        <div className="bg">
         
         { !isFormVisible ? (
             <form  className='register1' onSubmit={Submit}>
                
             <div className="login_Header">
-        <h2 style={{fontSize:"25px",color:"li"}}>ConnectedBusiness Login</h2>
+        <h2 style={{fontSize:"25px",color:"grey", justifyContent:"center"}}> Login</h2> 
     
         
         </div>
@@ -137,6 +138,7 @@ const handleSignUp = async (event) => {
                <label>Email*</label>
                <input
   type="email"
+  className="form-control" aria-label="With textarea"
   className={`input_2 ${isShaking ? 'shake' : ''}`}
   style={{ borderColor: isShaking ? 'red' : ''}}
   
@@ -150,6 +152,7 @@ const handleSignUp = async (event) => {
                 <div className='input_el2'>
                  <label>Password*</label>
                 <input
+                className="form-control" aria-label="With textarea"
   type="password"
   className={`input_2 ${isShaking ? 'shake' : ''}`}
   style={{ borderColor: isShaking ? 'red' : '' }}
@@ -179,27 +182,27 @@ const handleSignUp = async (event) => {
         ): (
           
         <form  className="SignUp_Form" onSubmit={handleSignUp}>
-        <h2 id="id_signUp" style={{fontSize:"21px"}}> SignUp to <br></br> ConnectTeam Account</h2>
+         <h2 id="id_signUp" style={{fontSize:"21px"}}> SignUp Account</h2> 
                <div className='input_el'>
                <label htmlFor="input-3">Full Name</label>
-                <input type="text"  className="input_1" autoComplete="on" required onChange={(e)=>setName(e.target.value)}/>
+                <input className="form-control" aria-label="With textarea" type="text"  className="input_1" autoComplete="on" required onChange={(e)=>setName(e.target.value)}/>
                 <label htmlFor="input_3">Email*</label>
-                <input type="email"   className="input_2" onChange={(e)=>setEmailSignUp(e.target.value)}  required/>
+                <input  className="form-control" aria-label="With textarea"type="email"   className="input_2" onChange={(e)=>setEmailSignUp(e.target.value)}  required/>
                  <label htmlFor="input_3"> Password*</label>
-                <input type="password"   className="input_2" onChange={(e)=>setPassword1(e.target.value)} required/> 
+                <input  className="form-control" aria-label="With textarea"type="password"   className="input_2" onChange={(e)=>setPassword1(e.target.value)} required/> 
               
                 
                 <p></p> 
 
                 <div style={{color:"red", margin:"4"}}>{signUpMs}</div>
                 <div>
-                  <div className="terms">
-                <input id="checkbox" type="checkbox" required/> <a > <span id="span1">Terms</span> & Conditions</a>
+                  <div className="terms" style={{color:"grey"}}>
+                <input id="checkbox" type="checkbox" required/> <a  > <span id="span1" style={{color:"grey"}}>Terms</span> & Conditions</a>
           </div>
                     <button className="submit2" 
                 type='submit'>Sign Up</button>
                 </div>
-
+*
                 </div>
                 
                 
@@ -212,7 +215,7 @@ const handleSignUp = async (event) => {
                <div className="createAcc">
                 <b className="bottom1"> {!isFormVisible ?(<span>No account?</span>):(<span>Have account ?</span>)}
               <a onClick={toggleForm} className="sign_up">
-              {!isFormVisible ?(<span style={{fontSize:"15px"}} id="id_create">Create One</span>):(<span id="id_create" >SignIn</span>)} </a></b><br></br>
+              {!isFormVisible ?(<span style={{fontSize:"15px"}} id="id_create" >Create One</span>):(<span id="id_create" >SignIn</span>)} </a></b><br></br>
                 <span className="bottom2"><span className="bottom4">Manage cookies</span> & <span className="bottom3">opt out</span></span>
                </div> 
 
@@ -237,7 +240,7 @@ const handleSignUp = async (event) => {
                
 
 </div>
-     
+     </div>
       
         
      );

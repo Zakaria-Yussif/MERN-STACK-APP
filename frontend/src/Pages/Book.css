@@ -11,6 +11,25 @@ body{
   height: 100vh;
 }
 
+.bg{
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  z-index: 0;
+  /* background-size: cover; */
+  /* background-repeat: none; */
+  /* background-color: #14171afd; semi-transparent dark color */
+  /* background: linear-gradient(10deg,#14171aa1, #14171afd,#14171afd );  *
+   /* background-color:#14171ad7;  */
+   background-image: url("https://media.istockphoto.com/id/1200308469/vector/abstract-technology-background-with-connecting-dots-and-lines-digital-technology-of-global.jpg?s=1024x1024&w=is&k=20&c=EvhuStdX-_0c2tiXB-4Gw-rlYLW-0jHN2bhvsagPXN8="); 
+  
+  /* background-image: url("https://media.istockphoto.com/id/1419766496/photo/abstract-concepts-of-cybersecurity-technology-and-digital-data-protection-protect-internet.jpg?s=612x612&w=0&k=20&c=3GM-GKO4wrU1wj03fE21cQXSVhvGBF8AO-9lOLpiaq8="); */
+}
+
 .shake {
     animation: shake 0.3s ease-in-out infinite;
   }
@@ -27,7 +46,9 @@ body{
     }
   }
 
-
+#id_create{
+  color: white;
+}
 h2{
     text-align: center;
     margin: 0px -5px;
@@ -64,7 +85,7 @@ h2{
      
  }
   label{
-  color: rgb(58, 52, 52);
+  color:white;
   font-weight: bold;
   
   display: flex;
@@ -103,15 +124,17 @@ h2{
   color: #007aff;
 }
 .createAcc{
-  box-shadow: 0px 0px 2px 1px rgb(160, 157, 157);
-   margin: 4px 550px; 
+  background-color: rgba(255, 255, 255, 0.103); 
+   margin: 4px 510px; 
   justify-content: center;
   position: fixed;
   width: 25vw;
   height: auto;
   top: 490px;
+  border-style: none;
   padding: 2px;
-  color: #131212b9;
+  /* color: #131212b9; */
+  box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
   border-radius: 5px;
 }
 .bottom1{
@@ -151,7 +174,7 @@ b{
   
 }
 .login_footer{
-  margin: 0px 20px;
+  margin: -1px 20px;
   position: fixed;
   display: grid;
   cursor: pointer;
@@ -181,10 +204,11 @@ b{
     justify-content: center;
     text-align: center;
     margin:120px auto;
+    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
     width: 25%;
     border-radius: 7px;
-    background-color:#f0f8ffa8;
-     box-shadow: 0px 0px 4px 1px rgb(160, 157, 157); 
+    background-color: rgba(255, 255, 255, 0.103); 
+     
     position: -webkit-sticky;
     box-sizing: border-box;
     padding-top: 10px;
@@ -343,8 +367,11 @@ a {
     margin: 25px 0px ;
 } 
 #id_create{
-  color: #4000ff;;
+  color: rgb(206, 198, 198);
+  list-style: none;
+  text-decoration: none;
   font-size: 17px;
+  outline-style: none;
 }
 .sign_up{
     color:	#4000ff;
@@ -367,7 +394,7 @@ a {
   justify-content: center;
   text-align: center;
   margin: 1px 50px ;
-  color: #000;
+  color:white;
   font:  20px  'Roboto Mono', monospace;;
   
 }
@@ -382,8 +409,8 @@ a {
   font:  13px  'Roboto Mono', monospace;;
 }
 .SignUp_Form{
-
-
+  background-color: rgba(255, 255, 255, 0.103); 
+  box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
     color: #f0eaea;
 
     display: flexbox;
@@ -393,8 +420,7 @@ a {
     margin:90px auto;
     width: 25%;
     border-radius: 7px;
-    background-color:#f0f8ffa8;
-     box-shadow: 0px 0px 4px 1px rgb(160, 157, 157); 
+    
     position: relative;
     box-sizing: border-box;
     padding-top: 7px;
@@ -434,10 +460,10 @@ font:  20px  'Roboto Mono', monospace;;
 
 #id_signUp{
   position: absolute;
-  top: -70px;
+  top: -53px;
   color: #a09494;
   text-align: center;
-  margin: 1px 50px;
+  margin: -1px auto;
   justify-content: center;
 }
 
@@ -478,8 +504,8 @@ font:  20px  'Roboto Mono', monospace;;
 
   }
   .createAcc{
-    box-shadow: 0px 0px 2px 1px rgb(160, 157, 157);
-     margin: -5px 48px ; 
+  
+     margin: 4px 48px ; 
     justify-content: center;
     width: 80%;
     text-align: center;
@@ -550,6 +576,10 @@ position: absolute;
   /* background-color: green; */
   
 }
+#id_create{
+  list-style: none;
+  outline-style: none;
+}
 #reset_header{
   margin: -70px auto;
   position: absolute;
@@ -563,4 +593,24 @@ position: absolute;
   height: auto;
   padding: 4px;
 }
+
+.bg{
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  z-index: 0;
+  background-size: cover;
+  background-repeat: none; 
+  /* background-color: #14171afd; semi-transparent dark color */
+  /* background: linear-gradient(10deg,#14171aa1, #14171afd,#14171afd );  */
+   /* background-color:#14171ad7;  */
+  background-image: url("https://media.istockphoto.com/id/1200308469/vector/abstract-technology-background-with-connecting-dots-and-lines-digital-technology-of-global.jpg?s=1024x1024&w=is&k=20&c=EvhuStdX-_0c2tiXB-4Gw-rlYLW-0jHN2bhvsagPXN8="); 
+  
+ /* background-image: url("https://media.istockphoto.com/id/1454372869/vector/data-analysis-chart-graph-3d-statistics-background.jpg?s=612x612&w=0&k=20&c=n2Vz6dpQ4EUwJwOhkX2YjMWX_dx2x_ZjPsERnejS1Jc="); */
+}
+
 }

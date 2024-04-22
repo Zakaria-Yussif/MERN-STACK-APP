@@ -29,7 +29,7 @@ import {jwtDecode} from 'jwt-decode';
 // import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
 import { BarChart } from '@mui/x-charts/BarChart';
-
+import SignaturePad from 'react-signature-pad';
 
 const socket = io.connect("https://render-backend-28.onrender.com")
 
@@ -53,6 +53,7 @@ const[addEmployee, setAddEmployee]=useState(true)
 const [ Employeelist1, setEmployeelist1] = useState([]);
 const [ EmployeeList, setEmployeelistData]=useState([])
 const [ allTaskAssigend, setAllTaskAssigned]=useState([])
+    const[sendingMsg,setSendingMsg]= useState("");
 const [message, setMessage]=useState("")
 const [display, setDisplay ]=useState(false)
 const [messageRev, setReceived]=useState("")
@@ -63,6 +64,7 @@ const [receivedMessages, setReceivedMessages] = useState([])
 const [timeData, setTimeData] = useState([])
 const [typingUser, setTypingUser] = useState('');
 const [name, setName]= useState("");
+const [signature,setSignature]=useState("true")
 const [increase, setIncrease]= useState(0);
 const [increaseData, setIncreaseData]= useState(0);
 const [isLoading, setLoading] = useState(false);
@@ -78,8 +80,11 @@ const[event, setEvent]=useState(false)
 const [coursel, setCoursel]=useState(false)
 const [userId1, setUserId]= useState("");
 const [search, setSearch]= useState("");
+const [handleAIData, sethandleAIData]= useState("false")
 const [tel, setTel]= useState("");
+const [Events, setEvents]=useState("Events")
 const [booking, setBooking]= useState([])
+const [renderMessage, setRenderMessage]=useState([])
 const [picturesArray, setPictures]= useState([])
 const[fileData, setFileData]=useState([])
 const [dynamicElements, setDynamicElements] = useState([]);
@@ -92,20 +97,21 @@ const[decodedEmail, setDecodeEmail]=useState("")
 const [social,setSocial]=useState(false)
 const [address, setAddress]= useState("");
 const [option, setService]= useState("");
-const [isReport, setIsReport]= useState("false");
+const [isReport, setIsReport]= useState("false")
+const [submitTask, setSumbitTask]= useState("false")
 // let token = localStorage.getItem("token")
 const navigate = useNavigate()
 let  storedNum;
 const dispatch = useDispatch();
-
+const signaturePadRef = useRef(null);
   
 const  data = useSelector((state) => state.data);
 
   
 
 
-//  let token = localStorage.getItem("token")
-let token ="helo"
+ let token = localStorage.getItem("token")
+// let token ="helo"
 if (token){
   console.log("token available")
 }else{
@@ -423,9 +429,7 @@ const handleDateChange = (date) => {
   setSelectedDate(date);
 };
 
-function Book (){
-setVisibleBook(!isVisibleBook)
-}
+
 
 function startUp(){
   navigate("/login")
@@ -470,6 +474,7 @@ const copyFileData={...fileData}
   setIsListVisible1(true);
   setIsListVisible(!isListVisible);
   setIsListVisibleTimeSheet(true);
+  setSumbitTask(true)
  
  };
 
@@ -515,6 +520,7 @@ function List (){
   setIsListVisible1(!isListVisible1)
   setIsListVisibleTimeSheet(true)
   setIsReport(true)
+  setSumbitTask(true)
 }
 useEffect(() => {
   const fetchData = async () => {
@@ -564,6 +570,7 @@ const taskHeaderClass = addEmployee ? 'task_header' : 'task_header change';
   setIsListVisible(true);
   setIsReport(true)
   setIsListVisibleTimeSheet(!isVisibleTimeSheet)
+  setSumbitTask(true)
  }
 
 
@@ -620,6 +627,7 @@ const appoint = ()=>{
   setIsAppointment(!isAppointment)
   setEmsMarketing(false)
   setSocial(false)
+  setEvents("Book Appointment")
 }
 
 const marketing = ()=>{
@@ -643,6 +651,57 @@ const report =()=>{
   setIsListVisibleTimeSheet(true)
   
 }
+
+
+  // Call the Book function here or place your code here
+
+
+function Book() {
+  setCoursel(!coursel)
+  // Create a new div element
+  const newElement1 = document.createElement('div');
+  newElement1.className = 'render';
+
+  // Create the inner HTML content
+  newElement1.innerHTML = `
+    <p> On <span>${selectedDate}</span> <span>${sendingMsg}</span> <br>
+    with <br>
+    the service provider.<br>
+    Thank you.</p>
+  `;
+
+  // Append the new element to an existing element in the DOM
+  const element = document.getElementById('counsel'); // Replace 'counsel' with the actual ID
+  if (element) {
+    element.appendChild(newElement1);
+  } else {
+    console.error("Element with ID 'counsel' not found.");
+  }
+
+  // Serialize the new element and store it in local storage
+  const serializedElement = newElement1.outerHTML;
+  localStorage.setItem("booking", serializedElement);
+
+  // Perform any other actions needed
+  alert("Thank you for patronizing our services. Kindly check your notifications.");
+  
+  // Assuming these functions are defined elsewhere in your code
+  setEvents("Events");
+  setIsAppointment(false);
+  
+}
+
+ 
+function submitTaskData (){
+  setIsListVisible(true)
+  setIsListVisible1(true)
+  setIsListVisibleTimeSheet(true)
+  setIsReport(true)
+  setSumbitTask(!submitTask)
+}
+ 
+// Example usage:
+
 
 const chartSetting = {
   xAxis: [
@@ -742,6 +801,57 @@ const dataset = [
 
 const valueFormatter = (value: number | null) => `${value}mm`;
 
+const clearSignature = () => {
+  signaturePadRef.current.clear();
+};
+
+const saveSignature = () => {
+  const signatureData = signaturePadRef.current.toDataURL();
+  // Here you can do something with the signature data like saving it to a database
+  console.log('Signature Data:', signatureData);
+  setSignature(false)
+};
+ 
+
+function submitIncident(){
+  setSignature(true)
+}
+
+function handleAI (){
+  sethandleAIData(!handleAIData)
+}
+
+
+const SendMessageData = (e) => {
+ console.log("hello")
+  e.preventDefault();
+  setSendingMsg(e.target.value); 
+  console.log(sendingMsg)
+  if (sendingMsg.length === 0) {
+    console.log("Sorry, message cannot be empty");
+  } else {
+    const currentTime = new Date();
+    const hours = currentTime.getHours();
+    const minutes = currentTime.getMinutes();
+    const Time = hours + ':' + minutes;
+
+    const DataSend = { 
+      
+      senderId:decodedId, 
+      Message: "You"+":" +" " + sendingMsg, 
+      
+      Time: Time,
+      Name: decodedName
+    };
+    
+
+    
+    setRenderMessage(prevState => [...prevState, DataSend]);
+  setSendingMsg("")
+  }
+};
+
+
 
 
     return ( 
@@ -771,7 +881,7 @@ const valueFormatter = (value: number | null) => `${value}mm`;
 <h5 style={{color:"white"}}>My Documents</h5>
 <ul>
 <li>Docs</li>
-  <li>Submit Task</li>
+  <li onClick={submitTaskData}>Submit Task</li>
   <li>Sign Docs</li>
   
 </ul>
@@ -1147,7 +1257,7 @@ const valueFormatter = (value: number | null) => `${value}mm`;
   <span style={{color:"white", fontSize:"18PX"}}>EMPLOYEE INCIDENT INFORMATION</span></span>
   <div className='incident_info'>
     <div style={{width:"70%", height:"4vh", color:"green", margin:"20px 0px 20px"}}>
-    <span >incident </span><br></br>
+    <span >Employee Explanation of Event </span><br></br>
     <span><textarea 
     rows="4"
     id="incident_input"
@@ -1156,7 +1266,7 @@ const valueFormatter = (value: number | null) => `${value}mm`;
   
     </div>
     <div style={{width:"70%", height:"4vh", color:"green", margin:"40px 0px 40px"}}>
-    <span >incident </span><br></br>
+    <span >Result of Action Executed, Plannned oR Recommended </span><br></br>
     <span><textarea 
     rows="4"
     id="incident_input"
@@ -1166,7 +1276,7 @@ const valueFormatter = (value: number | null) => `${value}mm`;
     </div>
     
     <div style={{width:"70%", height:"4vh", color:"green", margin:"40px 0px 20px"}}>
-    <span >incident </span><br></br>
+    <span >Any Events Leading to Immediately Following  </span><br></br>
     <span><textarea 
     rows="4"
     id="incident_input"
@@ -1179,10 +1289,14 @@ const valueFormatter = (value: number | null) => `${value}mm`;
 
 <div className="incident_footer">
 
-<div >Signature:
-<span style={{borderBottom:"2px solid green", width:"300px"}} >nn</span></div>
-<div><input type="checkbox"/> Emergency</div>
-<div style={{width:"100px"}} className='btn btn-outline-danger'>Submit</div>
+<div >Signature:<SignaturePad style={{borderBottom:"2px solid green", width:"300px"}} ref={signaturePadRef} />
+{signature ? (<span style={{height:"2vh",  margin:"-100px -100px", position:"absolute"}} > <button style={{margin:" 0px 30px"}} onClick={clearSignature}>Clear</button>
+      <button onClick={saveSignature}>Save</button></span>):(null)}
+      
+      
+      </div>
+<div><input type="checkbox"/> Immediate Following </div>
+<div style={{width:"100px", height:"6vh"}} onClick={submitIncident} className='btn btn-outline-danger'>Submit</div>
  </div>
 
 
@@ -1192,6 +1306,206 @@ const valueFormatter = (value: number | null) => `${value}mm`;
 
 
 
+
+{submitTask && (
+  <div  className='addEmployeeTask' id="sumbitSS" style={{height:"20vh" }}> 
+            <h4 className={headerTitle1} id="report2" style={{ textAlign: "center", justifyContent:"center" , margin:" 0px 0px"}}>Submit Task</h4>
+
+            <table className="yu"  style={{margin:"40px 10px"}} >
+          <tr>
+          <th  style={{fontSize:"12px"}}>
+           <span className="text" ><img src="https://www.qbuildsoftware.com/wp-content/uploads/TimeSheet-Logo-VRT-300x200-alpha-300x200.png"  style={{heigh:"40px",width:"50px"}}/>TimeSheet:</span> 
+           <span className="text" >To Validate</span> 
+           <span className="text" >Report:</span> 
+           
+
+          </th>
+      
+            <th className="bg-light p-1 text-success"> 
+            <span></span></th>
+            <th style={{fontSize:"15px"}}>
+            
+            <span className="text" ><Icon icon="tabler:message-circle-2-filled" /></span> 
+            <span className="text" ><Icon icon="flat-color-icons:settings" /></span> </th>
+          </tr>
+          <div></div>
+            
+            
+        </table>
+        
+        <table className="yu"  style={{margin:"-40px 10px"}} >
+          <tr>
+          <th  style={{fontSize:"12px"}}>
+           {/* <span className="text" ><img src="https://www.qbuildsoftware.com/wp-content/uploads/TimeSheet-Logo-VRT-300x200-alpha-300x200.png"  style={{heigh:"40px",width:"50px"}}/>TimeSheet:</span> 
+           <span className="text" ></span> 
+           <span className="text" >Report:</span>  */}
+           
+
+          </th>
+      
+            <th className="bg-light p-1 text-success"> 
+            <span></span></th>
+            <th style={{fontSize:"15px"}}>
+{/*             
+            <span className="text" ><Icon icon="tabler:message-circle-2-filled" /></span> 
+            <span className="text" ><Icon icon="flat-color-icons:settings" /></span> </th> */}
+            </th>
+          </tr>
+          <div></div>
+            
+            
+        </table>
+
+        <div style={{display:"grid",  height:"7vh",gridTemplateColumns:"40% 30% 20%", margin:" 60px 0px", background:"white", borderRadius:"10px"}}>
+        <div className="outline-primary">  <input placeholder='Title' style={{ width:"200px", margin:"4px 8px", display:"flex", height:"5vh"}} className="form-control" aria-label="With textarea" /></div>
+        <div className="outline-primary">
+        <select className="form-select"  style={{ width:"200px", height:"6vh"}} aria-label="Default select example">
+  <option selected>Status</option>
+  <option value="1">Priority</option>
+  <option value="2">Normal</option>
+  <option value="3">OverDue</option>
+</select>
+        </div>
+        <div   style={{ width:"200px", margin:"3px 0px", height:"6vh"}} >
+        
+      <span  onClick={handleAI} className="btn btn-outline-danger" style={{ width:"200px", margin:"0px 0px", height:"6vh"}} >  AI Support</span>
+
+
+    {!handleAIData && (
+      <div  style={{margin:"20px  -90px", width:"400px", display:"flex",  flexDirection:"column",height:"77vh",background:"whiteSmoke", borderRadius:"10px" , boxShadow:" 10px 10px 10px 6px rgba(44,31,31,.4)"}}>
+      
+      <div style={{ width:"500px", height:"65vh" , margin:"10px 0px", overflowX:"hidden", overflowY:"scroll",}}> 
+      {renderMessage.map((item,k)=>(
+        <div key="k"  style={{width:"70%",margin:"10px 10px",padding:"4px 4px 4px 3px",borderRadius:"0% 10px 0% 10px",backgroundColor:"white", height:"auto",overflowWrap:"break-word"  }}>
+         <p style={{textAlign:"start",color:"lightgrey"}}>{item.Message}</p>
+         <span style={{textAlign:"end", right:"30px",margin:"-143px 105px",color:"lightcoral"}}>{item.Time}</span>
+          {/* <span style={{left:"30px",color:"lightcoral"}}>{item.Name}</span>  */}
+        </div>
+      ))}
+      
+      
+      </div>
+      
+      <div style={{display:"grid",gridTemplateColumns:"60% 30%" ,width:"90%", height:"auto"}}>
+        <textarea className="form-control"   onChange={(e) => setSendingMsg(e.target.value)} rows="4" cols="40" style={{width:"300px", margin :"0px 5px", height:"7vh", minHeight:"7vh",}} />
+        
+<button onClick={SendMessageData } Id="AI_Icon"  style={{margin:"0px 100px 0px ",width:"70px", borderRadius:"0px 10px 10% 10% 0px"}} > <Icon  style={{fontSize:"25px"}}  icon="zondicons:send" /></button>
+        <span></span>
+      </div>
+      </div>)}
+        
+        
+        
+        </div>
+        </div>
+  <div className="submitRT" style={{margin:"-40px 0px"}}>
+    <div style={{width:"50%", fontSize:"17x", margin:"10px", backgroundColor:"white", borderRadius:"10PX", height:"6vh", display:"grid", gridTemplateColumns:" 10% 10% 10% 10% 10% 13% 13% 13% 13%"}}>
+    <span><Icon style={{fontSize:"20px",fontWeight:"bolder" ,color:"black"}} icon="fluent:text-bold-16-filled" /></span>
+<span style={{fontSize:"20px"}}><Icon icon="ph:text-a-underline-bold" /></span>
+   
+    <span><Icon style={{fontSize:"20px"}}icon="ph:text-italic-bold" /></span>
+    <span><Icon  style={{fontSize:"20px"}}icon="ph:text-h-bold" /></span>
+    <span><Icon style={{fontSize:"20px"}} icon="ph:text-align-left-bold" /></span>
+    <span><Icon  style={{fontSize:"20px"}} icon="ph:text-columns-bold" /></span>
+    <span><Icon style={{fontSize:"20px"}}icon="el:fontsize" /></span>
+    <span><Icon style={{fontSize:"20px"}}icon="fluent:color-line-16-filled" /></span>
+    <span><Icon style={{fontSize:"20px"}}icon="majesticons:share" /></span>
+
+    </div>
+    <div style={{width:"80%", margin:"0px -100px", height:"60vh"}}>
+      <span style={{width:"80%",height:"4vh", margin:"10px", borderRadius:"10px"}}> 
+      </span>
+      <span><textarea 
+      placeholder="Type here ..."
+      class="form-control" aria-label="With textarea"
+       onChange={(e) => setSendingMsg(e.target.value)}
+    rows="4"
+    id="incident_input2"
+        cols="40"
+    style={{width:"70%", height:"50vh", padding:"3px", outline:"none", borderRadius:"10PX" , margin:"0px 110px"}} /></span>
+  <div> 
+   
+
+
+
+   
+  
+  </div>
+    </div>
+    
+
+     
+    
+  </div>
+  
+  <div style={{margin:"40px  10px", width:"600px", display:"flex",  flexDirection:"row",height:"10vh",background:"white", borderRadius:"10px" }}>
+  
+  <div className="outline-primary">  <input placeholder='Task ID' style={{ width:"200px", margin:"4px 8px", display:"flex", height:"5vh"}} className="form-control" aria-label="With textarea" /></div>
+  <div className="outline-primary">  <input placeholder='Group Names' style={{ width:"200px", margin:"4px 8px", display:"flex", height:"5vh"}} className="form-control" aria-label="With textarea" /></div>
+
+  </div>
+
+
+<div className="Reflection"> 
+
+ Reflection
+
+
+</div>
+<div><hr hr style={{height:"5px",backgroundColor:"grey", borderRadius:"7px"}}></hr></div>
+
+
+
+<div style={{justifyContent:"center", textAlign:"center", margin:"0px 150px"}}>
+    <div className="form-check" style={{backgroundColor:"white", margin:"20px", width:"500px", color:"grey"}}>
+        <p>Introduction of the Task complete?</p>
+      
+        <input className="form-check-input"  style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup1" id="flexRadioDefault4_yes" />
+        <label className="form-check-label" htmlFor="flexRadioDefault4_yes">
+            No
+        </label>
+    
+        <input className="form-check-input"  style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup1" id="flexRadioDefault4_no" />
+        <label className="form-check-label" htmlFor="flexRadioDefault4_no">
+            Yes
+        </label>
+    </div>
+
+    <div className="form-check" style={{backgroundColor:"white", margin:"20px", width:"500px", color:"grey"}}>
+        <p>Introduction of the Task complete?</p>
+      
+        <input className="form-check-input" style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup2" id="flexRadioDefault5_yes" />
+        <label className="form-check-label" htmlFor="flexRadioDefault5_yes">
+            No
+        </label>
+    
+        <input className="form-check-input" style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup2" id="flexRadioDefault5_no" />
+        <label className="form-check-label" htmlFor="flexRadioDefault5_no">
+            Yes
+        </label>
+    </div>
+
+    <div className="form-check" style={{backgroundColor:"white", margin:"20px", width:"500px", color:"grey"}}>
+        <p>All Task Question Answer?</p>
+      
+        <input className="form-check-input" style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup6" id="flexRadioDefault5_yes" />
+        <label className="form-check-label" htmlFor="flexRadioDefault6_yes">
+            No
+        </label>
+    
+        <input className="form-check-input" style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup6" id="flexRadioDefault6_no" />
+        <label className="form-check-label" htmlFor="flexRadioDefault6_no">
+            Yes
+        </label>
+    </div>
+</div>
+
+
+<div style={{width:"200px", margin:"20px 400px", height:"6vh"}} onClick={submitIncident} className='btn btn-outline-success'>Submit Task</div>
+ 
+  </div>
+
+)}
 
  </div>
 
@@ -1230,13 +1544,15 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
          </div>
          
          )}
-         <Link to="/zoom"><button id="elearning" >Meeting...</button></Link> 
+         
             
             
              
         
       
-       {token ? ( <div className='row_token'>
+       {token ? ( 
+        
+        <div className='row_token' >
        <div className='col-token2 token-liveChat' >
     
        <img  id ="live" src="https://www.isitwp.com/wp-content/uploads/2020/06/live-chat-new-logo.png"/>
@@ -1271,18 +1587,21 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
 
 
 
-       ):(  <div className='row' data-aos="zoom-in">
+       ):(  
+        
+        <div className='rowMe' >
            
             <div className='col-team team2a' >
-            <h1 >Connect your Docs to workflows.
-</h1>
-           <p> Document your business processes, then connect them to workflows with total context. Assign comments with action items, chat in real-time, share attachments, and never miss a beat with notifications that bring everything in one place.</p>
+            <h3  style={{color:"#00000"}}>Connect your Docs to workflows.
+</h3>
+           <p id="pp" style={{color:"white"}}> Document your business processes, then connect them to workflows with total context. Assign comments with action items, chat in real-time, share attachments, and never miss a beat with notifications that bring everything in one place.</p>
       
-            <button onClick={startUp}  id="start2a">Try for Free</button>
+            
             </div>
             <div className='col-team  team1a' >
-          
+            
           <div className='collarate'>
+          <button to="/login" style={{ margin:"190px 0px"}} onClick={startUp}  id="start2a">Try for Free</button>
           <img id="img-cola" src="https://images.ctfassets.net/w8fc6tgspyjz/5rJSLwm9yolcDZoAbYYAM9/ed937a11385107fb576955578180aa9c/Software_Teams_LP_Tab_IMage_1__Plan__Docs.png?fm=avif&q=50&w=800"/>
           
 
@@ -1306,13 +1625,13 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
  </ul>
     </div>
     <div className="token4 row4Token4 " >
-    <h4 id="event" >Events</h4>
+    <h4 id="event" style={{color:"white"}}>{Events}</h4>
     {coursel ? (
     <div style={{justifyContent:"center", textAlign:"center", margin:"20px 100px"}}>
         {isAppointment && (
             <div className="appoint">
             
-               <b style={{fontSize:"24px", borderBottom:"2px solid grey", margin:"0px 180px ", }}>Book Appointment</b>
+               
                <div className="appoint2">
                <div style={{ display:"flex", flexDirection:"column" ,width:"100%", justificationContent:"start", right:"20px"}}>
                <span className='btn btn-outline-warning' style={{margin:"0px 0px"}}>Select Person <Icon icon="ri:arrow-drop-down-line" /></span>
@@ -1341,12 +1660,12 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         // value={sendingMsg}
         // ref={inputRef} 
         //  onChange={handleTyping}
-    //  onChange={(e) => setSendingMsg(e.target.value)}
+    onChange={(e) => setSendingMsg(e.target.value)}
         rows="4"
         cols="40"
       > </textarea></span>
 
-      <span className='btn btn-outline-primary'>Book</span>
+      <span  onClick={Book} className='btn btn-outline-primary'>Book</span>
                </div>
                </div>
             </div>
@@ -1364,7 +1683,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     </div>
 ) : (
     <div>
-    <Carousel className="corousel" 
+    <Carousel className="corousel" Id="cousel"
            swipeable={true}
   draggable={true}
   showDots={false}
@@ -1397,7 +1716,9 @@ dotListClass={false}
   
     >
   
-  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div>
+  
+  </div>
   <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
   <div><img className='display-img' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
 
@@ -1417,7 +1738,7 @@ dotListClass={false}
 ):(
          <div className='row4' >
            
-           <div className='team4 ' >v
+           <div className='team4 ' >
            
            <Carousel className="corousel" 
            swipeable={true}
@@ -1521,35 +1842,61 @@ dotListClass={false}
         
           </div>
         ):(
-          <div className="rowDisplay2" >
+          <div className="rowDisplay2"  style={{ display:"grid", gridTemplateColumns:"30% 30% 30%",height:"40vh" ,padding:"4px"}} >
+        <div> <img src="https://electricui.com/static/26bbca20980ee1b16b1bd8708998b8b0/BarChart-spectrometer-axis-desktop.png"  style={{height:"30vh", width:"300px" ,margin:"10px 0px"}}/></div>
+        <div> <img src="https://assets.barchart.com/img/trading-strategies.png" style={{height:"30vh", width:"300px" ,margin:"10px 0px"}}/></div>
+        <div> <img src="https://blog.cloudxlab.com/wp-content/uploads/2021/01/Cover-1.png"  style={{height:"30vh", width:"300px", margin:"10px 0px"}}/></div>
         
-        <div className='col-team  rowDis1' data-aos="flip-right" >
-      
-       
-       <h1 >Stay ahead of what’s next</h1>
-       <p> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>
-       <img id='imgDis' src="https://clickup.com/assets/home-test/stay-ahead.png"/>
-       
-
-       
-        </div>
-        <div className='col-team rowDis2' data-aos="flip-left" >
-        
-        <video id="video" src={Video} type="video/webm" autoPlay/>
-        
-        </div>
      </div>
 
 
          
         )}
-         
+
+
+
+        {token ?(
+          null
+        ):(
+          <div className='col-team rowDis2' style={{margin:"1670px 100px", position:"absolute", height:"65", width:"90%"}}>
         
-    {/* </div> */}
+        <video id="video" src={Video} type="video/webm" autoPlay style={{height:"60vh"}}/>
+        
+        </div>
+        )}
+         
+        {token? (
+         null
+        ):(
+
+          <div style={{margin:"2290px 30px"  ,position:"absolute", display:"grid", gridTemplateColumns:"50% 50%" , width:"98%", gap:"10px"}}>
+          <div className='col-team  rowDis1' style={{boxShadow:" 10px 5px 10px 10px rgba(44,31,31,.3)"}} >
+      
+       
+      <h1 >Stay ahead of what’s next</h1>
+      <p style={{padding:"2px"}}> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>
+      <img id='imgDis' src="https://clickup.com/assets/home-test/stay-ahead.png"/>
+      
+
+     
+       </div>
+
+       <div id="stop" style={{color:"white", boxShadow:" 10px 5px 10px 10px rgba(44,31,31,.3)",width:"97%", borderRadius:"10px" }}> 
+       
+      <h1 >Stay ahead of what’s next</h1>
+      <p style={{padding:"2px"}}> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>
+      <img id='imgDis'  src="https://d1l7hzv7igdihb.cloudfront.net/img/help/topPicksHero.png"/> 
+      
+
+       
+      </div>
+       </div>
+        )}
+    
 {token? (
   <div className="row20">
   <h3>Employee Progress</h3>
-  <BarChart
+  <BarChart id="barChart"
       dataset={dataset}
       yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
       series={[{ dataKey: 'seoul', label: 'Seoul rainfall', valueFormatter }]}
@@ -1560,7 +1907,7 @@ dotListClass={false}
 
   </div>
 ):(
-    <div className='row20 ' >
+    <div className='row20 ' style={{width:"97%",color:"white", padding:"4px" ,height:"auto"}} >
     <p>The comfort of home can't be beat.Home Care services let people flourish in the everyday life they already known and love-while getting  a little help to stay independent 
             and mobile.Local Home insted Office seek to provide personalized care plans that can offer support to family memberrs and help keep those strong family bonds intact</p> 
     </div>

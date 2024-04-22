@@ -107,7 +107,8 @@
 .display{
     display: grid;
     /* background-color: rgb(57, 27, 112); */
-    margin: 230px 50px 100px;
+    margin: 120px 50px 100px;
+    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
     
      width: 95%;
    grid-template-columns: 60% 40%;
@@ -117,7 +118,7 @@
 
     
     cursor: pointer;
-    box-shadow: 0px 0px 0px 0px ;
+    
     border-radius: 20px;
     height: auto;
     position: absolute;
@@ -125,11 +126,28 @@
 ;
     
 }
-
+#pp{
+    background: linear-gradient(10deg, var(--color--purple-800) ,var(--color--black-50)); 
+}
+.rowMe{
+    width: 95%;
+   grid-template-columns: 40% 60%;
+    justify-content: center;
+    
+    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+    margin: 490px 50px 100px;
+    cursor: pointer;
+   
+    border-radius: 20px;
+    height: auto;
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+    position: absolute;
+    font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 
 .display_token{
     display: grid;
-    box-shadow: 10px 10px 10px 10px rgba(44,31,31,1);
+    
     /* background-color: rgb(57, 27, 112); */
     margin: 230px 50px 100px;
     display: grid;
@@ -629,7 +647,7 @@ h1{
 
 }
 .team2a{
-    /* background: linear-gradient(10deg, var(--color--pink-100) ,var(--color--white));  */
+     background: linear-gradient(10deg, var(--color--pink-800) ,var(--color--white)); 
     border-radius: 10px;
     justify-content: start;
     margin: 30px 2px ;
@@ -647,7 +665,7 @@ p{
 }
 
  .team1a{
-    background: linear-gradient(300deg, var(--color--red-100) ,var(--color--white));
+    background: linear-gradient(300deg, var(--color--pink-800) ,var(--color--pink-400));
     justify-content: center;
     text-align:right;
     margin: 3px ;
@@ -675,7 +693,7 @@ p{
     height: 40px;
     font-weight: bolder;
     font:  15px 'Roboto Mono', monospace;
-    margin: 60px 50px ;
+    margin: 0px 0px ;
     letter-spacing: 1px;
 
     /* font: 17px Georgia, 'Times New Roman', Times, serif; */
@@ -685,7 +703,7 @@ p{
     justify-content: end;
     color: #6b4141;
     cursor: pointer;
-    position: absolute;
+    /* position: absolute; */
     border-radius: 4px;
    }
 
@@ -722,6 +740,24 @@ p{
     font-family: 30px Georgia, 'Times New Roman', Times, serif;
 
     }
+    #incident_input2{
+        min-height:30vh;
+        height: 35vh;
+
+    }
+  
+    .submitRT{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        
+    }
+    #report2{
+        background-image: linear-gradient(200deg, var(--color--red-400) ,var(--color--pink-800) ,var(--color--white));
+    }
+#sumbitSS{
+    background:  linear-gradient(200deg, var(--color--red-100) ,var(--color--pink-200) ,var(--color--pink-400));;
+}
     #event{
         
         text-align: center;
@@ -730,6 +766,37 @@ p{
         width: 100%;
         z-index: 100;
         /* margin: 100px; */
+    }
+
+    .Reflection{
+        width: 25px;
+        height: 22px;
+        border-radius: 50%;
+        background-color: coral;
+         justify-content: center;
+         text-align: center;
+         margin: 0px auto;
+         font-size: 30px;
+         /* position: absolute;  */
+         z-index: 1;
+    
+    }
+    .TaskInc::before,.TaskInc::after{
+                content: " ";
+                width: 13px;
+                height:10px;
+                /* background-color: white; */
+                position: absolute; /* Add this line */
+                z-index: 0;
+    }
+    .TaskInc::before{
+        background: white;
+        right: 13px;
+        top:10px;
+        border-radius: 50%  50% 50%  0px;
+        position: absolute;
+        z-index: 10;
+        
     }
 
 
@@ -748,14 +815,24 @@ p{
         background: linear-gradient(200deg, var(--color--blue-800) ,var(--color--blue-800), var(--color--blue-200));  
         color: white;
     }
+    
+    #AI_Icon{
+        color: rgb(226, 217, 217);
+   border-style: none;
+   border-radius: 0% 10px 10px 0%;
+   background: linear-gradient(200deg,var(--color--blue-400), var(--color--blue-400), var(--color--blue-400));
+    
+    }
+
     .row4{
         display:flex;
-        /* background: linear-gradient(300deg, var(--color--green-50) ,var(--color--white)); */
-        width: 90%;
-        margin: 1210px 100px;
+         background: linear-gradient(200deg, var(--color--green-200) ,var(--color--green-400)); 
+        width: 92%;
+        margin: 1050px 60px;
         position: absolute; 
+        box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
         justify-content: center;
-        height: 20vh;
+        height: auto;
         font:  17px 'Roboto Mono', monospace;
 
     }
@@ -874,23 +951,29 @@ p{
      background: linear-gradient(300deg, var(--color--black) ,var(--color--white)); 
         border-radius: 10px;
     }
-    
+    #stop{
+        color: white;
+        background-image: url("https://media.istockphoto.com/id/1454372869/vector/data-analysis-chart-graph-3d-statistics-background.jpg?s=612x612&w=0&k=20&c=n2Vz6dpQ4EUwJwOhkX2YjMWX_dx2x_ZjPsERnejS1Jc=");
+    }
     .rowDisplay2{
         display: grid;
         width: 96%;
         gap: 10px;
         z-index: 0;
-        margin: 1650px 0px;
+        margin: 1350px 0px;
         position: absolute;
         width: 100%;
         border-radius: var(--radius--medium);
         height: 30vh;
-        box-shadow: 10px 5px 10px 10px rgba(44,31,31,.2);
+        box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3);
         cursor: pointer;
         /* background-position: 50% 100%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.527" preserveAspectRatio="none"><path d="M35.278 2.463v-.125A82.946 82.946 0 000 2.345v.125a82.783 82.783 0 0135.278-.007m0 .615v-.25A83.105 83.105 0 000 2.835v.25a82.777 82.777 0 0135.278-.007m-33.252.45a82.855 82.855 0 0131.26 0h1.992v-.093A83.44 83.44 0 000 3.442v.085zm10.8 0h-8.84a84.249 84.249 0 0127.339 0h-8.839zM35.278 1.97v-.075A82.878 82.878 0 000 1.902v.075a82.771 82.771 0 0135.278-.007" fill="%23b9d9eb"/></svg>');  */
         background-position: 50% 99%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.52" preserveAspectRatio="none"><path d="M0 3.528S27.04 3.352 35.278 0v3.528z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.374 35.278.425v3.103z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.396 35.278.882v2.646z" fill="%23b9d9eb"/><path d="M0 3.527h35.278v.092H0z" fill="%23b9d9eb"/></svg>'); 
         font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     
+    }
+    #report2{
+
     }
     .rowDis{
         display: grid;
@@ -945,7 +1028,7 @@ p{
 
 
     .row20{
-        margin: 2000px 10px;
+        margin: 2100px 10px;
         justify-content: center;
         position: absolute;
         text-align: center;
@@ -1033,7 +1116,7 @@ p{
     .footer{
         display:  flex; 
         flex-direction: column;
-        margin: 300px auto 0px 0px;
+        margin: 3600px auto 0px 0px;
         position: absolute;
         justify-content: center;
         text-align: center;
@@ -1059,7 +1142,7 @@ cursor: pointer;
     } 
     .footer1{
         
-        margin: 2400px auto 0px 0px;
+        margin: 2900px auto 0px 0px;
         position: absolute;
         display:  flex; 
         flex-direction: column;
@@ -1086,6 +1169,7 @@ cursor: pointer;
     } 
      .footer.changeFooter{
         /* top:40px; */
+        
         margin: 200px auto 0px 0px;;
      }
      .footer.footerShow{
@@ -1303,7 +1387,9 @@ cursor: pointer;
     
          
 
-@media (max-width:1000px){
+
+    @media only screen and (max-width: 1000px) {
+
     .display_token{
         display:flex;
         flex-direction: column;
@@ -1326,7 +1412,7 @@ cursor: pointer;
     }
      
     .col-token{
-        margin:100px 20px;
+        margin:70px 20px;
         height: auto;
         min-height: 75vh;
         width: 90%;
@@ -1335,9 +1421,9 @@ cursor: pointer;
 
     }
 .col-token1{
-    margin:-20px 0px;
-    height: 60vh;
-    width: 100%;
+    margin:-30px 0px;
+    height: 55vh;
+    width: 110%;
 }
     .tableTask{
         font-size: 15px;
@@ -1372,7 +1458,8 @@ cursor: pointer;
          background-color: none;
          justify-content: center;
          text-align: center;
-        margin-top: 1250px;
+         position: absolute;
+        margin-top: 1600px;
         /* background: linear-gradient(150deg, var(--color--blue-100) , var(--color--white));  */
     background-color: none;
     }
@@ -1393,7 +1480,7 @@ cursor: pointer;
     .row4-token{
         display: flex;
         flex-direction: column;
-        top: 1200px;
+        top: 1600px;
         position: absolute;
         height: auto;
         justify-content: center;
@@ -1435,7 +1522,7 @@ cursor: pointer;
         
     }
     .row4Token4{
-        width:79vw;
+        width:80vw;
         justify-content: center;
          box-shadow: 0px 5px 5px 3px rgba(18, 39, 1, 0.274);
         margin-left: -15px;
@@ -1516,8 +1603,45 @@ cursor: pointer;
     color: #05537a;
     width: 100%;
     }
+    .row20{
+        margin: 3270px 10px;
+        justify-content: center;
+        position: absolute;
+        text-align: center;
+        width: 110%;
+        color: grey;
+        z-index: 0;
+        background: linear-gradient(200deg, var(--color--blue-800),var(--color--blue-800) ,var(--color--white));
+        box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+    }
+
+    #barChart{
+        width: 20%;
+        position: absolute;
+    }
+
+
+
 
        .footer{
         display:none;
        }
+}
+
+
+
+@media only screen and (max-width: 790px) {
+
+    .row-token{
+        display: flex;
+        flex-direction: column;
+        margin-top: -1600px;
+        position: absolute;
+        height: auto;
+        justify-content: center;
+        text-align: center;
+        width: 90%;
+        left: -20px;
+        /* background: linear-gradient(300deg, var(--color--blue-800) ,var(--color--blue-800), var(--color--white)); */
+    }
 }
