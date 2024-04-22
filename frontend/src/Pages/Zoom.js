@@ -17,8 +17,8 @@ import Peer from "simple-peer";
 import { set, trusted } from "mongoose";
 // import TextField from './TextField'; 
 
-let socket = io.connect("http://loclahost:8700")
-console.log(socket)
+let socket = io.connect("https://render-backend-28.onrender.com")
+
 
 function Zoom() {
   const [incomingCall, setIncomingCall] = useState(false);
@@ -170,7 +170,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
       
             try {
               // Send a POST request to fetch the profile picture
-              const responsePic = await axios.post(`http://9000/api/pictures/getProfilePicture`, picture);
+              const responsePic = await axios.post(`https://render-backend-28.onrender.com/api/pictures/getProfilePicture`, picture);
               console.log(responsePic);
       
               // Check if the request was successful (status code 200)
@@ -199,7 +199,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await axios.get("http://9000/api/pictures/getAllPictures");
+            const response = await axios.get("https://render-backend-28.onrender.com/api/pictures/getAllPictures");
             if (response.status === 200) {
                 const newData = response.data.findAllPictures.map((item) => ({
                 
@@ -622,13 +622,13 @@ const audioStreaming = () => {
 const callUser = () => {
   // Call audioStreaming to get the audio stream
 
-  let userInput = prompt("Purpose of meeting:");
-if (userInput !== null) {
-    console.log("User entered:", userInput);
-    setUserInput(userInput)
-} else {
-    console.log("User clicked Cancel.");
-}
+//   let userInput = prompt("Purpose of meeting:");
+// if (userInput !== null) {
+//     console.log("User entered:", userInput);
+//     setUserInput(userInput)
+// } else {
+//     console.log("User clicked Cancel.");
+// }
 
    playNotificationInternalRing()
   audioStreaming()
