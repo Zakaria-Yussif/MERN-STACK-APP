@@ -28,8 +28,8 @@ import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
 // import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts';
-import { BarChart } from '@mui/x-charts/BarChart';
-import SignaturePad from 'react-signature-pad-wrapper';
+// import { BarChart } from '@mui/x-charts/BarChart';
+// import SignaturePad from 'react-signature-pad-wrapper';
 
 const socket = io.connect("https://render-backend-28.onrender.com")
 
@@ -1288,13 +1288,13 @@ const SendMessageData = (e) => {
 </div>
 
 <div className="incident_footer">
-
-// <div >Signature:<SignaturePad style={{borderBottom:"2px solid green", width:"300px"}} ref={signaturePadRef} />
-// {signature ? (<span style={{height:"2vh",  margin:"-100px -100px", position:"absolute"}} > <button style={{margin:" 0px 30px"}} onClick={clearSignature}>Clear</button>
-//       <button onClick={saveSignature}>Save</button></span>):(null)}
+{/* 
+ <div >Signature:<SignaturePad style={{borderBottom:"2px solid green", width:"300px"}} ref={signaturePadRef} />
+ {signature ? (<span style={{height:"2vh",  margin:"-100px -100px", position:"absolute"}} > <button style={{margin:" 0px 30px"}} onClick={clearSignature}>Clear</button>
+      <button onClick={saveSignature}>Save</button></span>):(null)}
       
       
-//       </div>
+   </div> */}
 <div><input type="checkbox"/> Immediate Following </div>
 <div style={{width:"100px", height:"6vh"}} onClick={submitIncident} className='btn btn-outline-danger'>Submit</div>
  </div>
@@ -1800,7 +1800,7 @@ dotListClass={false}
           )}
           
         {token ?(
-          <div className="rowDisplay2">
+          <div className="rowDisplay2" style={{marginTop:"1700px"}}>
           
             <div className="rowDis " >
             
@@ -1896,14 +1896,14 @@ dotListClass={false}
 {token? (
   <div className="row20">
   <h3>Employee Progress</h3>
-  <BarChart id="barChart"
+  {/* <BarChart id="barChart"
       dataset={dataset}
       yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
       series={[{ dataKey: 'seoul', label: 'Seoul rainfall', valueFormatter }]}
       layout="horizontal"
       grid={{ vertical: true }}
       {...chartSetting}
-    />
+    /> */}
 
   </div>
 ):(
