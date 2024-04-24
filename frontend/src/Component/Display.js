@@ -1823,15 +1823,7 @@ dotListClass={false}
   </div>
 
 
-  {isVisiblechat &&( 
-    <div className='CHAT' style={{margin:"10px 300px", height:"20vh" ,zIndex:"100" }} >
-    <segment> 
-    <p  style={{margin:"10px 0px", position:"absolute", zIndex:"10", right:"100px"}}>hellosd</p>
-      <ChatBot id="chabotz" steps={steps}  />
-    </segment>
-  </div>
-)}
-
+  
         
             </div>
 
