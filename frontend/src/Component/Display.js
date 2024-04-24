@@ -9,7 +9,7 @@ import AOS from 'aos'
 import { Icon } from '@iconify/react';
 import io  from 'socket.io-client'
 import 'aos/dist/aos.css'
-import ChatBot from 'react-simple-chatbot'
+// import ChatBot from 'react-simple-chatbot'
 import segment from 'semantic-ui-react'
 // import {BarGraph} from './BarGraph';
 // import {AdminAcc} from '../Component/AdminAcc'
@@ -27,7 +27,7 @@ import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
 // import { BarChart } from '@mui/x-charts/BarChart';
-import { axisClasses } from '@mui/x-charts';
+// import { axisClasses } from '@mui/x-charts';
 // import { BarChart } from '@mui/x-charts/BarChart';
 // import SignaturePad from 'react-signature-pad-wrapper';
 
