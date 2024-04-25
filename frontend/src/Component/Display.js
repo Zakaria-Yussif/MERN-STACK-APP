@@ -1536,7 +1536,7 @@ const SendMessageData = (e) => {
             </div>
             <div className='col-team team2' >
             <h1 >Collaborate with your team</h1>
-           <p> Performance management, minus the stress<br></br>
+           <p id="minorP"> Performance management, minus the stress<br></br>
 ConnectTeam template library makes it easy for people teams to build, launch, and track task that employees and managers look forward to completing.</p>
       
             <button onClick={startUp}  id="start1">Get Started</button>
@@ -1600,7 +1600,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
             </div>
             <div className='col-team  team1a' >
             
-          <div className='collarate'>
+          <div className='collarate2'>
           <button to="/login" style={{ margin:"190px 0px"}} onClick={startUp}  id="start2a">Try for Free</button>
           <img id="img-cola" src="https://images.ctfassets.net/w8fc6tgspyjz/5rJSLwm9yolcDZoAbYYAM9/ed937a11385107fb576955578180aa9c/Software_Teams_LP_Tab_IMage_1__Plan__Docs.png?fm=avif&q=50&w=800"/>
           
@@ -1834,10 +1834,10 @@ dotListClass={false}
         
           </div>
         ):(
-          <div className="rowDisplay2"  style={{ display:"grid", gridTemplateColumns:"30% 30% 30%",height:"40vh" ,padding:"4px"}} >
-        <div> <img src="https://electricui.com/static/26bbca20980ee1b16b1bd8708998b8b0/BarChart-spectrometer-axis-desktop.png"  style={{height:"30vh", width:"300px" ,margin:"10px 0px"}}/></div>
-        <div> <img src="https://assets.barchart.com/img/trading-strategies.png" style={{height:"30vh", width:"300px" ,margin:"10px 0px"}}/></div>
-        <div> <img src="https://blog.cloudxlab.com/wp-content/uploads/2021/01/Cover-1.png"  style={{height:"30vh", width:"300px", margin:"10px 0px"}}/></div>
+          <div className="rowDisplay23"  >
+        <div> <img id="ppImage" src="https://electricui.com/static/26bbca20980ee1b16b1bd8708998b8b0/BarChart-spectrometer-axis-desktop.png" /></div>
+        <div> <img id="ppImage" src="https://assets.barchart.com/img/trading-strategies.png" /></div>
+        <div> <img  id="ppImage" src="https://blog.cloudxlab.com/wp-content/uploads/2021/01/Cover-1.png"  /></div>
         
      </div>
 
@@ -1850,9 +1850,9 @@ dotListClass={false}
         {token ?(
           null
         ):(
-          <div className='col-team rowDis2' style={{margin:"1670px 100px", position:"absolute", height:"65", width:"90%"}}>
+          <div className='col-teamVideo rowDis2' >
         
-        <video id="video" src={Video} type="video/webm" autoPlay style={{height:"60vh"}}/>
+        <video id="video" src={Video} type="video/webm" autoPlay style={{height:"60vh" ,marginTop:"-20px"}}/>
         
         </div>
         )}
@@ -1861,8 +1861,8 @@ dotListClass={false}
          null
         ):(
 
-          <div style={{margin:"2290px 30px"  ,position:"absolute", display:"grid", gridTemplateColumns:"50% 50%" , width:"98%", gap:"10px"}}>
-          <div className='col-team  rowDis1' style={{boxShadow:" 10px 5px 10px 10px rgba(44,31,31,.3)"}} >
+          <div  className="stayHead" >
+          <div className='col-teamHead  rowDis1' style={{boxShadow:" 10px 5px 10px 10px rgba(44,31,31,.3)"}} >
       
        
       <h1 >Stay ahead of what’s next</h1>
@@ -1873,7 +1873,7 @@ dotListClass={false}
      
        </div>
 
-       <div id="stop" style={{color:"white", boxShadow:" 10px 5px 10px 10px rgba(44,31,31,.3)",width:"97%", borderRadius:"10px" }}> 
+       <div  className="col-teamHead  stopHead" id="stop" > 
        
       <h1 >Stay ahead of what’s next</h1>
       <p style={{padding:"2px"}}> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>

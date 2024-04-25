@@ -181,7 +181,7 @@ window.addEventListener("scroll",boxShadow)
 
 function LogOut(){
     localStorage.removeItem("token")
-    // setProfileVisible(false);
+    window.location.reload()
 }
 function changeImg(){
 navigate("/profilePicture")

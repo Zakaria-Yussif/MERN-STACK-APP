@@ -23,9 +23,10 @@ body{
   /* background-size: cover; */
   /* background-repeat: none; */
   /* background-color: #14171afd; semi-transparent dark color */
+  background-image: linear-gradient(200deg, var(--color--blue-800) ,var(--color--grey-600),var(--color--blue-800)); 
   /* background: linear-gradient(10deg,#14171aa1, #14171afd,#14171afd );  *
    /* background-color:#14171ad7;  */
-   background-image: url("https://media.istockphoto.com/id/1200308469/vector/abstract-technology-background-with-connecting-dots-and-lines-digital-technology-of-global.jpg?s=1024x1024&w=is&k=20&c=EvhuStdX-_0c2tiXB-4Gw-rlYLW-0jHN2bhvsagPXN8="); 
+   /* background-image: url("https://media.istockphoto.com/id/1200308469/vector/abstract-technology-background-with-connecting-dots-and-lines-digital-technology-of-global.jpg?s=1024x1024&w=is&k=20&c=EvhuStdX-_0c2tiXB-4Gw-rlYLW-0jHN2bhvsagPXN8=");  */
   
   /* background-image: url("https://media.istockphoto.com/id/1419766496/photo/abstract-concepts-of-cybersecurity-technology-and-digital-data-protection-protect-internet.jpg?s=612x612&w=0&k=20&c=3GM-GKO4wrU1wj03fE21cQXSVhvGBF8AO-9lOLpiaq8="); */
 }

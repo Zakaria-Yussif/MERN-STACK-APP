@@ -32,7 +32,7 @@ function  Footer() {
   console.log(window.scrollY)
     return ( 
       <>
-        <div className={footer || footer1 ? 'footer changeFooter, footerShow': 'footer'} >
+        <div className={footer || footer1 ? 'footer changeFooter, footerShow': 'footer'}  >
            
             <div className='rowMenu'>
 

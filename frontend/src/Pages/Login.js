@@ -42,13 +42,9 @@ const Submit = async (event) => {
     try {
         const response = await axios.post("https://render-backend-28.onrender.com/api/login", user);
 
-        if (response.status === 200 && response.data.token) {
+        if (response.status === 2004 ) {
             // User successfully logged in
-            const newToken = response.data.token;
-            localStorage.setItem("token", newToken);
-            navigate("/");
-        } else if (response.status === 401) {
-            // Incorrect credentials or user not found
+            
             setLogin(response.data.msg || "Invalid credentials. Please try again.");
             setIsShaking(true);
             setAttempts(failAttempts + 1);
@@ -57,9 +53,21 @@ const Submit = async (event) => {
                 alert("It seems you don't have an account. Please sign up.");
                 setIsInputDisabled(!isInputDisabled); // This line seems dubious. You might want to clarify its purpose.
             }
+        } else if (response.status === 200 && response.data.token) {
+            // Incorrect credentials or user not found
+            const newToken = response.data.token;
+            localStorage.setItem("token", newToken);
+            navigate("/");
         } else {
-            // Handle other status codes
-            setLogin("Server error, please try again later.");
+          setLogin(response.data.msg || "Invalid credentials. Please try again.");
+          setIsShaking(true);
+          setAttempts(failAttempts + 1);
+          if (failAttempts + 1 >= 3) {
+              setLogin("Not registered, Sign Up");
+              alert("It seems you don't have an account. Please sign up.");
+              setIsInputDisabled(!isInputDisabled); // This line seems dubious. You might want to clarify its purpose.
+          }
+            // setLogin("Server error, please try again later.");
         }
     } catch (error) {
         // Handle network errors or other exceptions

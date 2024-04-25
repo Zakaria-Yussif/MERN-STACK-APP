@@ -634,16 +634,17 @@ font:  20px  'Roboto Mono', monospace;;
 
 @media (max-width:1000px) {
     .navBar{
-        background-color:#030303a2;
-
+        /* background-color:#030303a2; */
+        background-image: linear-gradient(200deg, var(--color--blue-800) ,var(--color--blue-800) ,var(--color--blue-400));    
+        /* background-image: url("../Component/vid/video.mp4");  */
         height: 10vh;
       
-        
+        position: fixed;
     }
 
     .navBar.change{
         /* display: fixed; */
-         background-color:#030303a2;
+         /* background-color:#030303a2; */
        height: 40px; 
       color: #fff;
          
@@ -772,7 +773,8 @@ font:  20px  'Roboto Mono', monospace;;
     /* margin: -1px -100px 0px 100px; */
 }
 .join{
-    margin: 0px 70px;
+    margin: 0px 0px;
+    justify-content: end;
 }
 
 }
