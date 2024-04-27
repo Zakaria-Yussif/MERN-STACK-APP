@@ -956,9 +956,10 @@ p{
         background-image: url("https://media.istockphoto.com/id/1454372869/vector/data-analysis-chart-graph-3d-statistics-background.jpg?s=612x612&w=0&k=20&c=n2Vz6dpQ4EUwJwOhkX2YjMWX_dx2x_ZjPsERnejS1Jc=");
     }
     .rowDisplay2{
-        display: grid;
+        
         width: 96%;
         gap: 10px;
+    
         z-index: 0;
         margin: 1350px 0px;
         position: absolute;
@@ -977,7 +978,7 @@ p{
     }
     .rowDis{
         display: grid;
-        grid-template-columns: 25% 25% 25%;
+        grid-template-columns: 30% 30% 30%;
     }
     .last{
         justify-content: end;
@@ -1404,6 +1405,7 @@ cursor: pointer;
         z-index: 0;
         margin: 1350px 0px;
         position: absolute;
+        grid-template-columns: 30% 30% 30%;
         width: 100%;
         border-radius: var(--radius--medium);
         height: 30vh;

@@ -776,5 +776,7 @@ font:  20px  'Roboto Mono', monospace;;
     margin: 0px 0px;
     justify-content: end;
 }
-
+ .footer{
+    display: block;
+ }
 }

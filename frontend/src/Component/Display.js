@@ -9,7 +9,7 @@ import AOS from 'aos'
 import { Icon } from '@iconify/react';
 import io  from 'socket.io-client'
 import 'aos/dist/aos.css'
-// import ChatBot from 'react-simple-chatbot'
+import ChatBot from 'react-simple-chatbot'
 import segment from 'semantic-ui-react'
 // import {BarGraph} from './BarGraph';
 // import {AdminAcc} from '../Component/AdminAcc'
@@ -1307,7 +1307,7 @@ const SendMessageData = (e) => {
 
 
 
-{submitTask && (
+{!submitTask && (
   <div  className='addEmployeeTask' id="sumbitSS" style={{height:"20vh" }}> 
             <h4 className={headerTitle1} id="report2" style={{ textAlign: "center", justifyContent:"center" , margin:" 0px 0px"}}>Submit Task</h4>
 
@@ -1805,7 +1805,7 @@ dotListClass={false}
             <div className="rowDis " >
             
             
-            <div className='col-5 first' data-aos="flip-right" >
+            <div className='media first' data-aos="flip-right" >
             <div><span><Icon id='icon-2' icon="mdi:computer" /></span></div>
              <div >Get more from your Endpoints</div></div>
 
@@ -1823,6 +1823,14 @@ dotListClass={false}
   </div>
 
 
+  {isVisiblechat &&( 
+    <div className='CHAT' style={{margin:"10px 170px", height:"20vh" ,zIndex:"100" }} >
+    <segment> 
+    <p  style={{margin:"10px 0px", position:"absolute", zIndex:"10", right:"100px"}}>hellosd</p>
+      <ChatBot id="chabotz" steps={steps}  />
+    </segment>
+  </div>
+)}
   
         
             </div>
