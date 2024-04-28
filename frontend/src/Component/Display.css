@@ -984,7 +984,15 @@ p{
         justify-content: end;
         z-index: 20;
     }
+    #AI{
     
+    
+    z-index: 0;
+    background: linear-gradient(200deg,var(--color--blue-800), var(--color--blue-800), var(--color--blue-800)); 
+    }
+    #AI_image{
+        
+    }
     .rowDis_token{
          background: linear-gradient(300deg, var(--color--blue-50) ,var(--color--white)); 
         /* background-color:#041e4249 ; */

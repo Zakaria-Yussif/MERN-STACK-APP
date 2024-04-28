@@ -9,7 +9,7 @@ import AOS from 'aos'
 import { Icon } from '@iconify/react';
 import io  from 'socket.io-client'
 import 'aos/dist/aos.css'
-import ChatBot from 'react-simple-chatbot'
+// import ChatBot from 'react-simple-chatbot'
 import segment from 'semantic-ui-react'
 // import {BarGraph} from './BarGraph';
 // import {AdminAcc} from '../Component/AdminAcc'
@@ -1372,17 +1372,25 @@ const SendMessageData = (e) => {
 
 
     {!handleAIData && (
-      <div  style={{margin:"20px  -90px", width:"400px", display:"flex",  flexDirection:"column",height:"77vh",background:"whiteSmoke", borderRadius:"10px" , boxShadow:" 10px 10px 10px 6px rgba(44,31,31,.4)"}}>
+      <div  id='AI' style={{margin:"20px  -90px", width:"420px", height:"77vh", borderRadius:"10px" , boxShadow:" 10px 10px 10px 6px rgba(44,31,31,.4)"}}>
       
-      <div style={{ width:"500px", height:"65vh" , margin:"10px 0px", overflowX:"hidden", overflowY:"scroll",}}> 
-      {renderMessage.map((item,k)=>(
-        <div key="k"  style={{width:"70%",margin:"10px 10px",padding:"4px 4px 4px 3px",borderRadius:"0% 10px 0% 10px",backgroundColor:"white", height:"auto",overflowWrap:"break-word"  }}>
+      <div id="AI_image" style={{ width:"410px", height:"65vh" , margin:"10px 0px", overflowX:"hidden", overflowY:"scroll",}}> 
+     <div  style={{ width:"400px", height:"60vh", zIndex:"0", position:"relative" }}> 
+     
+     <img  style={{width:"380px", height:"60vh", }} src="https://cdn-images-1.medium.com/max/1600/1*PKlBOfhHY3AXbsa0kUf9tA.png"/>
+    
+     <span style={{margin:"14px 10px" ,position:"absolute", width:"300px", height:"63vh", color:"grey" }}>
+     {renderMessage.map((item,k)=>(
+        <div key="k"  style={{width:"370px",margin:"10px 10px",padding:"4px 4px 4px 3px",borderRadius:"0% 10px 0% 10px", height:"auto",overflowWrap:"break-word"  }}>
          <p style={{textAlign:"start",color:"lightgrey"}}>{item.Message}</p>
          <span style={{textAlign:"end", right:"30px",margin:"-143px 105px",color:"lightcoral"}}>{item.Time}</span>
           {/* <span style={{left:"30px",color:"lightcoral"}}>{item.Name}</span>  */}
         </div>
       ))}
+      </span> 
       
+      
+     </div>
       
       </div>
       
@@ -1822,7 +1830,7 @@ dotListClass={false}
   
   </div>
 
-
+{/* 
   {isVisiblechat &&( 
     <div className='CHAT' style={{margin:"10px 170px", height:"20vh" ,zIndex:"100" }} >
     <segment> 
@@ -1830,7 +1838,7 @@ dotListClass={false}
       <ChatBot id="chabotz" steps={steps}  />
     </segment>
   </div>
-)}
+)} */}
   
         
             </div>

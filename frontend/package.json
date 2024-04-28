@@ -32,7 +32,6 @@
     "react-router": "^6.15.0",
     "react-router-dom": "^6.20.0",
     "react-scripts": "^5.0.1",
-    "react-simple-chatbot": "^0.6.1",
     "react-zoom-pan-pinch": "^3.4.2",
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
