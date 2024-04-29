@@ -54,7 +54,14 @@ const [ Employeelist1, setEmployeelist1] = useState([]);
 const [ EmployeeList, setEmployeelistData]=useState([])
 const [ allTaskAssigend, setAllTaskAssigned]=useState([])
     const[sendingMsg,setSendingMsg]= useState("");
+    const[sendingMsgEvent,setSendingMsgEvent]= useState("");
+    const[sendingMsgFollow,setSendingMsgFoll]= useState("");
+    const[sendingMsgRecom,setSendingMsgReco]= useState("");
+    const[sendingMsgAi,setSendingMsgAi]= useState("");
+    const[Id,setId]= useState("");
+    const [selectedValue, setSelectedValue] = useState('');
 const [message, setMessage]=useState("")
+
 const [display, setDisplay ]=useState(false)
 const [messageRev, setReceived]=useState("")
 const [messages, setMessages] = useState([]);
@@ -76,6 +83,7 @@ const [isVisiblechat, setVisibleChat] = useState(false);
 const [isVisibleTimeSheet, setIsListVisibleTimeSheet] = useState("false");
 const [selectedDate, setSelectedDate] = useState(null)
 const addEmployeeRef = useRef(null);
+const [dataShow,setDataShow]=useState(false)
 const[event, setEvent]=useState(false)
 const [coursel, setCoursel]=useState(false)
 const [userId1, setUserId]= useState("");
@@ -89,6 +97,7 @@ const [picturesArray, setPictures]= useState([])
 const[fileData, setFileData]=useState([])
 const [dynamicElements, setDynamicElements] = useState([]);
 const[decodedEmail, setDecodeEmail]=useState("")
+
  const [imageUrl, setImageUrl] = useState('');
  const[decodedName, setDecodedName]=useState(" ")
  const[decodedId, setDecodedId]=useState(" ")
@@ -475,8 +484,13 @@ const copyFileData={...fileData}
   setIsListVisible(!isListVisible);
   setIsListVisibleTimeSheet(true);
   setSumbitTask(true)
+  setDataShow(false)
  
  };
+
+ useEffect(()=>{
+  setDataShow(true)
+ },[setDataShow])
 
 
 
@@ -813,9 +827,7 @@ const saveSignature = () => {
 };
  
 
-function submitIncident(){
-  setSignature(true)
-}
+
 
 function handleAI (){
   sethandleAIData(!handleAIData)
@@ -851,12 +863,70 @@ const SendMessageData = (e) => {
   }
 };
 
+const handleRadioChange = (event) => {
+  setSelectedValue(event.target.value);
+};
 
 
+const submitIncident=  async () =>{
+
+  try {
+console.log("hello")
+  setSignature(true)
+  const data={
+    message:sendingMsg,
+    taskId:Id,
+    Intro:selectedValue
+
+  }
+
+
+    
+    const response = await axios.post("https://render-backend-28.onrender.com/api/task/submitTask", data)
+    console.log("ress", response)
+    if (response.status===200){
+    alert("Task submitted successfully")
+    }
+  } catch (error) {
+    
+  }
+}
+
+
+const submitIncidentReport=  async () =>{
+
+  try {
+console.log("hello")
+  setSignature(true)
+  const data={
+    messageEvent:sendingMsgEvent,
+    messageFollow:sendingMsgFollow,
+    messageReco:sendingMsgRecom,
+    name:decodedName,
+
+  }
+
+
+    
+    const response = await axios.post("https://render-backend-28.onrender.com/api/task/submitReport", data)
+    console.log("ress", response)
+    if (response.status===200){
+    alert("Report submitted successfully")
+    }
+  } catch (error) {
+    
+  }
+}
 
     return ( 
         <> 
         
+
+
+
+  
+
+
 
         {token ?  (
           
@@ -888,6 +958,8 @@ const SendMessageData = (e) => {
  </div>
 
  <div className=' colToken col-token1'>
+
+ 
 
  {!isListVisible && (
   <div >
@@ -1260,6 +1332,7 @@ const SendMessageData = (e) => {
     <span >Employee Explanation of Event </span><br></br>
     <span><textarea 
     rows="4"
+    onChange={(e) => setSendingMsgEvent(e.target.value)} 
     id="incident_input"
         cols="40"
     style={{width:"70%", height:"10vh", outline:"none", borderRadius:"10PX"}} /></span>
@@ -1270,6 +1343,7 @@ const SendMessageData = (e) => {
     <span><textarea 
     rows="4"
     id="incident_input"
+    onChange={(e) => setSendingMsgReco(e.target.value)} 
         cols="40"
     style={{width:"70%", height:"10vh", outline:"none", borderRadius:"10PX"}} /></span>
   
@@ -1279,6 +1353,7 @@ const SendMessageData = (e) => {
     <span >Any Events Leading to Immediately Following  </span><br></br>
     <span><textarea 
     rows="4"
+    onChange={(e) => setSendingMsgFoll(e.target.value)} 
     id="incident_input"
         cols="40"
     style={{width:"70%", height:"10vh", outline:"none", borderRadius:"10PX"}} /></span>
@@ -1296,7 +1371,7 @@ const SendMessageData = (e) => {
       
    </div> */}
 <div><input type="checkbox"/> Immediate Following </div>
-<div style={{width:"100px", height:"6vh"}} onClick={submitIncident} className='btn btn-outline-danger'>Submit</div>
+<div style={{width:"100px", height:"6vh"}} onClick={submitIncidentReport} className='btn btn-outline-danger'>Submit</div>
  </div>
 
 
@@ -1395,7 +1470,7 @@ const SendMessageData = (e) => {
       </div>
       
       <div style={{display:"grid",gridTemplateColumns:"60% 30%" ,width:"90%", height:"auto"}}>
-        <textarea className="form-control"   onChange={(e) => setSendingMsg(e.target.value)} rows="4" cols="40" style={{width:"300px", margin :"0px 5px", height:"7vh", minHeight:"7vh",}} />
+        <textarea className="form-control"   onChange={(e) => setSendingMsgAi(e.target.value)} rows="4" cols="40" style={{width:"300px", margin :"0px 5px", height:"7vh", minHeight:"7vh",}} />
         
 <button onClick={SendMessageData } Id="AI_Icon"  style={{margin:"0px 100px 0px ",width:"70px", borderRadius:"0px 10px 10% 10% 0px"}} > <Icon  style={{fontSize:"25px"}}  icon="zondicons:send" /></button>
         <span></span>
@@ -1448,7 +1523,7 @@ const SendMessageData = (e) => {
   
   <div style={{margin:"40px  10px", width:"600px", display:"flex",  flexDirection:"row",height:"10vh",background:"white", borderRadius:"10px" }}>
   
-  <div className="outline-primary">  <input placeholder='Task ID' style={{ width:"200px", margin:"4px 8px", display:"flex", height:"5vh"}} className="form-control" aria-label="With textarea" /></div>
+  <div className="outline-primary">  <input  onChange={(e) => setId(e.target.value)} placeholder='Task ID' style={{ width:"200px", margin:"4px 8px", display:"flex", height:"5vh"}} className="form-control" aria-label="With textarea" /></div>
   <div className="outline-primary">  <input placeholder='Group Names' style={{ width:"200px", margin:"4px 8px", display:"flex", height:"5vh"}} className="form-control" aria-label="With textarea" /></div>
 
   </div>
@@ -1482,12 +1557,13 @@ const SendMessageData = (e) => {
     <div className="form-check" style={{backgroundColor:"white", margin:"20px", width:"500px", color:"grey"}}>
         <p>Introduction of the Task complete?</p>
       
-        <input className="form-check-input" style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup2" id="flexRadioDefault5_yes" />
+        <input className="form-check-input" 
+         style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup2" id="flexRadioDefault5_yes" />
         <label className="form-check-label" htmlFor="flexRadioDefault5_yes">
-            No
+            No nn
         </label>
     
-        <input className="form-check-input" style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup2" id="flexRadioDefault5_no" />
+        <input className="form-check-input"  onChange={handleRadioChange}  value="Yes" checked={selectedValue === "Yes"}style={{margin:"-10px 40px"}} type="radio" name="flexRadioGroup2" id="flexRadioDefault5_no" />
         <label className="form-check-label" htmlFor="flexRadioDefault5_no">
             Yes
         </label>
@@ -1514,6 +1590,8 @@ const SendMessageData = (e) => {
   </div>
 
 )}
+
+ 
 
  </div>
 
