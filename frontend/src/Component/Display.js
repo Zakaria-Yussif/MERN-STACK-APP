@@ -26,6 +26,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
+import { trusted } from 'mongoose';
 // import { BarChart } from '@mui/x-charts/BarChart';
 // import { axisClasses } from '@mui/x-charts';
 // import { BarChart } from '@mui/x-charts/BarChart';
@@ -97,7 +98,7 @@ const [picturesArray, setPictures]= useState([])
 const[fileData, setFileData]=useState([])
 const [dynamicElements, setDynamicElements] = useState([]);
 const[decodedEmail, setDecodeEmail]=useState("")
-
+const [overView ,setOverView]=useState("false")
  const [imageUrl, setImageUrl] = useState('');
  const[decodedName, setDecodedName]=useState(" ")
  const[decodedId, setDecodedId]=useState(" ")
@@ -485,7 +486,7 @@ const copyFileData={...fileData}
   setIsListVisibleTimeSheet(true);
   setSumbitTask(true)
   setDataShow(false)
- 
+  setOverView(true)
  };
 
  useEffect(()=>{
@@ -535,6 +536,7 @@ function List (){
   setIsListVisibleTimeSheet(true)
   setIsReport(true)
   setSumbitTask(true)
+  setOverView(true)
 }
 useEffect(() => {
   const fetchData = async () => {
@@ -585,6 +587,7 @@ const taskHeaderClass = addEmployee ? 'task_header' : 'task_header change';
   setIsReport(true)
   setIsListVisibleTimeSheet(!isVisibleTimeSheet)
   setSumbitTask(true)
+  setOverView(true)
  }
 
 
@@ -663,9 +666,19 @@ const report =()=>{
   setIsListVisible(true)
   setIsListVisible1(true)
   setIsListVisibleTimeSheet(true)
+  setOverView(true)
   
 }
 
+function over (){
+setOverView(!overView)
+setIsListVisible1(true);
+  setIsListVisible(true);
+  setIsListVisibleTimeSheet(true);
+  setSumbitTask(true)
+  
+
+}
 
   // Call the Book function here or place your code here
 
@@ -708,6 +721,7 @@ function Book() {
  
 function submitTaskData (){
   setIsListVisible(true)
+  setOverView(true)
   setIsListVisible1(true)
   setIsListVisibleTimeSheet(true)
   setIsReport(true)
@@ -935,11 +949,12 @@ console.log("hello")
 
 <h5 style={{color:"white"}}>Field Services</h5>
  <ul>
+ <li onClick={over}>OverView</li>
   <li onClick={List}>Employee List</li>
   <li onClick={Task}>Task {!taskNumber && (<span className="TaskInc" > <span id="taskNum">{increaseData}</span></span>)}</li> 
   <li onClick={TimeSheet}>Time</li>
   <li>Projects</li>
-  <li>SpreedSheets</li>
+  
   <li>Discuss</li> 
   <li>Planning</li>
   <li>Purchase</li>
@@ -959,7 +974,18 @@ console.log("hello")
 
  <div className=' colToken col-token1'>
 
- 
+ {overView ? (
+  <div className="OverView">
+  <h4>OverView</h4>
+  <p id="p" > <span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}>1.   In response to the evolving landscape of remote work</span>, I embarked on developing a sophisticated remote work application that addresses the challenges faced by distributed teams. This application represents a paradigm shift in how remote teams communicate and manage tasks, offering a comprehensive suite of features to facilitate seamless collaboration.</p>
+  <p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}> 2. At the heart of this application is its ability to foster communication without barriers.</span> Through the integration of chat, audio, and video call functionalities, team members can engage in real-time discussions, brainstorming sessions, and collaborative problem-solving,<Link to="/zoom">connecteZoom here</Link> regardless of their geographical locations. This not only strengthens team cohesion but also enhances productivity by reducing communication delays and misunderstandings.</p>
+  <p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}>3 .To further streamline the task management process,</span> I incorporated a chatbot feature that provides guidance and assistance to users when assigning tasks and sharing files. Leveraging AI technology,<Link to="/AI_support">connectTeam AI </Link> the application intelligently allocates tasks based on workload and expertise, ensuring optimal resource utilization and task prioritization. Additionally, robust Timesheets functionality allows users to accurately record their activities and generate detailed reports, providing valuable insights into productivity trends and areas for improvement.</p>
+  <p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}> 4. Recognizing the importance of effective administrative oversight in remote work environments,</span> I designed an intuitive administrative interface that empowers managers with the tools they need to delegate tasks, manage employee profiles, and track project progress in real time. This not only enhances accountability but also promotes transparency and alignment across the organization.</p>
+<p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}> 5. In conclusion, this remote work application </span> represents a holistic approach to addressing the unique challenges of remote work environments. By providing a robust platform for communication, task management, and administrative oversight, it empowers distributed teams to collaborate effectively, stay organized, and achieve their goals with confidence.</p>
+  </div>
+  ):(
+null
+  )}
 
  {!isListVisible && (
   <div >

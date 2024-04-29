@@ -1092,7 +1092,19 @@ p{
         width: 100%;
      }
     
-     
+     .overView{
+        display:flex;
+        flex-direction: column;
+        overflow-wrap: break-word;
+padding: 4px;
+margin: 10px;
+    
+     }
+     #p{
+font-size: 17px;
+direction: ltr;
+padding: auto;
+    }
 #icon-img{
     position: absolute;
     margin-left: 47px;
