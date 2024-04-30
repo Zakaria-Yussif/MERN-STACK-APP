@@ -635,17 +635,19 @@ font:  20px  'Roboto Mono', monospace;;
 @media (max-width:1000px) {
     .navBar{
         /* background-color:#030303a2; */
-        background-image: linear-gradient(200deg, var(--color--blue-800) ,var(--color--blue-800) ,var(--color--blue-400));    
+        background-image: linear-gradient(200deg, var(--color--blue-800) ,var(--color--black) ,var(--color--black));    
         /* background-image: url("../Component/vid/video.mp4");  */
         height: 10vh;
-      
+      width: 100%;
         position: fixed;
     }
 
     .navBar.change{
+        width: 100%;
         /* display: fixed; */
+        background-image: linear-gradient(200deg, var(--color--black) ,var(--color--black) ,var(--color--black));    
          /* background-color:#030303a2; */
-       height: 40px; 
+       height: 45px; 
       color: #fff;
          
     } 

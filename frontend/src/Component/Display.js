@@ -114,7 +114,7 @@ const navigate = useNavigate()
 let  storedNum;
 const dispatch = useDispatch();
 const signaturePadRef = useRef(null);
-  
+const sliderRef = useRef(null);
 const  data = useSelector((state) => state.data);
 
   
@@ -932,6 +932,36 @@ console.log("hello")
   }
 }
 
+useEffect(() => {
+  // No need for useRef since we're directly accessing the DOM element
+  const slider = document.querySelector('.slide-track');
+  let scrollAmount = 0;
+
+  const scroll = () => {
+    scrollAmount += 1;
+    slider.scrollLeft = scrollAmount;
+
+    // Reset scroll position to the start if it reaches the end
+    if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
+      scrollAmount = 0;
+    }
+  };
+
+  // Interval for scrolling
+  const intervalId = setInterval(scroll, 10);
+
+  // Cleanup function to clear the interval on component unmount
+  return () => clearInterval(intervalId);
+}, []);
+
+
+
+
+
+
+
+
+
     return ( 
         <> 
         
@@ -1647,7 +1677,7 @@ null
             
             </div>
             <div className='col-team team2' >
-            <h1 >Collaborate with your team</h1>
+            <h1 id="tt">Collaborate with your team</h1>
            <p id="minorP"> Performance management, minus the stress<br></br>
 ConnectTeam template library makes it easy for people teams to build, launch, and track task that employees and managers look forward to completing.</p>
       
@@ -1704,9 +1734,9 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         <div className='rowMe' >
            
             <div className='col-team team2a' >
-            <h3  style={{color:"#00000"}}>Connect your Docs to workflows.
+            <h3  style={{color:"#00000" }}>Connect your Docs to workflows.
 </h3>
-           <p id="pp" style={{color:"white"}}> Document your business processes, then connect them to workflows with total context. Assign comments with action items, chat in real-time, share attachments, and never miss a beat with notifications that bring everything in one place.</p>
+           <p id="pp"> Document your business processes, then connect them to workflows with total context. Assign comments with action items, chat in real-time, share attachments, and never miss a beat with notifications that bring everything in one place.</p>
       
             
             </div>
@@ -1850,59 +1880,22 @@ dotListClass={false}
 ):(
          <div className='row4' >
            
-           <div className='team4 ' >
-           
-           <Carousel className="corousel" 
-           swipeable={true}
-  draggable={true}
-  showDots={false}
-  responsive={responsive}
-  ssr={true} // means to render carousel on server-side.
-  infinite={true}
-  autoPlay={true}
-  slidesToSlide={1}
-  autoPlaySpeed={7000}
-  keyBoardControl={true}
-  customTransition="all .5"
-  transitionDuration={100}
-  containerClass="carousel-container"
-  removeArrowOnDeviceType={["tablet", "mobile","desktop"]}
-  //  deviceType={this.props.deviceType}
-dotListClass={false}
-   itemClass="carousel-item-padding-0-px"
-   
-   afterChange={(previousSlide, { currentSlide, onMove }) => {
-        doSpecialThing();
-      }}
-      onMove={({ index, onMove }) => {
-        // You can perform custom logic here before the move
-        console.log(`About to move to slide ${index}`);
-        // You can prevent the move by calling onMove(false);
-        // onMove(true) allows the move to proceed
-        onMove(true);
-      }}
-      
+           <div className='slider ' >
   
-    >
-  <div><img className='display-img' src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
-  <div><img className='display-img' src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
-  <div><img  className='display-img' src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
-  <div><img className='display-img' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
-  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
+         <div className="slide-track" ref={sliderRef}>
+         <div className="slide"><img className='imgSlide' src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
 
-
-  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
-  <div><img className='display-img' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
-
-
-  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
-  <div><img className='display-img' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
-
-</Carousel>;
-         
-       
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+         </div>
+  
      
          
 
@@ -1955,6 +1948,7 @@ dotListClass={false}
           </div>
         ):(
           <div className="rowDisplay23"  >
+          
         <div> <img id="ppImage" src="https://electricui.com/static/26bbca20980ee1b16b1bd8708998b8b0/BarChart-spectrometer-axis-desktop.png" /></div>
         <div> <img id="ppImage" src="https://assets.barchart.com/img/trading-strategies.png" /></div>
         <div> <img  id="ppImage" src="https://blog.cloudxlab.com/wp-content/uploads/2021/01/Cover-1.png"  /></div>
@@ -1964,8 +1958,34 @@ dotListClass={false}
 
          
         )}
+ 
+   {token ? (null):(
+    <div className='row4-slide' >
+          
+           <div className='slider ' >
+  
+         <div className="slide-track" ref={sliderRef}>
+         <div className="slide"><img className='imgSlide' src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
 
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+         </div>
+  
+     
+         
 
+         </div>
+          
+          </div>
+    
+   )}
 
         {token ?(
           null
@@ -2019,7 +2039,7 @@ dotListClass={false}
 
   </div>
 ):(
-    <div className='row20 ' style={{width:"97%",color:"white", padding:"4px" ,height:"auto"}} >
+    <div className='row20 ' style={{width:"97%", padding:"4px" ,height:"auto"}} >
     <p>The comfort of home can't be beat.Home Care services let people flourish in the everyday life they already known and love-while getting  a little help to stay independent 
             and mobile.Local Home insted Office seek to provide personalized care plans that can offer support to family memberrs and help keep those strong family bonds intact</p> 
     </div>
