@@ -479,7 +479,7 @@ setIsVisible(!isVisible);
 
 {/* <video  id="vid" src={Vid} autoPlay loop muted/> */}
 
- <div className={subMenu? 'subMenu changeMenu': ' subMenu'} ><Icon onClick={Profile} icon="ion:menu" /></div> 
+ <div className={subMenu? 'subMenu changeMenu': ' subMenu'} ><Icon onClick={Profile} className ="menuIcon2" icon="ion:menu" /></div> 
 
              <div id={"vid1"} style={{ display: display ? 'none' : 'flex' }}>
              

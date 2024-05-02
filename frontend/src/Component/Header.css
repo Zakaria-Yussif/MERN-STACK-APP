@@ -735,18 +735,23 @@ font:  20px  'Roboto Mono', monospace;;
     
 }
 .subMenu.changeMenu{
-   color: black;
+   color: white;
 }
 .subMenu{
     display:flex;
     color: gainsboro;
     position: absolute;
-    font-size: 24px;
+    font-size: 30px;
      margin: 10px  -80px;
     
     z-index: 9;
 }
-
+.menuIcon2{
+    transition: transform 1s;
+}
+.menuIcon2:hover{
+    transform: translateZ(40px);
+}
 
 .profile-menu1{
     display: flex;

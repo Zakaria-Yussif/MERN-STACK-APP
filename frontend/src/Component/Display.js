@@ -948,7 +948,7 @@ useEffect(() => {
   };
 
   // Interval for scrolling
-  const intervalId = setInterval(scroll, 10);
+  const intervalId = setInterval(scroll, 0);
 
   // Cleanup function to clear the interval on component unmount
   return () => clearInterval(intervalId);
@@ -1737,7 +1737,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         <div className='rowMe' >
            
             <div className='col-team team2a' >
-            <h3  style={{color:"#00000" }}>Connect your Docs to workflows.
+            <h3 id="h3" style={{color:"white" }}>Connect your Docs to workflows.
 </h3>
            <p id="pp"> Document your business processes, then connect them to workflows with total context. Assign comments with action items, chat in real-time, share attachments, and never miss a beat with notifications that bring everything in one place.</p>
       
@@ -1897,6 +1897,17 @@ dotListClass={false}
   <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
   <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
   <div className='slide'><img className='imgSlide' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+         
          </div>
   
      
@@ -1953,7 +1964,7 @@ dotListClass={false}
           <div className="rowDisplay23"  >
           
         <div> <img id="ppImage" src="https://electricui.com/static/26bbca20980ee1b16b1bd8708998b8b0/BarChart-spectrometer-axis-desktop.png" /></div>
-        <div> <img id="ppImage" src="https://assets.barchart.com/img/trading-strategies.png" /></div>
+        {/* <div> <img id="ppImage" src="https://assets.barchart.com/img/trading-strategies.png" /></div> */}
         <div> <img  id="ppImage" src="https://blog.cloudxlab.com/wp-content/uploads/2021/01/Cover-1.png"  /></div>
         
      </div>
@@ -1964,7 +1975,7 @@ dotListClass={false}
 
         {token? (null):(
           <div className='showCase'>
-           <div> <img id='girl' src="https://images.unsplash.com/photo-1524508762098-fd966ffb6ef9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/></div>
+           <div id="girl-bg"> <img id='girl' src="https://images.unsplash.com/photo-1524508762098-fd966ffb6ef9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/></div>
           
           <div className='block'>
             <h6 style={{color:"#000" , margin:"22px auto"}}>Access from Any point <Icon  style={{fontSize:"20px",color:"blue"}}icon="fluent-emoji-high-contrast:check-mark-button" /></h6>
@@ -2064,8 +2075,8 @@ dotListClass={false}
 
   </div>
 ):(
-    <div className='row20 ' style={{width:"97%", padding:"4px" ,height:"auto"}} >
-    <p>The comfort of home can't be beat.Home Care services let people flourish in the everyday life they already known and love-while getting  a little help to stay independent 
+    <div className='row20 ' style={{width:"90%", padding:"2px" ,height:"auto"}} >
+    <p id="row20-p">The comfort of home can't be beat.Home Care services let people flourish in the everyday life they already known and love-while getting  a little help to stay independent 
             and mobile.Local Home insted Office seek to provide personalized care plans that can offer support to family memberrs and help keep those strong family bonds intact</p> 
     </div>
     )}
