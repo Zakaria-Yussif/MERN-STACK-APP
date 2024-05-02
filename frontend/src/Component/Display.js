@@ -1967,7 +1967,17 @@ dotListClass={false}
            <div> <img id='girl' src="https://images.unsplash.com/photo-1524508762098-fd966ffb6ef9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/></div>
           
           <div className='block'>
-            <h6 style={{color:"#000" , margin:"20px auto"}}>Access from Any point <Icon  style={{fontSize:"20px"}}icon="fluent-emoji-high-contrast:check-mark-button" /></h6>
+            <h6 style={{color:"#000" , margin:"22px auto"}}>Access from Any point <Icon  style={{fontSize:"20px",color:"blue"}}icon="fluent-emoji-high-contrast:check-mark-button" /></h6>
+            <hr></hr>
+            <p>It allows you to access its data and functions  via web from any place or device</p>
+          </div>
+          <div className='block'>
+            <h6 style={{color:"#000" , margin:"22px auto"}}>Simplicity and ease of use <Icon  style={{fontSize:"20px", color:"blue"}}icon="fluent-emoji-high-contrast:check-mark-button" /></h6>
+            <hr></hr>
+            <p>Adapts to your needs quickly. Business apps can help companies increasing productivity, and create effective loyalty programs  </p>
+          </div>
+          <div className='block'>
+            <h6 style={{color:"#000" , margin:"22px auto"}}>ConnectTeam News<Icon  style={{fontSize:"20px" , color:"blue"}}icon="fluent-emoji-high-contrast:check-mark-button" /></h6>
             <hr></hr>
             <p>It allows you to access its data and functions  via web from any place or device</p>
           </div>
