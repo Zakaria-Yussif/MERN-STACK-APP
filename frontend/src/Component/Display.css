@@ -1358,7 +1358,9 @@ cursor: pointer;
     
     }
     
-      
+      .dd{
+        display:"none"
+      }
       
     .link{
         color: #fff;
@@ -1479,7 +1481,9 @@ top: 0;
     animation-delay: 0s;
     overflow: hidden;
 }
-         
+        .showCase{
+            display: none;
+        } 
 @keyframes scroll {
     0%{transform: translateX(0);}
     100%{transform: translateX(calc(-250px*9));}
@@ -1521,7 +1525,7 @@ top: 0;
             justify-content: center;
             
             box-shadow: none;
-            margin: 1040px auto 0px;
+            margin: 1440px auto 0px;
             cursor: pointer;
            
             border-radius: 20px;
@@ -1574,16 +1578,62 @@ top: 0;
     width: 120px;
     height: 100px;
 }
-.collarate2{
+.collarate{
     /* background: linear-gradient(10deg, var(--color--pink-400) ,var(--color--pink-100));  */
     border-radius: 10px;
+    
+}
+.collarate{
+    display:none ;
+}
+.dd{
+    display: block;
+    background-color: none;
+    width: 100%;
+}
+.showCase{
+    margin: 580px 0px;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    position: absolute;
+    height: auto;
+    background: #a4dded4d;
+}
+#girl{
+    width: 100%;
+    height: 24vh;
+    
+}
+.block{
+    width:70%;
+    height:25vh;
+    margin: 30px 30px;
+    justify-content: center;
+    color: grey;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px ;
+    overflow: word-break;
 }
 #start2a{
     display: none;
 }
      .slider{
-        height: auto;
-        
+        height: 15vh;
+        width: 100%;
+        margin: -50px 10px;
+        background-color: #001f1f;
+     }
+
+     .slider::after,.slider::before{
+        content:" ";
+        background: none;
+        height:100%;
+         position: absolute; 
+        width: 15px ;
+        z-index: 4;
      }
 .col-teamVideo{
     margin:2090px 30px;
@@ -1606,13 +1656,13 @@ top: 0;
       gap:10px;
 }
 .row4-slide{
-    margin: 920px auto ;
+    margin: 1200px auto ;
     position: absolute;
     z-index: 10;
     display: block;
     width: 100%;
     height: 20vh;
-    /* background: linear-gradient(10deg, var(--color--grey-800) ,var(--color--grey-50));  */
+     
 
 }
 .slide{
@@ -1646,10 +1696,10 @@ top: 0;
 .display{
     display:flex;
     flex-direction: column;
-    margin: 140px 0px 100px;
+    margin: 140px 0px 0px;
     
      box-shadow: none;
-     width: 100%;
+     max-width: auto;
    grid-template-columns: 60% 40%;
     justify-content: center;
  color:white;
@@ -1666,6 +1716,13 @@ top: 0;
 ;
     
 }
+
+#soft{
+    color: var(--color--blue-800);
+    padding: 4px;
+    justify-content: start;
+    margin: 10px -10px 0px -10px;
+}
 .col-team{
     
     border-radius: 20px;
@@ -1677,8 +1734,10 @@ top: 0;
     box-shadow: none;
 }
  .team1{
-    background: linear-gradient(10deg, var(--color--blue-400) ,var(--color--black)); 
-    max-width: 100%; 
+    background: linear-gradient(10deg, var(--color--yellow-400) ,var(--color--yellow-800));  
+    width: 100%; 
+    height: 10vh;
+    padding: auto;
  }
 
  .team2{
@@ -1955,8 +2014,10 @@ justify-content: start;
 
 
 
-@media only screen and (max-width: 790px) {
-
+@media only screen and (max-width: 990px) {
+  .navBar{
+    max-width: 100%;
+  }
     .row-token{
         display: flex;
         flex-direction: column;

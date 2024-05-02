@@ -46,7 +46,7 @@ const [isVisible, setIsVisible] = useState(false);
 const [Elements, setElements] = useState([]);
 const [dynamicElements, setDynamicElements] = useState([]);
 const [display, setDisplay] =useState(false);
-const [ isProfileVisible, setProfileVisible] = useState("false");
+const [ isProfileVisible, setProfileVisible] = useState(false);
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -455,16 +455,12 @@ setIsVisible(!isVisible);
       </ul>
     </div>
   ) : (
-    <div className={'subMenu'}>
-      <ul className="profile-menu1">
-        <Link style={{listStyle:"none" ,fontSize:"21"}} to="/login">Join for free</Link> 
-        {/* <li onClick={changeImg}>Change Picture</li>
-        <li onClick={ChangePassword}>Change Password</li>
-        <li>Manage Account</li>
-        <li onClick={AdminAcc}>Admin Account</li>
-        <li onClick={LogOut}>LogOut</li> */}
-      </ul>
-    </div>
+    
+    null
+        
+      
+  
+    
   )
 )}
 

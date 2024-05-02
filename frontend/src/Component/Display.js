@@ -1674,6 +1674,9 @@ null
            
 
            </div>
+           <div className="dd">
+            <h2 id='soft'> Business Process Application software</h2>
+           </div>
             
             </div>
             <div className='col-team team2' >
@@ -1958,13 +1961,25 @@ dotListClass={false}
 
          
         )}
+
+        {token? (null):(
+          <div className='showCase'>
+           <div> <img id='girl' src="https://images.unsplash.com/photo-1524508762098-fd966ffb6ef9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/></div>
+          
+          <div className='block'>
+            <h6 style={{color:"#000" , margin:"20px auto"}}>Access from Any point <Icon  style={{fontSize:"20px"}}icon="fluent-emoji-high-contrast:check-mark-button" /></h6>
+            <hr></hr>
+            <p>It allows you to access its data and functions  via web from any place or device</p>
+          </div>
+          </div>
+        )}
  
    {token ? (null):(
     <div className='row4-slide' >
           
            <div className='slider ' >
   
-         <div className="slide-track" ref={sliderRef}>
+         <div className="slide-track" ref={sliderRef} >
          <div className="slide"><img className='imgSlide' src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
   <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
   <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
