@@ -1697,7 +1697,7 @@ top: 0;
 .display{
     display:flex;
     flex-direction: column;
-    margin: 140px 0px 0px;
+    margin: 140px 20px 0px;
     
      box-shadow: none;
      width: 100%;
