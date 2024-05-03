@@ -2092,8 +2092,16 @@ dotListClass={false}
         
          {token ? (null):(
           <div className='footerPhone'>
-            hhhj
+          <h2 style={{ textAlign:"center", margin:"20px auto 10px ", fontSize:"19px", fontWeight:"bolder"}}>Connecting Working Team Together</h2>
+          <span style={{ textAlign:"center", width:"100%", margin:"20px auto 10px ", fontSize:"12px", borderBottom:"2PX solid grey" }}> Events | Meetings | WorkingForce |Ease</span>
+
+          <div  style={{display:"grid",  display:"flex",gridAutoColumns:" 60% 30%" ,margin:"20px 10px 10px 10px"}}>
+           <div>
+            nnnn
+           </div>
+           <div>hhhh</div>
           </div>
+         </div>
          )}
          
 

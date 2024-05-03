@@ -2049,12 +2049,27 @@ justify-content: start;
     }
 
 
-.footer1{
-    display: block;
+.footer{
+    display: none;
     position: absolute;
     margin: 3000px 0px;
 }
 
+.footerPhone{
+    margin: 3550px auto;
+overflow: hidden;
+    overflow-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    color:whitesmoke;
+    font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    height: auto;
+    width: 112.5%;
+
+    padding: auto;
+    position: absolute;
+    background-image:linear-gradient(#000,#020e1a);
+}
        
 }
 
