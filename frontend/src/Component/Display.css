@@ -1550,7 +1550,7 @@ top: 0;
         gap: 10px;
         z-index: 0;
         justify-content: center;
-        margin: 3290px auto;
+        margin: 3230px auto;
         position: absolute;
         width: 110%;
         display: grid;
@@ -2063,14 +2063,49 @@ overflow: hidden;
     flex-direction: column;
     color:whitesmoke;
     font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    height: auto;
+    height: 60vh;
     width: 112.5%;
 
     padding: auto;
     position: absolute;
     background-image:linear-gradient(#000,#020e1a);
 }
-       
+.phoneMenu{
+    width:60%;
+    justify-content: start;
+    margin: 10px ;
+    color:rgb(177, 160, 160)77, 160, 160):
+}
+.phoneIcon{
+    width: 40%;
+    justify-content: start;
+    margin: 10px -50px;
+}
+
+.footor-icons{
+    margin:20px;
+    transition: transform 1s;
+
+}
+
+.footor-menu23{
+    margin:20px;
+    transition: transform 1s;
+}
+.footor-icons:hover{
+    transform: translateZ(25px);
+    color:coral;
+}
+.footor-menu23:hover{
+    transform: translateZ(25px);
+    color:#007aff;
+}
+   #b1{
+    margin: 370px auto;
+    justify-content: center;
+    width:100% ;
+
+   }    
 }
 
 

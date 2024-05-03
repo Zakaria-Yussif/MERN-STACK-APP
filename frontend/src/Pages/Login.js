@@ -228,7 +228,7 @@ const handleSignUp = async (event) => {
                </div> 
 
          <div className="login_footer">
-               <div className="col-1"><b id="b1">@copyRight||ConnectBusiness.com</b></div>
+               <div className="col-1"><b id="b1">@copyRight||ConnectTeam.com</b></div>
                 <div className="col-2"><b id="b2">
                 <Icon icon="ic:baseline-facebook" />
                 <Icon id="b3" icon="teenyicons:instagram-solid" />

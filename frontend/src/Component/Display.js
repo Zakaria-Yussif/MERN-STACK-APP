@@ -2092,15 +2092,32 @@ dotListClass={false}
         
          {token ? (null):(
           <div className='footerPhone'>
-          <h2 style={{ textAlign:"center", margin:"20px auto 10px ", fontSize:"19px", fontWeight:"bolder"}}>Connecting Working Team Together</h2>
-          <span style={{ textAlign:"center", width:"100%", margin:"20px auto 10px ", fontSize:"12px", borderBottom:"2PX solid grey" }}> Events | Meetings | WorkingForce |Ease</span>
+          <h2 style={{ textAlign:"center", margin:"20px auto 0px ", fontSize:"20px", fontWeight:"bolder"}}>Connecting Working Team Together</h2>
+          <h5 style={{ textAlign:"center", color:"grey", width:"auto", margin:"20px auto 10px ", fontSize:"12px",  }}> Events | Meetings | WorkingForce |Ease</h5>
 
           <div  style={{display:"grid",  display:"flex",gridAutoColumns:" 60% 30%" ,margin:"20px 10px 10px 10px"}}>
-           <div>
-            nnnn
+           <div className="phoneMenu">
+            <div className='footor-menu23'>About us</div>
+            <div className='footor-menu23'>Advertise</div>
+            <div className='footor-menu23'>Write us</div>
+            <div className='footor-menu23'>Submit News</div>
+            <div className='footor-menu23'>Badges</div>
+            <div className='footor-menu23'>Privacy & Policy</div>
+            <div className='footor-menu23'>Contact Us</div>
+            
+
            </div>
-           <div>hhhh</div>
+           <div className='phoneIcon'>
+           {/* <h5>Follow Us</h5> */}
+           <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}}  icon="akar-icons:facebook-fill" /> facebook</div>
+           <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}} icon="icomoon-free:youtube" />Youtube</div>
+           <div className='footor-icons'><Icon  style={{color:"grey" , marginRight:"7px"}} icon="ri:instagram-fill" />Instagram</div>
+            <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}} icon="fa-brands:linkedin" />Linkedin</div>
+            <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}} icon="pajamas:twitter" />Twitter</div>
+            <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}} icon="ic:baseline-rss-feed" />RSS</div>
+           </div>
           </div>
+          <div><b id="b1">@copyRight||Zack.com</b></div>
          </div>
          )}
          
