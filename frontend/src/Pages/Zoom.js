@@ -199,7 +199,7 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
   useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await axios.get("https://render-backend-28.onrender.com/api/pictures/getAllPictures2");
+            const response = await axios.get("https://render-backend-28.onrender.com/api/pictures/getAllPictures");
             if (response.status === 200) {
                 const newData = response.data.findAllPictures.map((item) => ({
                 
