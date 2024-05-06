@@ -536,7 +536,7 @@ function List (){
   setIsListVisibleTimeSheet(true)
   setIsReport(true)
   setSumbitTask(true)
-  setOverView(true)
+  setOverView(false)
 }
 useEffect(() => {
   const fetchData = async () => {
@@ -587,7 +587,7 @@ const taskHeaderClass = addEmployee ? 'task_header' : 'task_header change';
   setIsReport(true)
   setIsListVisibleTimeSheet(!isVisibleTimeSheet)
   setSumbitTask(true)
-  setOverView(true)
+  setOverView(false)
  }
 
 
@@ -666,7 +666,7 @@ const report =()=>{
   setIsListVisible(true)
   setIsListVisible1(true)
   setIsListVisibleTimeSheet(true)
-  setOverView(true)
+  setOverView(false)
   
 }
 
@@ -725,6 +725,7 @@ function submitTaskData (){
   setIsListVisible1(true)
   setIsListVisibleTimeSheet(true)
   setIsReport(true)
+  setOverView(false)
   setSumbitTask(!submitTask)
 }
  
@@ -886,6 +887,10 @@ const submitIncident=  async () =>{
 
   try {
 console.log("hello")
+
+if(sendingMsg.length=== 0 ){
+alert("No answer")
+}
   setSignature(true)
   const data={
     message:sendingMsg,
@@ -901,6 +906,7 @@ console.log("hello")
     if (response.status===200){
     alert("Task submitted successfully")
     }
+  
   } catch (error) {
     
   }
@@ -912,6 +918,7 @@ const submitIncidentReport=  async () =>{
   try {
 console.log("hello")
   setSignature(true)
+  
   const data={
     messageEvent:sendingMsgEvent,
     messageFollow:sendingMsgFollow,
@@ -920,39 +927,50 @@ console.log("hello")
 
   }
 
-
+if(data.length ===0){
+alert("fill inputs")
+}
     
     const response = await axios.post("https://render-backend-28.onrender.com/api/task/submitReport", data)
     console.log("ress", response)
     if (response.status===200){
     alert("Report submitted successfully")
     }
+    
   } catch (error) {
     
   }
+
 }
 
 useEffect(() => {
-  // No need for useRef since we're directly accessing the DOM element
-  const slider = document.querySelector('.slide-track');
-  let scrollAmount = 0;
-
-  const scroll = () => {
-    scrollAmount += 1;
-    slider.scrollLeft = scrollAmount;
-
-    // Reset scroll position to the start if it reaches the end
-    if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
-      scrollAmount = 0;
+  try {
+    const slider = document.querySelector('.slide-track');
+    if (!slider) {
+      throw new Error('.slide-track not found');
     }
-  };
+    
+    let scrollAmount = 0;
 
-  // Interval for scrolling
-  const intervalId = setInterval(scroll, 0);
+    const scroll = () => {
+      scrollAmount += 1;
+      slider.scrollLeft = scrollAmount;
 
-  // Cleanup function to clear the interval on component unmount
-  return () => clearInterval(intervalId);
+      if (scrollAmount >= slider.scrollWidth - slider.clientWidth) {
+        scrollAmount = 0;
+      }
+    };
+
+    // Interval for scrolling with a delay of 10 milliseconds
+    const intervalId = setInterval(scroll, 10);
+
+    // Cleanup function to clear the interval on component unmount
+    return () => clearInterval(intervalId);
+  } catch (error) {
+    console.error('Error in useEffect:', error.message);
+  }
 }, []);
+
 
 
 
@@ -979,7 +997,7 @@ useEffect(() => {
 
 <h5 style={{color:"white"}}>Field Services</h5>
  <ul>
- <li onClick={over}>OverView</li>
+ <li style={{color:"coral"}} >OverView</li>
   <li onClick={List}>Employee List</li>
   <li onClick={Task}>Task {!taskNumber && (<span className="TaskInc" > <span id="taskNum">{increaseData}</span></span>)}</li> 
   <li onClick={TimeSheet}>Time</li>
@@ -1005,13 +1023,16 @@ useEffect(() => {
  <div className=' colToken col-token1'>
 
  {overView ? (
-  <div className="OverView">
-  <h4>OverView</h4>
+  <div className="OverView"  >
+  <h4 className={headerTitle} style={{ textAlign: "center",  zIndex:"20",justifyContent:"center" , margin:" 0px 10px 10px "}}>OverView</h4>
+  <div style={{margin:"50px 4px 5px 6px", width:"85%"}}>
   <p id="p" > <span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}>1.   In response to the evolving landscape of remote work</span>, I embarked on developing a sophisticated remote work application that addresses the challenges faced by distributed teams. This application represents a paradigm shift in how remote teams communicate and manage tasks, offering a comprehensive suite of features to facilitate seamless collaboration.</p>
   <p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}> 2. At the heart of this application is its ability to foster communication without barriers.</span> Through the integration of chat, audio, and video call functionalities, team members can engage in real-time discussions, brainstorming sessions, and collaborative problem-solving,<Link to="/zoom">connecteZoom here</Link> regardless of their geographical locations. This not only strengthens team cohesion but also enhances productivity by reducing communication delays and misunderstandings.</p>
   <p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}>3 .To further streamline the task management process,</span> I incorporated a chatbot feature that provides guidance and assistance to users when assigning tasks and sharing files. Leveraging AI technology,<Link to="/AI_support">connectTeam AI </Link> the application intelligently allocates tasks based on workload and expertise, ensuring optimal resource utilization and task prioritization. Additionally, robust Timesheets functionality allows users to accurately record their activities and generate detailed reports, providing valuable insights into productivity trends and areas for improvement.</p>
   <p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}> 4. Recognizing the importance of effective administrative oversight in remote work environments,</span> I designed an intuitive administrative interface that empowers managers with the tools they need to delegate tasks, manage employee profiles, and track project progress in real time. This not only enhances accountability but also promotes transparency and alignment across the organization.</p>
 <p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}> 5. In conclusion, this remote work application </span> represents a holistic approach to addressing the unique challenges of remote work environments. By providing a robust platform for communication, task management, and administrative oversight, it empowers distributed teams to collaborate effectively, stay organized, and achieve their goals with confidence.</p>
+</div>
+ 
   </div>
   ):(
 null
@@ -1381,10 +1402,10 @@ null
           </tr>
         </table>
 <div className="incident">
-<span className=' bg-success text-white gg ' style={{width:"70%", height:"4vh", color:"white"}}>
-  <span style={{color:"white", fontSize:"18PX"}}>EMPLOYEE INCIDENT INFORMATION</span></span>
+<span className=' bg-success text-white gg ' style={{width:"100%", height:"4vh", color:"white", position:"sticky"}}>
+  <span style={{color:"white", fontSize:"18PX", }}>EMPLOYEE INCIDENT INFORMATION</span></span>
   <div className='incident_info'>
-    <div style={{width:"70%", height:"4vh", color:"green", margin:"20px 0px 20px"}}>
+    <div style={{width:"70%", height:"4vh", color:"green", margin:"20px 2px 20px"}}>
     <span >Employee Explanation of Event </span><br></br>
     <span><textarea 
     rows="4"
@@ -1394,8 +1415,8 @@ null
     style={{width:"70%", height:"10vh", outline:"none", borderRadius:"10PX"}} /></span>
   
     </div>
-    <div style={{width:"70%", height:"4vh", color:"green", margin:"40px 0px 40px"}}>
-    <span >Result of Action Executed, Plannned oR Recommended </span><br></br>
+    <div style={{width:"70%", height:"4vh", color:"green", margin:"70px 40px 40px"}}>
+    <span >Result of Action Executed, Planned oR Recommended </span><br></br>
     <span><textarea 
     rows="4"
     id="incident_input"
@@ -1405,7 +1426,7 @@ null
   
     </div>
     
-    <div style={{width:"70%", height:"4vh", color:"green", margin:"40px 0px 20px"}}>
+    <div style={{width:"70%", height:"4vh", color:"green", margin:"50px 50px 20px"}}>
     <span >Any Events Leading to Immediately Following  </span><br></br>
     <span><textarea 
     rows="4"
@@ -1427,7 +1448,7 @@ null
       
    </div> */}
 <div><input type="checkbox"/> Immediate Following </div>
-<div style={{width:"100px", height:"6vh"}} onClick={submitIncidentReport} className='btn btn-outline-danger'>Submit</div>
+<div style={{width:"100px", height:"6vh", margin:"0px 100px"}} onClick={submitIncidentReport} className='btn btn-outline-danger'>Submit</div>
  </div>
 
 
@@ -1764,7 +1785,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     <hr></hr>
  <ul>
   <li>Announcement <span  style={{color:" #774040", fontSize:"22px"}}><Icon className="icon-small icon1" icon="nimbus:marketing" /></span></li>
-  <li onClick={appoint}>Appointemnts <span id="icon-small"  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon2" icon="icon-park:appointment" /></span></li> 
+  <li onClick={appoint}>Appointments <span id="icon-small"  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon2" icon="icon-park:appointment" /></span></li> 
   <li onClick={marketing}>Work Schedules                <span  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon3" icon="fa-solid:sms" /></span></li>
   <li onClick={socialMedia}>Social Marketing <span style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon4" icon="zondicons:news-paper" /></span></li>
  </ul>
@@ -1827,47 +1848,16 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         )}
     </div>
 ) : (
-    <div>
-    <Carousel className="corousel" Id="cousel"
-           swipeable={true}
-  draggable={true}
-  showDots={false}
-  responsive={responsive}
-  ssr={true} // means to render carousel on server-side.
-  infinite={true}
-  autoPlay={true}
-  slidesToSlide={1}
-  autoPlaySpeed={7000}
-  keyBoardControl={true}
-  customTransition="all .5"
-  transitionDuration={100}
-  containerClass="carousel-container"
-  removeArrowOnDeviceType={["tablet", "mobile","desktop"]}
-  //  deviceType={this.props.deviceType}
-dotListClass={false}
-   itemClass="carousel-item-padding-0-px"
+    <div className='slider' style={{width:"100%", height:"30vh"}}>
    
-   afterChange={(previousSlide, { currentSlide, onMove }) => {
-        doSpecialThing();
-      }}
-      onMove={({ index, onMove }) => {
-        // You can perform custom logic here before the move
-        console.log(`About to move to slide ${index}`);
-        // You can prevent the move by calling onMove(false);
-        // onMove(true) allows the move to proceed
-        onMove(true);
-      }}
-      
   
-    >
+  <div className="slide-track" ref ={sliderRef} style={{width:"100%", height:"30vh",}} >
   
-  <div>
   
-  </div>
-  <div><img className='display-img' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
-  <div><img className='display-img' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+  <div className='slide'  ><img className='display-img'  src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div className="slide" ><img className='display-img' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
 
-</Carousel>;
+</div>
 
 
 
@@ -1919,7 +1909,7 @@ dotListClass={false}
           )}
           
         {token ?(
-          <div className="rowDisplay2" style={{marginTop:"1700px"}}>
+          <div className="rowDisplay2" id="why" style={{marginTop:"1700px"}}>
           
             <div className="rowDis " >
             
@@ -2043,7 +2033,37 @@ dotListClass={false}
         )}
          
         {token? (
-         null
+         <div className="phoneSlide23">
+         <div className='slider '  >
+  
+  <div className="slide-track" ref={sliderRef}  >
+  <div className="slide"><img className='imgSlide'  src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
+<div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+
+<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+
+<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+<div className='slide'><img className='imgSlide' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+  </div>
+
+
+  
+
+  </div>
+         </div>
         ):(
 
           <div  className="stayHead" >
@@ -2090,7 +2110,37 @@ dotListClass={false}
     </div>
     )}
         
-         {token ? (null):(
+         {token ? (
+         <div className='footerPhone22'>
+          <h2 style={{ textAlign:"center", margin:"20px auto 0px ", fontSize:"20px", fontWeight:"bolder"}}>Connecting Working Team Together</h2>
+          <h5 style={{ textAlign:"center", color:"grey", width:"auto", margin:"20px auto 10px ", fontSize:"12px",  }}> Events | Meetings | WorkingForce |Ease</h5>
+
+          <div  style={{display:"grid",  display:"flex",gridAutoColumns:" 60% 30%" ,margin:"20px 10px 10px 10px"}}>
+           <div className="phoneMenu">
+            <div className='footor-menu23'>About us</div>
+            <div className='footor-menu23'>Advertise</div>
+            <div className='footor-menu23'>Write us</div>
+            <div className='footor-menu23'>Submit News</div>
+            <div className='footor-menu23'>Badges</div>
+            <div className='footor-menu23'>Blogs</div>
+            <div className='footor-menu23'>News</div>
+            <div className='footor-menu23'>Privacy & Policy</div>
+            <div className='footor-menu23'>Contact Us</div>
+            
+
+           </div>
+           <div className='phoneIcon'>
+           {/* <h5>Follow Us</h5> */}
+           <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}}  icon="akar-icons:facebook-fill" /> facebook</div>
+           <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}} icon="icomoon-free:youtube" />Youtube</div>
+           <div className='footor-icons'><Icon  style={{color:"grey" , marginRight:"7px"}} icon="ri:instagram-fill" />Instagram</div>
+            <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}} icon="fa-brands:linkedin" />Linkedin</div>
+            <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}} icon="pajamas:twitter" />Twitter</div>
+            <div className='footor-icons'><Icon style={{color:"grey" , marginRight:"7px"}} icon="ic:baseline-rss-feed" />RSS</div>
+           </div>
+          </div>
+          <div><b id="b1">@copyRight||Zack.com</b></div>
+         </div>):(
           <div className='footerPhone'>
           <h2 style={{ textAlign:"center", margin:"20px auto 0px ", fontSize:"20px", fontWeight:"bolder"}}>Connecting Working Team Together</h2>
           <h5 style={{ textAlign:"center", color:"grey", width:"auto", margin:"20px auto 10px ", fontSize:"12px",  }}> Events | Meetings | WorkingForce |Ease</h5>
@@ -2102,6 +2152,8 @@ dotListClass={false}
             <div className='footor-menu23'>Write us</div>
             <div className='footor-menu23'>Submit News</div>
             <div className='footor-menu23'>Badges</div>
+            <div className='footor-menu23'>Blogs</div>
+            <div className='footor-menu23'>News</div>
             <div className='footor-menu23'>Privacy & Policy</div>
             <div className='footor-menu23'>Contact Us</div>
             

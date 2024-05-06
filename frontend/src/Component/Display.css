@@ -1437,6 +1437,13 @@ cursor: pointer;
     margin:10px 0px;
 
 }
+.phoneSlide23{
+    margin: 2560px 0px;
+    position: absolute;
+    display: none;
+    background-color: WHITE;
+    width: 120%;
+}
 .row4{
     display:flex;
      background: linear-gradient(200deg, var(--color--green-200) ,var(--color--green-400)); 
@@ -1448,6 +1455,9 @@ cursor: pointer;
     height: auto;
     font:  17px 'Roboto Mono', monospace;
 
+}
+.footerPhone22{
+    display: none;
 }
 
 .slider{
@@ -1558,7 +1568,7 @@ top: 0;
         border-radius: var(--radius--medium);
         height: 20vh;
         box-shadow: none;
-        box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3); 
+         
         background-position: 10% 29%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.52" preserveAspectRatio="none"><path d="M0 3.528S27.04 3.352 35.278 0v3.528z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.374 35.278.425v3.103z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.396 35.278.882v2.646z" fill="%23b9d9eb"/><path d="M0 3.527h35.278v.092H0z" fill="%23b9d9eb"/></svg>'); 
         font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     
@@ -1753,6 +1763,14 @@ margin: 10px 0px;
     margin: 10px -10px 0px -10px;
     font-size: 20px;
 }
+
+.col-token2{
+    transition: transform 1s;
+}
+.col-token2:hover{
+    transform: translateZ(300px)
+
+}
 .col-team{
     
     border-radius: 20px;
@@ -1822,7 +1840,8 @@ justify-content: start;
         /* background-color: rgb(57, 27, 112); */
         /* margin: 230px 50px 100px; */
         /* display: grid; */
-         width: 99%;
+         min-width: 120%;
+    /* position: absolute; */
        /* grid-template-columns: 0% 100%; */
         justify-content: center;
      margin: 20px 0px;
@@ -1832,24 +1851,32 @@ justify-content: start;
         cursor: pointer;
         box-shadow: 0px 0px 0px 0px ;
         border-radius: 20px;
+        padding: auto;
         
-        position: absolute;
         font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     }
-     
+    #p{
+        margin:10px;
+        padding: 4px 6px 5px 7px;
+        font-size: 17px;
+    }
     .col-token{
         margin:70px 20px;
         height: auto;
         min-height: 75vh;
-        width: 90%;
+        max-width: 80%;
         border-radius: 20px;
-        
+        box-shadow: none;
+        /* position: absolute; */
 
     }
 .col-token1{
-    margin:-30px 0px;
+    margin:300px 0px;
     height: 55vh;
-    width: 110%;
+    
+    max-width: 120%;
+    padding: auto;
+    /* position: absolute; */
 }
     .tableTask{
         font-size: 15px;
@@ -1872,28 +1899,44 @@ justify-content: start;
        .addEmployee1{
         min-height:40vh;
        }
-
        .row_token{
-        display: flex;
-        flex-direction: column;
-         width: 80%;
-         background-color: none;
-         justify-content: center;
-         text-align: center;
-         position: absolute;
-        margin-top: 1600px;
-        /* background: linear-gradient(150deg, var(--color--blue-100) , var(--color--white));  */
-    background-color: none;
+        margin: 20px 0px 200px ;
+        top:200px;
+        background-color: lightblue;
+       min-width: 120%;
+        place-content: center;
+        justify-content: center;
+        text-align: center;
+    
     }
-
+ .col-token2{
+    place-items: center;
+    margin:10px 0px 0px 30px ;
+    left: -20px;
+    
+ }
     .token-liveChat{
-        background: linear-gradient(10deg, var(--color--blue-200) , var(--color--white));  
+        background-color: white;
+        
+        max-width: 100%;
+        justify-content: center;
+        
+        
     }
     /* .token-eLearning{
         background: linear-gradient(150deg, var(--color--pink-200) , var(--color--white)); 
-    } */
-    .token-Meetings{
-        background: linear-gradient(150deg, var(--color--green-200) , var(--color--white)); 
+    } */.token-eLearning{
+background-color: white; 
+        max-width: 100%;
+        justify-content: center;
+        margin: 20px 0px 0px -100px;
+        left:20px;
+        
+    }
+
+    .phoneSlide23{
+        display: block;
+        margin-top: 2600px;
     }
     .CHAT{
         display: none;
@@ -1902,12 +1945,12 @@ justify-content: start;
     .row4-token{
         display: flex;
         flex-direction: column;
-        top: 1600px;
+        margin-top: 1550px;
         position: absolute;
         height: auto;
         justify-content: center;
         text-align: center;
-        width: 90%;
+        width: 100%;
         left: -20px;
         /* background: linear-gradient(300deg, var(--color--blue-800) ,var(--color--blue-800), var(--color--white)); */
     }
@@ -1919,12 +1962,14 @@ justify-content: start;
     }
     
     .row4Token3{
-         width: 78vw; 
+         min-width: 100%; 
          padding: 4px;
         margin-left: -22px;
-        box-shadow: 0px 5px 5px 3px rgba(18, 39, 1, 0.274);
+        box-shadow: none;
+        /* box-shadow: 0px 5px 5px 3px rgba(18, 39, 1, 0.274); */
         background: linear-gradient(300deg, var(--color--blue-200) , var(--color--white));
     }
+
     .row4Token3  ul li{
         text-align: center;
         margin-left: 0px;
@@ -1937,35 +1982,26 @@ justify-content: start;
         margin-left: 5px;
     }
     #event{
-        width: 79vw; 
+        min-width:100% ; 
         box-shadow: 0px 0px 0px;
         text-align: center;
         font-size: 15px;
         
     }
     .row4Token4{
-        width:80vw;
+       min-width:110%;
         justify-content: center;
-         box-shadow: 0px 5px 5px 3px rgba(18, 39, 1, 0.274);
-        margin-left: -15px;
+         /* box-shadow: 0px 5px 5px 3px rgba(18, 39, 1, 0.274); */
+        box-shadow: none;
         height: 30vh;
         text-align: center;
         background: linear-gradient(300deg, var(--color--grey-200) , var(--color--white));
        
     }
 
-     .rowDisplay2{
-        top: 1450px;
-        width: 100%;
-        height: 20vh; 
-        font-size: 10px;
-          display:flex; 
-          padding: 4px;
-          margin: 990px 50px 100px;
-         background-color: none;
-        
-     }
-     
+    .rowDisplay2{
+        display: none;
+    }
     .rowDis3{
         display: flex;
         width: 300px;
@@ -2056,14 +2092,15 @@ justify-content: start;
 }
 
 .footerPhone{
-    margin: 3550px auto;
+    margin: 3500px auto;
+    box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3);
 overflow: hidden;
     overflow-wrap: break-word;
     display: flex;
     flex-direction: column;
     color:whitesmoke;
     font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    height: 60vh;
+    height: 67vh;
     width: 112.5%;
 
     padding: auto;
@@ -2075,6 +2112,27 @@ overflow: hidden;
     justify-content: start;
     margin: 10px ;
     color:rgb(177, 160, 160)77, 160, 160):
+}
+#why{
+    display: none;
+}
+.rowDisplay2{
+        display: none;
+    width: 96%;
+    gap: 10px;
+
+    z-index: 0;
+    margin: 1350px 0px;
+    position: absolute;
+    width: 100%;
+    border-radius: var(--radius--medium);
+    height: 30vh;
+    box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3);
+    cursor: pointer;
+    /* background-position: 50% 100%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.527" preserveAspectRatio="none"><path d="M35.278 2.463v-.125A82.946 82.946 0 000 2.345v.125a82.783 82.783 0 0135.278-.007m0 .615v-.25A83.105 83.105 0 000 2.835v.25a82.777 82.777 0 0135.278-.007m-33.252.45a82.855 82.855 0 0131.26 0h1.992v-.093A83.44 83.44 0 000 3.442v.085zm10.8 0h-8.84a84.249 84.249 0 0127.339 0h-8.839zM35.278 1.97v-.075A82.878 82.878 0 000 1.902v.075a82.771 82.771 0 0135.278-.007" fill="%23b9d9eb"/></svg>');  */
+    background-position: 50% 99%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.52" preserveAspectRatio="none"><path d="M0 3.528S27.04 3.352 35.278 0v3.528z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.374 35.278.425v3.103z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.396 35.278.882v2.646z" fill="%23b9d9eb"/><path d="M0 3.527h35.278v.092H0z" fill="%23b9d9eb"/></svg>'); 
+    font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
 }
 .phoneIcon{
     width: 40%;
@@ -2101,29 +2159,29 @@ overflow: hidden;
     color:#007aff;
 }
    #b1{
-    margin: 370px auto;
+    margin: 450px auto;
     justify-content: center;
     width:100% ;
 
    }    
+.incident_footer{
+    margin: 150px 20px;
+}
+   
+.footerPhone22{
+    margin: 3500px 0px;
+    box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3);
+overflow: hidden;
+    overflow-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    color:whitesmoke;
+    font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    height: 67vh;
+    min-width: 120%;
+    padding: auto;
+    position: absolute;
+    background-image:linear-gradient(#000,#020e1a);
+}
 }
 
-
-
-@media only screen and (max-width: 990px) {
-  .navBar{
-    max-width: 100%;
-  }
-    .row-token{
-        display: flex;
-        flex-direction: column;
-        margin-top: -1600px;
-        position: absolute;
-        height: auto;
-        justify-content: center;
-        text-align: center;
-        width: 90%;
-        left: -20px;
-        /* background: linear-gradient(300deg, var(--color--blue-800) ,var(--color--blue-800), var(--color--white)); */
-    }
-}
