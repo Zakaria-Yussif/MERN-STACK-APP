@@ -17,6 +17,7 @@ import ResetPass from './Pages/ResetPass.js';
 import EmailPassReset from './Pages/EmailPassReset.js';
 import AdminAcc from './Component/AdminAcc.js';
 import AI from './Pages/AI.js';
+import SplashScreen from './Component/splashScreen.js';
 import Zoom from './Pages/Zoom.js';
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                   <Header />
                   <Display />
                   <Footer />
+                  
                 </>
               }
             />

@@ -7,7 +7,7 @@ function RegisterPage() {
 <div className="regisPage">
        
       
-       <p>Check your Email to verify your Account!</p>
+       <p style={{fontSize:"20px"}}>Check your Email to verify your Account!</p>
 
       </div>
 

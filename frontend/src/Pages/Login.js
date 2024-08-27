@@ -114,7 +114,7 @@ const handleSignUp = async (event) => {
   }
 };
  const toggleReset= async()=>{
-  navigate("/emailSubmit")
+  navigate("/resetPassword")
   // navigate("/resetPassword")
  }
 
