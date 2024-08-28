@@ -1089,19 +1089,21 @@ useEffect(()=>{
                </div>
 )}
 
-{ videoStream &&(
+{ videoStream & !callAccepted ?(
   <div  className="myVideo" >
   <span>Ringing</span>
                 
        <video ref={myVideo1} autoPlay muted id="myVideoImg" />
 
        <div>
-       <button className="btn btn-danger rounded-circle reject-button" onClick={cancelVideo}><Icon  style={{fontSize:"30px",marginTop:"10px",color:"white", width:"50px", borderRadius:"100px"}} icon="subway:call-3" /></button>
+       <button className="btn btn-danger rounded-circle reject-button" onClick={cancelVideo}><Icon  style={{fontSize:"25px",marginTop:"10px",color:"white", width:"50px", borderRadius:"100px"}} icon="subway:call-3" /></button>
                </div>
                </div>
 
                
-)}
+) :(
+  null
+)} 
 
 
  
@@ -1138,29 +1140,15 @@ useEffect(()=>{
 
               {callAccepted && videoStream && !callEnded && (
             <div>
-              {/* <video
-        ref={myVideo1}
-        autoPlay
-        id="userVideo"
-        playsInline
-        muted // Muted to prevent echo from self
-        style={{ width: '100%', height: 'auto' }} // Adjust width and height as needed
-      ></video> */}
+            <video ref={myVideo1} autoPlay  id="myVideoImg" />
               <div style={{margin:"200px -30px"}}>
-              {/* <div> <img src={callerImg} ref={userVideo} style={{width:"100px",height:"100px"}}/></div> */}
+              
               
               </div>
               <div className="phoneCallDisVideo">
       <span style={{margin:"5px 130px"}}> {formatTime(startTime)}</span> 
       
-      <video
-        ref={userVideo1}
-        autoPlay
-        playsInline
-        id="userVideo"
-        // Muted to prevent echo from self
-        style={{ width: '100%', height: 'auto' }} // Adjust width and height as needed
-      ></video>
+      <video ref={userVideo1} autoPlay  style={{ height:"40vh"}} id="myVideoImg" />
               <span style={{ margin:"360px 0px"}}  id="leavePhone"  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
                </div>
              

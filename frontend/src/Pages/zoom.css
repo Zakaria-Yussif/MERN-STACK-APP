@@ -1029,6 +1029,7 @@ margin: 0px 30px;
     position: fixed;
     padding: 1px 0px 10px;
     height:auto;
+    z-index: 999;
     overflow: hidden;
     /* border: 1px solid grey */
     ;
@@ -1048,7 +1049,7 @@ margin: 0px 30px;
     min-height: 50vh;
     border-radius: 20PX;
     margin: 0px 20px 0px;
-    height: 60vh;
+    height: auto;
     top: 20px;
     z-index: 0;
     background: linear-gradient(40deg,var(--color--blue-800), var(--color--black), var(--color--blue-800));
