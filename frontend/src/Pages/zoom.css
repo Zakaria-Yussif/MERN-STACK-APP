@@ -1052,7 +1052,7 @@ margin: 0px 30px;
     height: auto;
     top: 20px;
     z-index: 0;
-    background: linear-gradient(40deg,var(--color--blue-800), var(--color--black), var(--color--blue-800));
+    
     
 }
 #leavePhone{
