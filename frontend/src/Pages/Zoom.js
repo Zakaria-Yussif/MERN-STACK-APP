@@ -1140,7 +1140,7 @@ useEffect(()=>{
 
               {callAccepted && videoStream && !callEnded && (
             <div>
-            <video ref={myVideo1} autoPlay  id="myVideoImg" />
+            <video ref={myVideo1} autoPlay muted id="myVideoImg" />
               <div style={{margin:"200px -30px"}}>
               
               
@@ -1148,10 +1148,17 @@ useEffect(()=>{
               <div className="phoneCallDisVideo">
       <span style={{margin:"5px 130px"}}> {formatTime(startTime)}</span> 
       
-      <video ref={userVideo1} autoPlay  style={{ height:"40vh"}} id="myVideoImg" />
+      <video
+        ref={userVideo1}
+        autoPlay
+        playsInline
+        id="userVideo"
+        // Muted to prevent echo from self
+        style={{ width: '100%', height: 'auto' }} // Adjust width and height as needed
+      />
               <span style={{ margin:"360px 0px"}}  id="leavePhone"  onClick={leaveCall} className="btn btn-outline-danger leaveCall">End</span>
                </div>
-             
+               <video ref={myVideo1} autoPlay muted id="myVideoImg" />
               </div>
               
               )}
