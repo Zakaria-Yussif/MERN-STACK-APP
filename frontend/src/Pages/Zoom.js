@@ -510,7 +510,8 @@ const videoStreaming = () => {
     navigator.mediaDevices.getUserMedia({ video:true, audio: true })
       .then((stream) => {
 
-      
+        if (  myVideo1.current)  
+          myVideo1.current.srcObject = stream
         
 
         resolve(stream);
@@ -531,8 +532,8 @@ const VideoCall = (id) => {
        
       setVideoStream(true)
  console.log("videoStreamV", stream)
-      if (  myVideo1.current)  
-      myVideo1.current.srcObject = stream;
+      // if (  myVideo1.current)  
+      // myVideo1.current.srcObject = stream
 
       const peer = new Peer({
         initiator: true,
@@ -606,18 +607,36 @@ const answerCallVideoCall = () => {
 
 
 
-const cancelVideo = () => {
-    stopNotificationInternalRing();
+const cancelVideo = (mediaStream) => {
+    
+    setVideoStream(false)
     // Ensure videoStream is a MediaStream before attempting to stop its tracks
-    if (videoStream && videoStream instanceof MediaStream) {
-      videoStream.getTracks().forEach((track) => track.stop()); // Stop each track in the media stream
-      setVideoStream(null); // Clear the state to indicate no active video stream
+    if (!videoStream & MediaStream ) {
+    console.log("mm",MediaStream)
+        navigator.mediaDevices.getUserMedia({ video:true, audio: true })
     } else {
       console.warn("No valid media stream found.");
     }
-  
+  stopNotificationInternalRing()
     // Stop any internal notification
     
+  };
+
+  const cancelVideo1 = (mediaStream) => {
+    if (mediaStream && mediaStream instanceof MediaStream) {
+      // Stop each track in the media stream
+      mediaStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+  
+      // Clear references or update the state if necessary
+      setVideoStream(null); // For React state management
+      if (myVideo1.current) {
+        myVideo1.current.srcObject = null; // Clear video element's source
+      }
+    } else {
+      console.warn("No valid media stream found.");
+    }
   };
 
 
