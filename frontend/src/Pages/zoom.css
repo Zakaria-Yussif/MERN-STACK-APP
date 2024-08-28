@@ -1021,14 +1021,23 @@ margin: 0px 30px;
     background: linear-gradient(40deg,var(--color--blue-800), var(--color--black), var(--color--blue-800)); 
 }
 .myVideo{
-    margin:550px 100px;
-    width:40%;
-    justify-content: end;
+    top: 30;
+    left: 0;
+    width:100%;
+    justify-content: center;
     border-radius: 10px;
-    left:20px;
-    height:10vh;
-    border: 1px solid grey
+    position: fixed;
+    padding: 1px 0px 10px;
+    height:auto;
+    overflow: hidden;
+    /* border: 1px solid grey */
     ;
+}
+#myVideoImg{
+ width: 90%;
+ min-height:57vh;
+ object-fit: fill;
+ border-radius: 5px;
 }
  .leaveCallVideo{
     
