@@ -13,18 +13,21 @@
 .AI_container{
     background-color: rgba(196, 196, 196, 0.103); 
     opacity: 1;
-    width: 97%;
+    width: 98%;
     height: 100%;
     top: 0;
+    padding: 20px;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     left: 0;
     border-radius: 10px;
-    
+    /* justify-content: start; */
     position: fixed;
-    justify-content: center;
-    margin: 20px 10px;
+    
+    margin: 20px 9px;
     z-index: 10;
+    text-align: start;
 }
 
 .AI_image{
@@ -40,50 +43,79 @@
 }
 
 .AI_message{
-    width: 100%;
-    justify-self: center;
-    min-height: 80vh;
-    text-align: center;
+    width: 50%;
+    justify-self: start;
+    height: auto;
+    margin: -700px 0px;
+    position: absolute;
 }
+
+
+.text{
+    justify-content: left;
+    position: relative;
+ }
 #textAreaPhone{
-    width: 500px;
-   min-height: 6vh;
-   height: 10vh;
+    width: 600px;
+   min-height: 16vh;
+  max-height: 15vh;
    outline-style: none;
    padding: 2px;
-   text-align: center;
+   text-align: start;
    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-   margin: 0px -40px 0px 40px ;
-   color: gray;
+   
+   color: rgb(36, 29, 29);
+
    border-radius:10px;
+   margin-left: 300px;
 }
 .AI_footer{
     width: 100%;
-    justify-self: center;
-    height: 10vh ;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 50% 40%;
+    height: auto ;
     
-    margin: 20px auto ;
+   gap: -200px;  
+    position: fixed;
+    left: 0;
+    
+    bottom: 0;
+    margin: 10px 0px;
+    
 
-    text-align: center;
-
-
-
-
-
+    text-align:start;
 
 }
 
+.col{
+    /* background-color: white; */
+    margin-left: 0px;
+    
+}
+
+.userMessage{
+   min-width:  59px;
+   max-width: 400px; 
+    overflow-wrap: break-word;
+    
+    background-color: #ffffff2d;
+    color:white;
+    height: auto;
+margin: 10px;
+    padding: 5px 4px 4px 6px;
+    border-radius: 0% 0px 10px;
+    
+}
 #AI_ICON{
    width: 80px;
    color: rgb(226, 217, 217);
    border-style: none;
-   border-radius: 0% 10px 10px 0%;
+   border-radius: 0% 30px 30px 0%;
    background: linear-gradient(200deg,var(--color--blue-400), var(--color--blue-400), var(--color--blue-400));
-    
-      
+    height: 16vh;
 
+
+    right: 200px;
 
 }
 
@@ -131,17 +163,13 @@
 }
 
 #textAreaPhone{
-   max-width: 1900px;
+  min-width: 270px ;
     
 }
 .AI_footer{
-    width: 100%;
-    height: 10vh ;
-    display: flex;
-    
-    
-    margin: 20px auto ;
-
+    display: grid;
+    grid-template-columns: 80% 20%;
+height: auto;
     
 
 
@@ -151,14 +179,23 @@
 
 }
 
+.send{
+}
+.text{
+    width: 100%;
+    margin: 0px 10px;
+}
+
 #AI_ICON{
-    width: 80px;
+    width: 40px;
     color: rgb(226, 217, 217);
     border-style: none;
     border-radius: 0% 10px 10px 0%;
-    margin: 0px 300px 0px 0px;
-    position: absolute;
+  margin-top:60px ;
+    
+height: 50px;
     background: linear-gradient(200deg,var(--color--blue-400), var(--color--blue-400), var(--color--blue-400));
+     
      
        
  }
