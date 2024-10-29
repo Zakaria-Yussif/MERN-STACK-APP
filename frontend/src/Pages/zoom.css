@@ -697,9 +697,23 @@ margin: 0px 30px;
     cursor: pointer;
 }
 
+.dotRound2{
+    top: -2px;
+    /* position: absolute; */
+    margin: -4px 0px;
+    background-color: none;
+} 
+
+.dotRound{
+    top: -2px;
+    position: relative; 
+    margin: 0px 70px;
+    top: -10px;
+    background-color: none;
+} 
 .header{
     justify-content:baseline;
-    margin: 5px 0px;
+    margin: -15px 0px;
 }
 
 #chatImg{
@@ -713,21 +727,35 @@ margin: 0px 30px;
 }
 
 #you{
- margin: 25px 0px 0px -48px;
- position: absolute;
- font-size: 12px;
+ margin: 2px 0px 0px -8px;
+ position: absolute; 
+ font-size: 5px;
+ top: 25px;
  
 }
-
+/* 
 #dot{
     position: absolute; 
     margin: 30px -30px;
-}
+} */
 .settings{
     display: none;
 }
 .search{
  display: none;
+}
+
+
+.AddCalls{
+left:100px ;
+justify-content: end;
+position: absolute;
+
+}
+
+.addCalls ul li{
+    list-style: none;
+    font-size: 10px;
 }
 
 .add{
@@ -746,15 +774,15 @@ margin: 0px 30px;
 
 }
 .messageContent{
-    margin: 50px 5px  0px -90px ;
-    height: 75vh;
-    position: absolute;
-    display: block;
-    
-    background-color: #0000009a ;
-    width: 80%;
-  
-  overflow-y: scroll;
+    margin: 0px 0px  0px 0px ;
+    height: 10vh;
+    position: fixed;
+    display: flex;
+    left: 0;
+    /* background-color: #0000009a ; */
+    width: 100%;
+  top: 0;
+  /* overflow-y: scroll; */
   overflow-x: hidden;
     border-radius: 10px;
     font-size: 20px;
@@ -764,15 +792,15 @@ margin: 0px 30px;
 
 .messageHeader{
     background-color:#0000009d;
-    width: 97%;
+    width: 100%;
     position: fixed;
     height: auto;
     padding:4px;
-    justify-content: center; 
-    
+    justify-content: start; 
+    left: 0px;
     border-radius: 10px;
     font-size: 20px;
-    margin: 4px 0px 0px -93px ;
+    margin: 0px 0px 0px -3px ;
 }
 .messageFooter{
   display: none;
@@ -793,6 +821,7 @@ margin: 0px 30px;
 }
 .smile{
     position: fixed;
+    height: inherit;
 }
 .smileHeader{
     display: grid;
@@ -801,7 +830,11 @@ margin: 0px 30px;
     color: grey;
     position: fixed;
     width: 100%;
-    z-index: 100;
+    z-index: 10;
+    position: fixed;
+}
+.showHeader{
+    margin-left:20px ;
 }
 
 .smileHeader2{
@@ -810,6 +843,7 @@ margin: 0px 30px;
     margin: 10px 0px;
     cursor: pointer;
     position: fixed;
+    justify-content: center;
     color: grey;
     list-style: none;
     width: 100%;
@@ -856,7 +890,7 @@ margin: 0px 30px;
     cursor: pointer;
 }
 
-.header{
+.header{  
     justify-content:baseline;
     margin: 5px 0px;
 }
@@ -878,10 +912,10 @@ margin: 0px 30px;
  
 }
 
-#dot{
+/* #dot{
     position: absolute; 
     margin: 30px 100px;
-}
+} */
 .settings{
     display: none;
 }
@@ -912,7 +946,7 @@ margin: 0px 30px;
 .sendMessPhone {
     display: flex;
     min-width: 10px;
-    max-width: 70px;
+    max-width: 150px;
     overflow: wrap;
     text-align: start;
     overflow-wrap: break-word;
@@ -939,7 +973,7 @@ margin: 0px 30px;
     text-align: end;
     justify-content: end;
     min-width: 10px;
-    max-width: 70px;
+    max-width: `100px;
 
     left:300px;
     /* position: absolute; */
@@ -961,8 +995,8 @@ margin: 0px 30px;
 .sendMessagePhone{
     /* background-color: rgba(128, 128, 128, 0.671); */
     background-color:var(--color--pink-800);
-   min-width: 100px;
-   width: 300px;
+   min-width: auto;
+  max-width: 230px;
     color: var(--color--white);
     /* direction: ltr; */
     overflow: wrap;
@@ -970,6 +1004,7 @@ margin: 0px 30px;
     overflow-wrap: break-word;
     justify-content: flex-start;
     height: auto;
+    font-size: 10px;
      margin:0px 100px 0px 0px; 
     overflow-wrap: break-word;
     padding: 3px 6px 3px 6px;
@@ -979,8 +1014,8 @@ margin: 0px 30px;
 }
 .receivedMessagePhone{
     background-color:var(--color--blue-800);
-    min-width: 100px;
-    width: 300px;
+    min-width: auto;
+    max-width: 230px;
     color: var(--color--white);
     direction: ltr;
     overflow: wrap;
@@ -1074,7 +1109,7 @@ margin: 0px 30px;
 
 
 
-@media   (max-width:800px){
+@media   (max-width:1000px){
     
     .zoom{
         
@@ -1083,7 +1118,8 @@ margin: 0px 30px;
         width:120vw  ;
         color:#fff;
          margin: 0px; 
-       
+         overflow-y: none;
+       position: fixed;
         
     
 }
@@ -1118,16 +1154,16 @@ margin: 0px 30px;
 }
 
 #you{
- margin: 35px 0px 0px -10px;
+ margin: 35px 0px 0px -12px;
  position: absolute;
  font-size: 15px;
  
 }
-
+/* 
 #dot{
     position: absolute; 
     margin: 40px 5px;
-}
+} */
 .settings{
     display: none;
 }
@@ -1162,7 +1198,7 @@ margin: 0px 30px;
 }
 
 .renderPhone{
- margin: 10px 5px ;
+ margin: 10px 0px ;
  width: 100%;
 }
 
@@ -1188,16 +1224,19 @@ margin: 0px 30px;
     top: 4px;
 }
 .messageContent{
-    margin-top: 70px ;
-    height: 76vh;
+    margin-top: 70px ; 
+    height: 69.7vh;
+    position: fixed;
    background-color: none;
 }
 
 #textAreaPhone{
-    width: 200px;
+    width: 250px;
     min-height: 30px;
+    padding: 1PX 30PX 1PX 1PX;
      height: 50px; 
-    margin: 10px 3px;
+    margin: 10px 30PX 0PX 15PX;
+    justify-content:start;
     /* position: absolute; */
     
     
@@ -1213,7 +1252,7 @@ margin: 0px 30px;
     display: flex;
     /* grid-template-columns: 50% 15% 15% 15%; */
     margin: 0px 0px;
-    width: 98%;
+    width: 100%;
 }
 
 .col_phone{
@@ -1225,21 +1264,22 @@ margin: 0px 30px;
 }
 
 .emojiPhone{
-width: 100%;
+width: 50%;
 background-color: rgb(202, 193, 193);
-margin: 20px 70px;
+
 border-radius: 0px 10px 10px 0px;
 height: 50px;
-margin: 10px 80px;
+margin: 10px 185px;
 }
 
 .emoji{
     width: 400px;
-    margin: 500px -10px;
+    margin: 50px -10px;
 }
 
 .send{
-    margin: 0px -40px;
+    margin: 0px -130px;
+    z-index: 100;
 }
 .sendPhone{
     width: 100px;

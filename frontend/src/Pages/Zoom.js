@@ -15,11 +15,10 @@ import clipboard from "clipboard"
 import Peer from "simple-peer";
 
 import { set, trusted } from "mongoose";
-// import TextField from './TextField'; 
+//  import TextField from './TextField'; 
 
-let socket = io.connect("https://render-backend-28.onrender.com")
-
-
+// let socket = io.connect("https://render-backend-28.onrender.com")
+ let socket = io.connect("http://localhost:8900")
 function Zoom() {
   const [incomingCall, setIncomingCall] = useState(false);
   const [incomingVideoCall, setIncomingVideoCall] = useState(false);
@@ -88,7 +87,15 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const [showVideo, setShowVideo]=useState(false)
     const [text, setText] = useState('');
     const [isRunning, setIsRunning] = useState(false);
+  const [readyToJionArray, setReadyToJoinArray]=useState([])
+    const [addCallData, setAddCallData]= useState(false)
+const [addCallDisplay, setAddCallDisplay]=useState(false)
     const [elapsedTime, setElapsedTime] = useState(0);
+const[callTalk, setCallTalk]= useState(null)
+const [ readyToJionChat, setReadyToJionChat] =useState([])
+const [ readyToJionCall, setReadyToJionCall] =useState([])
+const [ readyToJionVideo, setReadyToJionVideo] =useState([])
+
     const intervalRef = useRef(null);
     const inputRef = useRef(null);
     const userVideo = useRef();
@@ -99,7 +106,6 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const connectionRef1 = useRef();
     const myVideo1 = useRef();
     const audioRef = React.useRef(null);
- 
   
 
     
@@ -231,7 +237,6 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
 
   
  const tagUser=(userId_user)=>{
-// / console.log("Clicked target:", userId_user);
   const sendMessageId=employeeList.filter((item)=>item.userId_user === userId_user)
 
   const readyToChat = sendMessageId.map((item)=>({
@@ -239,18 +244,34 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
 
   }))
 
-
-  
-  // socket.emit("storedChatData", {userId:userId_user, senderId:decodedId})
-
   setReadyToChat(true)
   setChatPerson(readyToChat)
   setCallId(userId_user)
 
+}
+
+const tagUser2=(userId_user)=>{
   
-    
+  const addCalls=employeeList.filter((item)=>item.userId_user === userId_user)
+  console.log("addcall", addCalls)
+    const readyToJion = addCalls.map((item)=>({
+      Picture:item.Picture,
+      userId:item.userId_user
+    }))
+    setReadyToJoinArray((prevData) => {
+      const updatedData = [...prevData, ...readyToJion];
+      console.log("Updated readyToJoinArray:", updatedData); // Log after computing new state
+      return updatedData;
+    });
+ setReadyToChat(true)
+  // setChatPerson(readyToChat)
+  // setCallId(userId_user)
+  
 
 }
+
+
+
 
 
 useEffect(()=>{
@@ -783,11 +804,62 @@ const answerCall = () => {
     });
 };
 
+const joinChat =(e)=>{
+
+  if( readyToJionArray && readyToJionArray.length >0){
+
+    readyToJionArray.forEach((item)=>{
 
 
+      setDeclineMessage(" ")
+      e.preventDefault();
+      setSendingMsg(e.target.value); 
+      if (sendingMsg.length === 0) {
+        console.log("Sorry, message cannot be empty");
+      } else {
+        const currentTime = new Date();
+        const hours = currentTime.getHours();
+        const minutes = currentTime.getMinutes();
+        const Time = hours + ':' + minutes;
+    
+        const DataSend = { 
+          userId: item.id,
+          senderId:decodedId, 
+          Message: sendingMsg, 
+          Img: imageUrl,
+          Time: Time,
+          Name: decodedName
+        };
+        
+    localStorage.setItem("mess", sendingMsg)
+    
+        socket.emit('sendMessage', DataSend);
+        setRenderMessage(prevState => [...prevState, DataSend]);
+        setSendingMsg("");
+      }
+   
+    })
+
+  }
+setAddCallDisplay(true)
+setAddCallData(false)
+setCallTalk("join Chat")
+
+}
 
 
+const joinCall =()=>{
+  setAddCallDisplay(true)
+  setAddCallData(false)
+  setCallTalk("join Call")
+}
 
+
+const joinVideo =()=>{
+  setAddCallDisplay(true)
+  setAddCallData(false)
+  setCallTalk("join Video")
+}
 
 
 const reject=()=>{
@@ -800,6 +872,16 @@ const reject=()=>{
   socket.emit("rejectCall" ,{imageUrl,caller ,decodedId })
 }
 
+const stopConnect =()=>{
+  setAddCallDisplay(false)
+  setAddCallData(false)
+  // setCallTalk("join Video")
+}
+const joinTalk =()=>{
+  setAddCallDisplay(false)
+  setAddCallData(false)
+  console.log("data", tagUser)
+}
 const rejectVideo=()=>{
   stopNotificationRinging();
 
@@ -858,6 +940,11 @@ const removeElement = (indexToRemove) => {
     setEmployeeList(updatedList);
 };
 
+const AddCall = ()=>{
+setAddCallData(!addCallData)
+}
+
+
 
 const leaveCall = () => {
   setCallEnded(true);
@@ -903,7 +990,7 @@ useEffect(()=>{
   
   
 })
-
+  
 
    
 
@@ -915,10 +1002,11 @@ useEffect(()=>{
 
 
 
-
-            <div className="header you">
-            <span className="dotRound"> <Icon id="dot"  icon="carbon:dot-mark" /> </span>
-        
+{/* PHONE */}
+           {readyToChat ?
+           (null):(
+<div>
+      
              <img
        style={{margin:"7px 12px", zIndex:"0"}}
    className="avatar_img"
@@ -927,8 +1015,11 @@ useEffect(()=>{
           onClick={(e)=>setReadyToChat(false)}
    src={imageUrl} className="avatar_img"  title={ decodedName}
       /><br></br>
-      <span id="you"> You</span>
+       <span className="dotRound"> <Icon id="dot" style={{backgroundColor:"none"}}  icon="carbon:dot-mark" /> </span>
+      <span id="you"> You</span> 
             </div>
+           )}
+
             <div className="desktop">
             <div className="header search"><input id="chatSearch"  placeholder="Search ..."type="search"/></div>
             {/* <div className="header add"> <spa><Icon icon="fluent-mdl2:add-friend" style={{margin:"-100px 5px"}} /></spa>Add Friend</div> */}
@@ -1009,12 +1100,16 @@ useEffect(()=>{
               <div className="smileHeader"> 
 
               <div >
+              <span><Icon  onClick={(e)=>setReadyToChat(false)}  icon="mingcute:arrow-left-fill" /></span>
   {chatPerson.map((item, i) => (
     <span  key={i}>
     {/* <div> <Icon icon="entypo:arrow-left" /></div> */}
-      <img src={item.Picture} style={{top:"-2px", width:"35px",height:"35px", borderRadius:"100%"}} className="readyToChatImg" alt="Profile" />
+      <img src={item.Picture} style={{top:"-2px", width:"37px",height:"37px", borderRadius:"100%"}} className="readyToChatImg" alt="Profile" />
     </span>
   ))} 
+
+  
+  <span className="dotRound2"> <Icon id="dot" style={{backgroundColor:"none"}}   icon="carbon:dot-mark" /> </span>
   </div>
 
   <div> {isTyping ? (
@@ -1024,7 +1119,9 @@ useEffect(()=>{
                     <span onClick={VideoCall}><Icon  style={{ fontSize:"30px",margin:"0px -10px"}} icon="flat-color-icons:video-call" /></span>
                     
   </div>
-  <div>Add</div>
+
+  {/* ADD CALLS */}
+  <div><Icon  onClick={AddCall} icon="noto-v1:plus" /></div>
   </div>
 ):( 
   <div className="smileHeader2">
@@ -1046,9 +1143,14 @@ useEffect(()=>{
 </div>              
   </div>
 
+
+
+
   <div className="messageContent" id="messageContent">
 
 {/* phone  */}
+
+
   <div className="smilePhone">
   {readyToChat ? (
     <div>
@@ -1166,7 +1268,7 @@ useEffect(()=>{
 {/* UserAudioStream */}
 
 {renderMessageData.map((item, j) => (
-  <div key={j}>
+  <div key={j} id="messagePhone_container">
     {/* Check if the message is from the current user and play a notification sound */}
     {item.userId === decodedId && (
       <audio src={sounds} id="notificationSound" />
@@ -1192,12 +1294,67 @@ useEffect(()=>{
         />
       </li>
     </ul>
+
+    
     {/* <span>{item.TimeStamp}</span> */}
   </div>
 ))}
 
 
+{/* Adding calls or Message */}
 
+{addCallData &&
+ (
+<div className="addCallls" style={{marginRight:"-200px", justifyContent:"end", }}>
+<ul style={{listStyle:"none", color:"whiteSmoke", margin:"10px", fontSize:"14px"}}>
+  <li style={{margin:"5px"}} onClick={joinChat}>join Chat</li>
+  <li style={{margin:"5px"}} onClick={joinCall}>Add Calls</li>
+  <li style={{margin:"5px"}} onClick={joinVideo}>Add Video</li>
+</ul>
+
+
+</div>)}
+
+
+{/* AddcallsShow */}
+{addCallDisplay ?(
+<div>
+{employeeList.map((item, k) => (
+        <div key={k}  >
+            <div className="tableRender" onClick={() => tagUser2(item.userId_user)}>
+                <ul>
+                    <li onClick={tagUser2}   >
+                        <img src={item.Picture} className="online" alt="Profile" />
+                      
+                         
+                      
+                    </li>
+                    <li onClick={tagUser2} id="messUp"  style={{margin:"10px 2px"}}>
+                        {item.Name}<br />
+                      
+
+                        
+                    </li>
+                   
+                </ul>
+            </div>
+        </div>
+    ))}
+
+</div>
+):
+(null)}
+
+
+{/* callButtom */}
+{addCallDisplay ?
+(
+
+<div style={{ margin:"200px 60px",justifyContent:"center" ,position:"fixed", width:"auto", display:"flex"}}> 
+<span style={{width:"100px"}} className="btn btn-outline-danger" onClick={stopConnect}>Cancel</span>
+<span  style={{width:"100px"}} className="btn btn-outline-success" onClick={joinTalk}>{callTalk}</span>
+</div>
+):(null)}
       {renderMessage.map((item, i) => (
         <div key={i} style={{zIndex:"0"}}>
           {item.userId === decodedId && (

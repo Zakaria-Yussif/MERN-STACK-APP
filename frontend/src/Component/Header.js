@@ -66,9 +66,11 @@ let storedToken =localStorage.getItem("token")
        if (!decoded){
           alert("Admin Authentification invalid")
          }
-         setDecodeEmail(decoded.findEmail)
-         setDecodedName(decoded.findName)
+         setDecodeEmail(decoded.email)
+         setDecodedName(decoded.name)
          setDecodedId(decoded.userId)
+
+         
          if(decodedId){
             
           socket.emit('setUserId', decodedId);
@@ -210,6 +212,7 @@ setProfileVisible(true);
   async function AdminAcc() {
     let adminUser = {
       email: decodedEmail,
+      name:decodedName
     };
    console.log("Email",adminUser)
     try {
@@ -218,11 +221,11 @@ setProfileVisible(true);
       if (responseAdmin.status === 401) {
         // Handle unauthorized access
         
-        alert( responseAdmin.data.msg);
+        alert( responseAdmin.data.msg );
         // You might want to use a notification system or display an error message to the user
       } else if (responseAdmin.status === 200) {
         // Handle successful response
-        alert( responseAdmin.data.msg);
+        alert( responseAdmin.data.msg + " " +decodedName);
         // You might want to use a notification system or redirect the user
         navigate("/adminAcc");
       } else {
