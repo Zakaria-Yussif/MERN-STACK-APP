@@ -90,9 +90,10 @@ function Profile() {
           };
   
           try {
-            const profilePicture = await axios.post("https://render-backend-28.onrender.com/api/pictures/uploadPicture", profile);
+            const profilePicture = await axios.post("http://localhost:8900/api/pictures/uploadPicture", profile);
             console.log(profilePicture.data); // Assuming the server sends back some data
             // Implement navigation logic here if needed
+            window.onload()
           } catch (error) {
             console.error("Error uploading profile picture:", error);
             // Handle the error appropriately

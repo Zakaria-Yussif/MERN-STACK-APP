@@ -11,10 +11,11 @@ import axios from "axios";
 import { useSelector,useDispatch } from 'react-redux'
 import  fetchData  from '../Component/actions'; 
 import {jwtDecode} from 'jwt-decode';
-import clipboard from "clipboard"
+import clipboard, { copy } from "clipboard"
 import Peer from "simple-peer";
 
 import { set, trusted } from "mongoose";
+import { tensorScatterUpdate } from "@tensorflow/tfjs";
 //  import TextField from './TextField'; 
 
 // let socket = io.connect("https://render-backend-28.onrender.com")
@@ -87,15 +88,20 @@ const [isLeaveCall, setIsLeaveCall]=useState(null)
     const [showVideo, setShowVideo]=useState(false)
     const [text, setText] = useState('');
     const [isRunning, setIsRunning] = useState(false);
+    const [ toJionChat, setToJionChat]=useState(false)
+    const [ toJionCall, setToJionCall]=useState(false)
+    const [ toJionVideo, setToJionVideo]=useState(false) 
   const [readyToJionArray, setReadyToJoinArray]=useState([])
     const [addCallData, setAddCallData]= useState(false)
 const [addCallDisplay, setAddCallDisplay]=useState(false)
+const [addCallDisplay2, setAddCallDisplay2]=useState(false)
     const [elapsedTime, setElapsedTime] = useState(0);
 const[callTalk, setCallTalk]= useState(null)
 const [ readyToJionChat, setReadyToJionChat] =useState([])
 const [ readyToJionCall, setReadyToJionCall] =useState([])
 const [ readyToJionVideo, setReadyToJionVideo] =useState([])
 
+let copyData2;
     const intervalRef = useRef(null);
     const inputRef = useRef(null);
     const userVideo = useRef();
@@ -250,25 +256,30 @@ const [ readyToJionVideo, setReadyToJionVideo] =useState([])
 
 }
 
-const tagUser2=(userId_user)=>{
-  
-  const addCalls=employeeList.filter((item)=>item.userId_user === userId_user)
-  console.log("addcall", addCalls)
-    const readyToJion = addCalls.map((item)=>({
-      Picture:item.Picture,
-      userId:item.userId_user
-    }))
-    setReadyToJoinArray((prevData) => {
-      const updatedData = [...prevData, ...readyToJion];
-      console.log("Updated readyToJoinArray:", updatedData); // Log after computing new state
-      return updatedData;
-    });
- setReadyToChat(true)
-  // setChatPerson(readyToChat)
-  // setCallId(userId_user)
-  
+const tagUser2 = (userId_user) => {
+  // Filter employee list based on userId_user
+  const addCalls = employeeList.filter((item) => item.userId_user === userId_user);
+  console.log("Filtered users (addCalls):", addCalls);
 
-}
+  // Map relevant data to readyToJion format
+  const readyToJion = addCalls.map((item) => ({
+    Picture: item.Picture,
+    userId: item.userId_user,
+  }));
+  console.log("Mapped users (readyToJion):", readyToJion);
+
+  // Update readyToJoinArray with new data
+  setReadyToJoinArray((prevData) => {
+    const updatedData = [...prevData, ...readyToJion]; // Avoid nesting arrays
+    console.log("Updated readyToJoinArray:", updatedData);
+    return updatedData;
+  });
+
+  // Update other states
+  setReadyToChat(true);
+
+  console.log("readyy", readyToJionArray)
+};
 
 
 
@@ -411,36 +422,72 @@ useEffect(() => {
 }, [socket]); 
  
 
-
+useEffect(() => {
+  console.log("readyToJoinArray updated:", readyToJionArray);
+}, [readyToJionArray]);
 
 const SendMessage = (e) => {
-  setDeclineMessage(" ")
   e.preventDefault();
-  setSendingMsg(e.target.value); 
-  if (sendingMsg.length === 0) {
-    console.log("Sorry, message cannot be empty");
-  } else {
-    const currentTime = new Date();
-    const hours = currentTime.getHours();
-    const minutes = currentTime.getMinutes();
-    const Time = hours + ':' + minutes;
+  setDeclineMessage(" ");
+  
+  // Store the current message input
+  setSendingMsg(e.target.value);
+  
+  if (!sendingMsg || sendingMsg.length === 0) {
+    alert("Sorry, message cannot be empty");
+    return;
+  }
 
-    const DataSend = { 
-      userId: callId,
-      senderId:decodedId, 
-      Message: sendingMsg, 
-      Img: imageUrl,
-      Time: Time,
-      Name: decodedName
-    };
+  const currentTime = new Date();
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
+  const formattedTime = `${hours}:${minutes}`;
+  
+  const DataSend = {
+    userId: callId,
+    senderId: decodedId,
+    Message: sendingMsg,
+    Img: imageUrl,
+    Time: formattedTime,
+    Name: decodedName,
+  };
+  
+  localStorage.setItem("mess", sendingMsg);
+  setRenderMessage((prevState) => [...prevState, DataSend]);
+console.log("rr",readyToJionArray)
+ if ( readyToJionArray.length > 0 ) {
+  console.log("ready to ", readyToJionArray)
+    readyToJionArray.forEach(user => {
+      const readyArayy={
+        userId:user.userId,
+        senderId: decodedId,
+        Img:user.Picture,
+        Time:formattedTime,
+        Name:decodedName,
+        Message:sendingMsg,
+
+      }
+
+      
+    socket.emit("sendMessageData", readyArayy);
+     
+      console.log("helo", readyArayy)
+      setSendingMsg("");  
+     });
+    //  socket.emit("sendMessage", DataSend);
+     console.log("data3",DataSend)
+    console.log("Message sent to users in readyToJionArray:", readyToJionArray);
     
-localStorage.setItem("mess", sendingMsg)
-
-    socket.emit('sendMessage', DataSend);
-    setRenderMessage(prevState => [...prevState, DataSend]);
-    setSendingMsg("");
+   // Clear the input message
+  } else {
+    
+    console.log("No users ready to join.");
+    socket.emit("sendMessage", DataSend);
+    console.log("mess", DataSend)
+    setSendingMsg("")
   }
 };
+
 
 useEffect((decodedId) => {
 
@@ -448,6 +495,23 @@ useEffect((decodedId) => {
   socket.on('messageRev', (data) => {
     // Handle the received data here
     console.log("Received message:", data);
+    setRenderMessage(prevState => [...prevState, data]);
+        setIsTyping(false)
+    if (Notification.permission === 'granted') {
+      new Notification('New Message Received');
+      playNotificationSound();
+    }
+  });
+}, []); // Ensu
+
+
+useEffect((decodedId) => {
+
+  // Set up a listener for the 'messageRev' event
+  socket.on('messageRevData', (data) => {
+    // Handle the received data here
+
+    console.log("Received message:Data", data);
     setRenderMessage(prevState => [...prevState, data]);
         setIsTyping(false)
     if (Notification.permission === 'granted') {
@@ -804,63 +868,95 @@ const answerCall = () => {
     });
 };
 
-const joinChat =(e)=>{
 
-  if( readyToJionArray && readyToJionArray.length >0){
-
-    readyToJionArray.forEach((item)=>{
-
-
-      setDeclineMessage(" ")
-      e.preventDefault();
-      setSendingMsg(e.target.value); 
-      if (sendingMsg.length === 0) {
-        console.log("Sorry, message cannot be empty");
-      } else {
-        const currentTime = new Date();
-        const hours = currentTime.getHours();
-        const minutes = currentTime.getMinutes();
-        const Time = hours + ':' + minutes;
-    
-        const DataSend = { 
-          userId: item.id,
-          senderId:decodedId, 
-          Message: sendingMsg, 
-          Img: imageUrl,
-          Time: Time,
-          Name: decodedName
-        };
-        
-    localStorage.setItem("mess", sendingMsg)
-    
-        socket.emit('sendMessage', DataSend);
-        setRenderMessage(prevState => [...prevState, DataSend]);
-        setSendingMsg("");
-      }
-   
-    })
-
+const AddCall = ()=>{
+  setAddCallData(!addCallData)
+  setAddCallDisplay2(true)
   }
-setAddCallDisplay(true)
-setAddCallData(false)
-setCallTalk("join Chat")
 
-}
+const joinChat = () => {
+  
+  // Update the UI state after completing the operation
+  setAddCallDisplay(true);
+  setAddCallData(false);
+  // setCallTalk("Join Chat");
+  setToJionChat(true);
+  setToJionCall(false)
+  setToJionVideo(false)
 
+  console.log("GoodTEAM")
+};
 
 const joinCall =()=>{
   setAddCallDisplay(true)
   setAddCallData(false)
   setCallTalk("join Call")
+  console.log("hello game")
+  setToJionChat(false);
+  setToJionCall(true)
+  setToJionVideo(false)
 }
 
 
 const joinVideo =()=>{
   setAddCallDisplay(true)
+  
   setAddCallData(false)
   setCallTalk("join Video")
-}
+  setToJionChat(false);
+  setToJionCall(false)
+  setToJionVideo(true)
 
+}
+const joinChatData = () => {
+  setAddCallDisplay2(false);
+
+  if (Notification.permission === 'granted') {
+    new Notification('Join Chat');
+
+    if (readyToJionArray && readyToJionArray.length > 0) {
+      console.log("readyToJionArray before iteration:", readyToJionArray);
+
+      readyToJionArray.forEach((item) => {
+        if (item.userId === decodedId) {
+          if (Notification.permission === 'granted') {
+            new Notification('Join Chat');
+            console.log("chat", item);
+            playNotificationSound();
+            alert("Please, Join Chat from " + decodedName);
+          }
+        }
+      });
+    } else {
+      console.log("readyToJionArray is undefined or empty.");
+    }
+  } else {
+    console.log("Notification permissions not granted.");
+  }
+};
+
+// 
+
+const joinCallData=()=>{
+console.log("ready to join", readyToJionArray)
+  if(readyToJionArray.length == 0){
+alert("Please,select User")
+  }
+  setAddCallData(false)
+  setAddCallDisplay2(false)
+  setAddCallDisplay(false)
+  // setReadyToJoinArray([])
+
+}
+const joinVideoData=()=>{
+  if( readyToJionArray.length ==0 ){
+    alert("Please, select user")
+  }
+  setAddCallDisplay(false)
+  setAddCallData(false)
+  setAddCallDisplay2(false)
+  // setReadyToJoinArray([])
+}
 
 const reject=()=>{
   stopNotificationRinging();
@@ -877,11 +973,7 @@ const stopConnect =()=>{
   setAddCallData(false)
   // setCallTalk("join Video")
 }
-const joinTalk =()=>{
-  setAddCallDisplay(false)
-  setAddCallData(false)
-  console.log("data", tagUser)
-}
+
 const rejectVideo=()=>{
   stopNotificationRinging();
 
@@ -940,9 +1032,7 @@ const removeElement = (indexToRemove) => {
     setEmployeeList(updatedList);
 };
 
-const AddCall = ()=>{
-setAddCallData(!addCallData)
-}
+
 
 
 
@@ -1225,10 +1315,10 @@ useEffect(()=>{
               
               </div>
               <div className="phoneCallDis">
-      <span style={{margin:"5px 130px"}}> {formatTime(startTime)}</span> 
+      <span style={{margin:"-100px 130px"}} id="time"> {formatTime(startTime)}</span> 
       {chatPerson.map((item, i) => (
     <span  key={i}>
-      <img src={item.Picture} style={{margin:"4px 100px", width:"100px",height:"100px", borderRadius:"10px"}} className="readyToChatImg" alt="Profile" />
+      <img  src={item.Picture} style={{margin:"4px 100px", width:"130px",height:"130px", borderRadius:"10px"}} className="readyToChatImg" alt="Profile" />
     </span>
   ))} 
       
@@ -1266,46 +1356,74 @@ useEffect(()=>{
               )}
 
 {/* UserAudioStream */}
+{addCallDisplay2 ? (
+  null
+) : (
+  <div>
+    {/* Render phone messages */}
+    {renderMessageData.map((item, j) => (
+      <div key={j} id="messagePhone_container">
+        {/* Play notification sound if the message is from the current user */}
+        {item.userId === decodedId && (
+          <audio src={sounds} id="notificationSound" />
+        )}
 
-{renderMessageData.map((item, j) => (
-  <div key={j} id="messagePhone_container">
-    {/* Check if the message is from the current user and play a notification sound */}
-    {item.userId === decodedId && (
-      <audio src={sounds} id="notificationSound" />
-    )}
+        {/* Render audio element for the message if it's from the current user */}
+        {item.userId === decodedId && (
+          <audio
+            srcObject={item.audioStream}
+            autoPlay
+            controls
+            id={`audioElement-${j}`}
+          />
+        )}
 
-    {/* Render an audio element for the message if it's from the current user */}
-    {item.userId === decodedId && (
-      <audio srcObject={item.audioStream} autoPlay controls id={`audioElement-${j}`} />
-    )}
-
-    {/* Render the message with appropriate styles based on sender */}
-    <ul className={item.userId === decodedId ? "receivedMessPhone" : "sendMessPhone"}>
-      <li className={item.userId === decodedId ? "receivedMessagePhone" : "sendMessagePhone"}>
-        {/* Display the message content and time */}
-        {item.Message} <span id="time" style={{ fontSize: "10px" }}>{item.Time}</span>
-      </li>
-      <li>
-        {/* Display the sender's image */}
-        <img
-          src={item.Img}
-          className={item.userId === decodedId ? "receivedImgPhone" : "sendImgPhone"}
-          style={{ width: '25px', height: '25px' }}
-        />
-      </li>
-    </ul>
-
-    
-    {/* <span>{item.TimeStamp}</span> */}
+        {/* Render the message with appropriate styles based on sender */}
+        <ul
+          className={
+            item.userId === decodedId
+              ? "receivedMessPhone"
+              : "sendMessPhone"
+          }
+        >
+          <li
+            className={
+              item.userId === decodedId
+                ? "receivedMessagePhone"
+                : "sendMessagePhone"
+            }
+          >
+            {/* Display the message content and time */}
+            {item.Message}{" "}
+            <span id="time" style={{ fontSize: "10px" }}>
+              {item.Time}
+            </span>
+          </li>
+          <li>
+            {/* Display the sender's image */}
+            <img
+              src={item.Img}
+              alt="User"
+              className={
+                item.userId === decodedId
+                  ? "receivedImgPhone"
+                  : "sendImgPhone"
+              }
+              style={{ width: "25px", height: "25px" }}
+            />
+          </li>
+        </ul>
+      </div>
+    ))}
   </div>
-))}
+)}
 
 
 {/* Adding calls or Message */}
 
 {addCallData &&
  (
-<div className="addCallls" style={{marginRight:"-200px", justifyContent:"end", }}>
+<div className="addCallls" style={{marginRight:"-200px", justifyContent:"end", position:"fixed" }}>
 <ul style={{listStyle:"none", color:"whiteSmoke", margin:"10px", fontSize:"14px"}}>
   <li style={{margin:"5px"}} onClick={joinChat}>join Chat</li>
   <li style={{margin:"5px"}} onClick={joinCall}>Add Calls</li>
@@ -1317,8 +1435,9 @@ useEffect(()=>{
 
 
 {/* AddcallsShow */}
-{addCallDisplay ?(
-<div>
+
+{addCallDisplay ? (
+  <>
 {employeeList.map((item, k) => (
         <div key={k}  >
             <div className="tableRender" onClick={() => tagUser2(item.userId_user)}>
@@ -1340,10 +1459,8 @@ useEffect(()=>{
             </div>
         </div>
     ))}
-
-</div>
-):
-(null)}
+</>
+):(null)}
 
 
 {/* callButtom */}
@@ -1352,9 +1469,23 @@ useEffect(()=>{
 
 <div style={{ margin:"200px 60px",justifyContent:"center" ,position:"fixed", width:"auto", display:"flex"}}> 
 <span style={{width:"100px"}} className="btn btn-outline-danger" onClick={stopConnect}>Cancel</span>
-<span  style={{width:"100px"}} className="btn btn-outline-success" onClick={joinTalk}>{callTalk}</span>
+<span>
+{toJionChat ? (
+<span  style={{width:"100px"}} className="btn btn-outline-success" onClick={joinChatData}>Join Chat</span>
+):(null)}
+{toJionCall ? (
+<span  style={{width:"100px"}} className="btn btn-outline-success"  onClick={joinCallData}>Join Call</span>
+):(null)}
+{toJionVideo ?  (
+<span  style={{width:"100px"}} className="btn btn-outline-success"  onClick={joinVideoData}>Jion Video</span>
+):(null)}
+</span>
 </div>
 ):(null)}
+
+
+  <div>
+
       {renderMessage.map((item, i) => (
         <div key={i} style={{zIndex:"0"}}>
           {item.userId === decodedId && (
@@ -1383,7 +1514,7 @@ useEffect(()=>{
         
       ))}
 
-
+</div>
     
     </div>
 

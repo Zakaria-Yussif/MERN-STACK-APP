@@ -782,6 +782,7 @@ position: absolute;
     /* background-color: #0000009a ; */
     width: 100%;
   top: 0;
+  z-index: 0;
   /* overflow-y: scroll; */
   overflow-x: hidden;
     border-radius: 10px;
@@ -800,6 +801,7 @@ position: absolute;
     left: 0px;
     border-radius: 10px;
     font-size: 20px;
+    
     margin: 0px 0px 0px -3px ;
 }
 .messageFooter{
@@ -1043,18 +1045,21 @@ margin: 0px 30px;
 .phoneCallDis{
     display: flex;
     flex-direction: column;
-    position: absolute; 
+    position: fixed; 
     text-align: center;
-    justify-content: ;
+    justify-content: center;
     border-radius: 10px;
-    margin:  20px 14px ;
+    margin:  -20px 14px ;
     width: 90%;
-    position: absolute;
-    min-height: 40vh;
-    height: auto;
-    z-index: 10;
+    
+    
+    min-height:46.5vh;
+    
+    z-index: 100;
     background: linear-gradient(40deg,var(--color--blue-800), var(--color--black), var(--color--blue-800)); 
 }
+
+
 .myVideo{
     top: 30;
     left: 0;
@@ -1224,10 +1229,15 @@ margin: 0px 30px;
     top: 4px;
 }
 .messageContent{
-    margin-top: 70px ; 
-    height: 69.7vh;
-    position: fixed;
-   background-color: none;
+    
+        margin-top: 70px ; 
+        min-height: 77.5vh;
+        max-width: auto;
+        position: fixed;
+        z-index:0;
+       background-color: none;
+    
+    
 }
 
 #textAreaPhone{
@@ -1244,8 +1254,8 @@ margin: 0px 30px;
 .phoneFooter{
     max-width: 600px;
      width: 100%;
-    
-    /* position: absolute; */
+    z-index: 100;
+    /* position: absolute;  */
     margin: 0px -10px;
 }
 .phoneFooter_menu{
