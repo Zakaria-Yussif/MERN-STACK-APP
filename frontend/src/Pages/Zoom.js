@@ -18,8 +18,8 @@ import { set, trusted } from "mongoose";
 import { tensorScatterUpdate } from "@tensorflow/tfjs";
 //  import TextField from './TextField'; 
 
-// let socket = io.connect("https://render-backend-28.onrender.com")
- let socket = io.connect("http://localhost:8900")
+ let socket = io.connect("https://render-backend-28.onrender.com")
+// let socket = io.connect("http://localhost:8900")
 function Zoom() {
   const [incomingCall, setIncomingCall] = useState(false);
   const [incomingVideoCall, setIncomingVideoCall] = useState(false);
