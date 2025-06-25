@@ -26,7 +26,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts';
+import { BarChart, Bar,Pie,PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts';
 import { trusted } from 'mongoose';
 
 //
@@ -1097,13 +1097,34 @@ useEffect(() => {
 
 
 const dataBarChat = [
-  { name: 'Oil', orders: 30 },
+  { name: 'Oil 1kg', orders: 30 },
+  {name: 'Oil 2kg', orders: 20 },
+  {name: 'Oil 5kg', orders: 10 },
+
   { name: 'Tomato Paste', orders: 50 },
   { name: 'Spaghetti', orders: 70 },
-  { name: 'Noodles', orders: 40 },
+  // { name: 'Noodles', orders: 40 },
 ];
 
 const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
+
+
+const dataPieChart = [
+  { name: 'Oil', value: 400 },
+  { name: 'Oil 1kg', value: 30 },
+  { name: 'Oil 2kg', value: 20 },
+  { name: 'Oil 5kg', value: 500 },
+  { name: 'Tomato Paste', value: 200 },
+  { name: 'Spaghetti', value: 300 },
+];
+  
+  
+
+const maxValue = Math.max(...dataPieChart.map(item => item.value));
+
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const HIGHLIGHT_COLOR = '#FF0000';
 
 
 
@@ -2532,8 +2553,11 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     
 {token? (
   <div className="row20" style={{boxShadow:"none" ,background:"none"}}>
+  <div className='dataPie'>
+  <div>
   <h3 style={{boxShadow:"none"}}>Sales Progress</h3>
-  <BarChart width={900} height={400} data={dataBarChat}>
+  
+  <BarChart width={700} height={400} data={dataBarChat}>
   <CartesianGrid strokeDasharray="3 3" />
   <XAxis dataKey="name" />
   <YAxis />
@@ -2543,11 +2567,48 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     {dataBarChat.map((entry, index) => (
       <Cell
         key={`cell-${index}`}
-        fill={entry.orders === maxOrders ? '#FF5733' : '#8884d8'}
+        fill={entry.orders === maxOrders ? HIGHLIGHT_COLOR : COLORS[index % COLORS.length]}
       />
     ))}
   </Bar>
 </BarChart>
+
+  
+  
+
+  
+  
+</div>
+
+
+
+<div>
+
+<h3> Goods Ordered</h3>
+<PieChart width={700} height={400}>
+  <Pie
+    data={dataPieChart}
+    dataKey="value"
+    nameKey="name"
+    cx="50%"
+    cy="50%"
+    outerRadius={150}
+    fill="#8884d8"
+    label
+  >
+    {dataPieChart.map((entry, index) => (
+      <Cell
+        key={`cell-${index}`}
+        fill={entry.value === maxValue ? HIGHLIGHT_COLOR : COLORS[index % COLORS.length]}
+      />
+    ))}
+  </Pie>
+  <Tooltip />
+  <Legend />
+</PieChart>
+
+</div>
+</div>
 
   </div>
 ):(

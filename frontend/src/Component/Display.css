@@ -1031,11 +1031,21 @@ p{
         justify-content: center;
         position: absolute;
         text-align: center;
-        width: 70%;
+        width: 100%;
         color: grey;
+        
+    
+    
         z-index: 0;
         background: linear-gradient(200deg, var(--color--blue-800),var(--color--blue-800) ,var(--color--white));
-        box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+        /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+    }
+
+    .dataPie{
+        display: grid;
+        grid-template-columns: 50% 50%;
+        width: 100;
+        gap: 20px;
     }
     #video{
         width: 90%;
