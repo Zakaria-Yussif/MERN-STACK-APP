@@ -268,7 +268,7 @@ setIsVisible(!isVisible);
         
            </div>
            
-           <div className="list-items">
+           <div className="list-items" style={{color:"grey"}}>
             <div  className={solution ? 'solution change1': 'solution'}>Services</div>
             
             <div className={solution ? 'solution change1': 'solution'}>Contact</div>
@@ -526,7 +526,7 @@ setIsVisible(!isVisible);
              
             </nav>
             <div className="logo" id="idLogo" style={{ color: logo ? 'blue' : 'white' }} >
-            ConnectBusiness
+            WhiteOlive 
               <span className='log1'>
               <Icon id="logo2" icon="carbon:circle-filled" />
               <Icon id="logo3" icon="carbon:circle-filled" />

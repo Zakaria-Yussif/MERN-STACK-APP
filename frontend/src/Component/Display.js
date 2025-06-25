@@ -15,7 +15,7 @@ import segment from 'semantic-ui-react'
 // import {AdminAcc} from '../Component/AdminAcc'
 // import DatePicker from 'react-datepicker';
 import { useSelector,useDispatch } from 'react-redux'
-import { Bar } from 'react-chartjs-2';
+
 import  fetchData  from './actions'; 
 import axios from "axios";
 import { Link, json } from 'react-router-dom';
@@ -26,12 +26,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts';
 import { trusted } from 'mongoose';
-// import { BarChart } from '@mui/x-charts/BarChart';
-// import { axisClasses } from '@mui/x-charts';
-// import { BarChart } from '@mui/x-charts/BarChart';
-// import SignaturePad from 'react-signature-pad-wrapper';
 
+//
 const socket = io.connect("https://render-backend-28.onrender.com")
 
 
@@ -50,9 +48,10 @@ const [matchOccurred, setMatchOccurred] = useState(false);
 const [isListVisible1, setIsListVisible1] = useState("false");
 const [Online, setOnline] = useState(false);
 const [isListVisible, setIsListVisible] = useState("false");
+const [isListVisibleOrder, setIsListVisibleOrder] = useState("false");
 const[addEmployee, setAddEmployee]=useState(true)
 const [ Employeelist1, setEmployeelist1] = useState([]);
-const [ EmployeeList, setEmployeelistData]=useState([])
+const [ EmployeeListData, setEmployeelistData]=useState([])
 const [ allTaskAssigend, setAllTaskAssigned]=useState([])
     const[sendingMsg,setSendingMsg]= useState("");
     const[sendingMsgEvent,setSendingMsgEvent]= useState("");
@@ -116,6 +115,39 @@ const dispatch = useDispatch();
 const signaturePadRef = useRef(null);
 const sliderRef = useRef(null);
 const  data = useSelector((state) => state.data);
+
+////
+const [isInputVisible, setInputVisible] = useState("false");
+  const [isInputVisible1, setInputVisible1] = useState("false");
+  const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [contact, setContact] = useState("");
+    const [contract, setContract] = useState("");
+    const [position, setPosition] = useState("");
+    const[email,setEmail]=useState("")
+    const[id,setIdd]=useState("")
+    const [ EmployeeList, setEmployeelist]=useState([])
+    const [picture, setPic] = useState("");
+    const [ delete1, setDelete1] = useState("false");
+     const [ delete2, setDelete2] = useState("false");
+     const [ deleteEmployee, setDeleteEmployee] = useState("");
+       const [checkEmployee, setCheckEmployee]=useState([])
+      const [selectedRows, setSelectedRows] = useState([]);
+      const [selectedRows1, setSelectedRows1] = useState([]);
+      const [tableData, setTableData] = useState([]);
+       const [edit1, setEdit] = useState("false");
+       const [add, setAdd] = useState("false");
+      //  const [ delete1, setDelete1] = useState("false");
+      //  const [ delete2, setDelete2] = useState("false");
+      //  const [ deleteEmployee, setDeleteEmployee] = useState("");
+        //  const [checkEmployee, setCheckEmployee]=useState([])
+        const [EditTable, setEditTable]=useState("")
+        const [price,setPrice,]=useState("")
+        const [numberOfItems, setNumberOfItems]=useState("")
+        const [sum, setSum]=useState("")
+        
+
+        
 
   
 
@@ -727,108 +759,12 @@ function submitTaskData (){
   setIsReport(true)
   setOverView(false)
   setSumbitTask(!submitTask)
+  setIsListVisibleOrder(false)
 }
  
 // Example usage:
 
 
-const chartSetting = {
-  xAxis: [
-    {
-      label: 'rainfall (mm)',
-    },
-  ],
-  width: 500,
-  height: 400,
-};
-const dataset = [
-  {
-    london: 59,
-    paris: 57,
-    newYork: 86,
-    seoul: 21,
-    month: 'Jan',
-  },
-  {
-    london: 50,
-    paris: 52,
-    newYork: 78,
-    seoul: 28,
-    month: 'Fev',
-  },
-  {
-    london: 47,
-    paris: 53,
-    newYork: 106,
-    seoul: 41,
-    month: 'Mar',
-  },
-  {
-    london: 54,
-    paris: 56,
-    newYork: 92,
-    seoul: 73,
-    month: 'Apr',
-  },
-  {
-    london: 57,
-    paris: 69,
-    newYork: 92,
-    seoul: 99,
-    month: 'May',
-  },
-  {
-    london: 60,
-    paris: 63,
-    newYork: 103,
-    seoul: 144,
-    month: 'June',
-  },
-  {
-    london: 59,
-    paris: 60,
-    newYork: 105,
-    seoul: 319,
-    month: 'July',
-  },
-  {
-    london: 65,
-    paris: 60,
-    newYork: 106,
-    seoul: 249,
-    month: 'Aug',
-  },
-  {
-    london: 51,
-    paris: 51,
-    newYork: 95,
-    seoul: 131,
-    month: 'Sept',
-  },
-  {
-    london: 60,
-    paris: 65,
-    newYork: 97,
-    seoul: 55,
-    month: 'Oct',
-  },
-  {
-    london: 67,
-    paris: 64,
-    newYork: 76,
-    seoul: 48,
-    month: 'Nov',
-  },
-  {
-    london: 61,
-    paris: 70,
-    newYork: 103,
-    seoul: 25,
-    month: 'Dec',
-  },
-];
-
-const valueFormatter = (value: number | null) => `${value}mm`;
 
 const clearSignature = () => {
   signaturePadRef.current.clear();
@@ -971,12 +907,203 @@ useEffect(() => {
   }
 }, []);
 
+/////
+const AddEmployee2 = (newRow)=>{
+  setInputVisible(!isInputVisible)
+  // setEmployeelist((prevData) => [...prevData, newRow]);
+  
+  
+    }
+
+    const Save = async (min, max) => {
+ 
+    
+      min =100;
+      max =99;
+      
+      const newId = ' CTC' + Math.floor(Math.random() * (max - min +1)) + min;
+  const today = new Date();
+  const day = today.getDate(); // Day of month
+  const month = today.getMonth() + 1; // Month is zero-based
+  const year = today.getFullYear(); // Full year
+  
+  const datePurchase = `${day}/${month}/${year}`;
+     
+      
+        // Store the Base64-en
+     
+      const newEmployee = {
+        ID: datePurchase,
+        
+        FirstName: firstName,
+        LastName: lastName,
+        Email: email,
+        Contact: contact,
+        Contract: contract,
+        Position: position,
+        // Picture:picture,
+      };
+    
+      // Check if any field is empty
+      if (!Object.values(newEmployee).some(value => value === "")) {
+        const newRow = {
+         
+          checked: <input type="checkbox" />,
+          ID:newId, // Use the updated ID
+          FirstName: firstName,
+          LastName: lastName,
+          Email: email,
+          Contact: contact,
+          Contract: contract,
+          Position: position,
+          // Picture: picture,
+        };
+    
+        // Update state using functional form of setState
+        // setEmployeelist(prevData => [...prevData, newRow]);
+  
+        if(newEmployee){
+          console.log(newEmployee)
+          let response= await axios.post("https://render-backend-28.onrender.com/api/employee/employeeList", newEmployee )
+         console.log(response)
+           
+          }
+          setEmployeelist(prevData => [...prevData, newRow]);
+        setInputVisible(!isInputVisible)
+        // Update state for individual fields
+        setContact("");
+        setContract("");
+        setEmail("");
+        setId("");
+        setFirstName("");
+        setLastName("");
+        setPic(null);
+  
+  
+     
+      } else {
+        alert("Fill in all inputs");
+      }
+    };
+  
+const Delete = () => {
+  // console.log('deleteEmployee:', deleteEmployee);
+  // console.log('selectedRows:', selectedRows);
+
+  if (selectedRows.length === 0) {
+    alert("Please, check the box first");
+  } else {
+    // Perform actions when deleteEmployee is not null
+    setDelete1(!delete1);
+  }
+};
 
 
+function Edit(){
+  setEdit(!edit1)
+  if(!edit1){
+    alert("You can Edit data")
+  }
+ 
+ 
+ 
+  }
+ 
+ 
+  const handleCheckboxChange = (e) => {
+   const checkboxValue = { _id: e.target.value };
+   setDeleteEmployee({...checkboxValue})
+   // console.log(deleteEmployee)
+   console.log("After setDeleteEmployee:", deleteEmployee);
+   console.log(checkboxValue)
+   if (e.target.checked) {
+    setSelectedRows((prevSelectedRows) => {
+   const isIDAlreadySelected = prevSelectedRows.some((item) => item.ID === checkboxValue.ID);
+ 
+   if (!isIDAlreadySelected) {
+     // Add the new checkboxValue only if the ID is not already in the array
+     return [...prevSelectedRows, checkboxValue];
+   }
+ 
+   // Return the existing array without adding the duplicate ID
+   return prevSelectedRows;
+ });
+   } else {
+     setSelectedRows((prevSelectedRows) =>
+       prevSelectedRows.filter((value) => value.ID !== checkboxValue.ID)
+     );
+     console.log(selectedRows);
+   }
+ };
+ 
+ const handleEditSales = async (id, field, value) => {
+   const rowIndex = tableData.findIndex((row) => row.id === id);
+   const updatedTableData = [...tableData];
+   updatedTableData[rowIndex] = { ...updatedTableData[rowIndex], [field]: value };
+   updatedTableData.push(...selectedRows);
+   setTableData(updatedTableData);
+   // console.log(updatedTableData);
+  
+   const pushTableData =updatedTableData.length > 0 ? updatedTableData[0] : null;
+   setEditTable(pushTableData)
+ 
+   console.log( "pushTable",pushTableData)
+   
+   
+ };
+ 
+ 
+    
+ 
+    
+    
+  
+ const SaveEdit = async () => {
+  if (!EditTable) {
+    alert("Please edit data first!");
+    return; // Stop execution if EditTable is null or undefined
+  }
+
+  try {
+    const response = await axios.post(
+      "https://render-backend-28.onrender.com/api/employee/employeeUpdates",
+      EditTable
+    );
+
+    console.log("Edit response:", response);
+    // setEditTable("");
+    alert("Edit saved successfully!");
+  } catch (error) {
+    console.error("Error saving data:", error);
+    alert("Failed to save edit. Please try again.");
+  }
+
+};
 
 
+const NewOrder= ()=>{
+ 
+  setSumbitTask(submitTask)
+  setIsListVisibleOrder(!isListVisibleOrder)
+  setOverView(false)
+}
+useEffect(() => {
+  if (price != null && numberOfItems != null) {
+    let total = price * numberOfItems;
+    console.log(total)
+    setSum(total);
+  }
+}, [price, numberOfItems])
 
 
+const dataBarChat = [
+  { name: 'Oil', orders: 30 },
+  { name: 'Tomato Paste', orders: 50 },
+  { name: 'Spaghetti', orders: 70 },
+  { name: 'Noodles', orders: 40 },
+];
+
+const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
 
 
 
@@ -998,10 +1125,10 @@ useEffect(() => {
 <h5 style={{color:"white"}}>Field Services</h5>
  <ul>
  <li style={{color:"coral"}} >OverView</li>
-  <li onClick={List}>Employee List</li>
+  <li onClick={List}>Sales</li>
   <li onClick={Task}>Task {!taskNumber && (<span className="TaskInc" > <span id="taskNum">{increaseData}</span></span>)}</li> 
   <li onClick={TimeSheet}>Time</li>
-  <li>Projects</li>
+  <li onClick={NewOrder}>New Arrival</li>
   
   <li>Discuss</li> 
   <li>Planning</li>
@@ -1124,60 +1251,53 @@ null
   </div>
 )}
 
-       
+    {/* sales */}
 
  {!isListVisible1 &&(
            <div className='addEmployee1'>
 
-            <h4 id="EmployeeData" style={{ textAlign: "center" }}>Employee Data</h4>
+            <h4 id="EmployeeData" style={{ textAlign: "center" }}>Sales</h4>
             <div className='employee-menu'> 
-            <input placeholder='Search' type='search' className='employee search'/>
+            <input placeholder='Search' type='s                                   earch' className='employee search'/>
            
-            
-            
+            <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
+            <button  type="button " onClick={Save}  className="btn btn-primary delete">Save</button>
             <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
-            
+            <button   type="button" onClick={Delete} class="btn btn-danger delete">Delete</button>
+                        <button onClick={Edit}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
+                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Refresh</button>
             </div>
             
             <table>
   <tr>
   <th>Check</th>
-    <th>ID</th>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Email</th>
-    <th>Contact</th>
-    <th>Contract</th>
-    <th>Position</th>
+    <th>Date</th>
+    <th>Product</th>
+    <th>Product Name</th>
+    <th>Liters</th>
+    <th>Quantity</th>
+    <th>Price 
+    <span style={{color:"red"}}>GHS</span></th>
+    <th>Total Price <span style={{color:"green"}}>GHS</span></th>
     <th>Picture</th>
   </tr>
   
   <tr>
   <th><input id='input2' type='checkbox'/></th>
-  <th>CT01</th>
-    <td>Prisca</td>
-    <td>Bakam</td>
-    <td>zackyaroo31@gmail.com</td>
-    <td>6788399020</td>
-    <td>Fixed</td>
-    <td>Sales Manager</td>
+  <th> Thurs/4/2025 </th>
+    <td>oil</td>
+    <td>1 liters</td>
+    <td>5</td>
+    <td>20</td>
+    <td>100</td>
+    <td>1000</td>
     <td><img style={{width:"50px", height:"30px"}} src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D"/></td>
   </tr>
 
 
-  <tr>
-  <th><input className='input2' type='checkbox'/></th>
-    <td>CT02</td>
-    <td>Prisca</td>
-    <td>Bakam</td>
-    <td>zackyaroo31@gmail.com</td>
-    <td>6788399020</td>
-    <td>Fixed</td>
-    <td>Sales Manager</td>
-    <td><img style={{width:"50px", height:"30px"}} src="https://media.istockphoto.com/id/1307791650/photo/headshot-portrait-of-smiling-caucasian-businessman-pose-at-workplace.jpg?s=612x612&w=0&k=20&c=Guj8f7rGyX4tsSszs3qR_NCYDOOvypB6T3eSPEB9GOQ="/></td>
-  </tr>
-
-  { EmployeeList.map((row) => (
+  
+{/* 
+  { EmployeeListData.map((row) => (
   <tr key={row.ID}>
     <td>
       <input id='input2' type='checkbox' value={row.ID} data-value1={row.ID} />
@@ -1193,8 +1313,117 @@ null
     
     </td>
   </tr>
-))}
+))} */}
 
+
+{EmployeeListData.map((row) => (
+    <tr key={row.id}  >
+      <td><input id='input2' type='checkbox'
+     value={row._id}
+    data-value1={row._id}
+     
+        onChange={handleCheckboxChange}
+         
+      /></td>
+      <td>{row.ID}</td>
+      {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'FirstName', e.target.innerText)}
+                >
+                  {row.FirstName}
+                </td>
+              ) : (
+                <td>{row.FirstName}</td>
+              )}
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'LastName', e.target.innerText)}
+                >
+                  {row.LastName}
+                </td>
+              ) : (
+                <td>{row.LastName}</td>
+
+              )}
+
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.Id, 'Email', e.target.innerText,
+                  row.ID
+                  )}
+                >
+                  {row.Email}
+                </td>
+              ) : (
+                <td>{row.Email}</td>
+              )}
+
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'Contact', e.target.innerText)}
+                >
+                  {row.Contact}
+                </td>
+              ) : (
+                <td>{row.Contact}</td>
+              )}
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'Contract', e.target.innerText)}
+                >
+                  {row.Contract}
+                </td>
+              ) : (
+                <td>{row.Contract}</td>
+              )}
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'Position', e.target.innerText)}
+                >
+                  {row.Position}
+                </td>
+              ) : (
+                <td>{row.Position}</td>
+              )}
+     
+      <td  contentEditable onBlur={(e) => handleEditSales(row.id, 'Picture', row.Picture)}><img style={{width:"70px", height:"50px"}} src={row.Picture}/></td>
+    </tr>
+  ))}
+
+
+
+
+ {/* input */}
+
+
+
+
+
+ 
+ {!isInputVisible && (<tr className='inputTree'>
+  <th><input id='input2' type='checkbox' /> </th>
+  <td>Date</td>
+    <td><input id='input1' type='text' onChange={(e)=>setFirstName(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setLastName(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setEmail(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setContact(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setContract(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setPosition(e.target.value)}/></td>
+  
+    <td></td>
+  </tr>
+  )}
 
   
 </table>
@@ -1203,7 +1432,204 @@ null
 
            </div>
            )}
-           {/* Add More */}
+           {/* New oRDEE */}
+
+
+           {!isListVisibleOrder &&(
+           <div className='addEmployee1'>
+
+            <h4 id="EmployeeData" style={{ textAlign: "center" }}>Arrival Orders</h4>
+            <div className='employee-menu'> 
+            <input placeholder='Search' type='search' className='employee search'/>
+           
+            <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
+            <button  type="button " onClick={Save}  className="btn btn-primary delete">Save</button>
+            <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
+            <button   type="button" onClick={Delete} class="btn btn-danger delete">Delete</button>
+                        <button onClick={Edit}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
+                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Refresh</button>
+            </div>
+            
+            <table>
+  <tr>
+  <th>Check</th>
+    <th>Date</th>
+    <th>Product Name</th>
+    <th>Sizes/Litres/G/KG</th>
+    <th>Number Of Boxes</th>
+    <th>Items Per Box</th>
+    <th>R-Price</th>
+    
+    <th> Price Per Item <span style={{color:"green"}}>GHS</span></th>
+    <th><span style={{color:"blue"}}> Total Cost GHS</span></th>
+  </tr>
+  
+  <tr>
+  <th><input id='input2' type='checkbox'/></th>
+  <th> Thurs/4/2025 </th>
+    <td>oil</td>
+    <td>1 liters</td>
+    <td>5</td>
+    <td>20</td>
+    <td>100</td>
+    <td>1000</td>
+    <td>2000</td>
+    {/* <td>2000</td> */}
+  </tr>
+
+
+ 
+
+
+{EmployeeListData.map((row) => (
+    <tr key={row.id}  >
+      <td><input id='input2' type='checkbox'
+     value={row._id}
+    data-value1={row._id}
+     
+        onChange={handleCheckboxChange}
+         
+      /></td>
+      <td>{row.ID}</td>
+      {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'FirstName', e.target.innerText)}
+                >
+                  {row.FirstName}
+                </td>
+              ) : (
+                <td>{row.FirstName}</td>
+              )}
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'LastName', e.target.innerText)}
+                >
+                  {row.LastName}
+                </td>
+              ) : (
+                <td>{row.LastName}</td>
+
+              )}
+
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.Id, 'Email', e.target.innerText,
+                  row.ID
+                  )}
+                >
+                  {row.Email}
+                </td>
+              ) : (
+                <td>{row.Email}</td>
+              )}
+
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'Contact', e.target.innerText)}
+                >
+                  {row.Contact}
+                </td>
+              ) : (
+                <td>{row.Contact}</td>
+              )}
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'Contract', e.target.innerText)}
+                >
+                  {row.Contract}
+                </td>
+              ) : (
+                <td>{row.Contract}</td>
+              )}
+
+              {!edit1 ? (
+                <td
+                  contentEditable
+                  onBlur={(e) => handleEditSales(row.id, 'Position', e.target.innerText)}
+                >
+                  {row.Position}
+                </td>
+              ) : (
+                <td>{row.Position}</td>
+              )}
+     
+      <td  contentEditable onBlur={(e) => handleEditSales(row.id, 'Picture', row.Picture)}><img style={{width:"70px", height:"50px"}} src={row.Picture}/></td>
+      <td>{sum}</td>
+    </tr>
+  ))}
+
+
+
+
+ {/* input */}
+
+
+
+
+
+ 
+ {!isInputVisible && (<tr className='inputTree'>
+  <th><input id='input2' type='checkbox' /> </th>
+  <td></td>
+    <td><input id='input1' type='text' onChange={(e)=>setFirstName(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setLastName(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setEmail(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setNumberOfItems(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setContract(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setPrice(e.target.value)}/></td>
+    <td style={{color:"blue"}}>{sum}</td>
+  
+    {/* <td><input id='input1' type='text' onChange={(e)=>setPosition(e.target.value)}/></td>  */}
+  </tr>
+  )}
+
+  
+</table>
+
+<div style={{left:"100px" , marginTop:"50PX"}}  >
+  <table>
+  <tr>
+    <th style={{width:"500px", fontSize:"20px", fontFamily:"bold"}}><button class="btn btn-outline-success" >Total Cost oF Goods Ordered</button></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    </tr>
+    <tr>
+      <td id='totalCOST'></td>
+      <td id='totalCOST'></td>
+      <td id='totalCOST'></td>
+      <td id='totalCOST'></td>
+      <td id='totalCOST'></td>
+      <td id='totalCOST'></td>
+      <td id='totalCOST'>hhh</td>
+      <td id='totalCOST'></td>
+       <td id='totalCOST'></td> 
+      <td id='totalCOST'  style={{width:"50px", fontSize:"20px", fontFamily:"bold" ,color:"BLUE", m:"50px"}}>3000</td>
+    </tr>
+  </table>
+</div>
+
+
+           </div>
+           )}
+
+
+
+
+
            
           
          { !isVisibleTimeSheet &&
@@ -1755,7 +2181,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
 
        ):(  
         
-        <div className='rowMe' >
+        <div className='rowMe'  >
            
             <div className='col-team team2a' >
             <h3 id="h3" style={{color:"white" }}>Connect your Docs to workflows.
@@ -1778,12 +2204,12 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
        )}
 
 {token ? (
-  <div className='row4-token'>
+  <div className='row4-token'  >
     <div className="token4 row4Token3">
       
       <h4 id="b" >Activities</h4>
     <hr></hr>
- <ul>
+ <ul >
   <li>Announcement <span  style={{color:" #774040", fontSize:"22px"}}><Icon className="icon-small icon1" icon="nimbus:marketing" /></span></li>
   <li onClick={appoint}>Appointments <span id="icon-small"  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon2" icon="icon-park:appointment" /></span></li> 
   <li onClick={marketing}>Work Schedules                <span  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon3" icon="fa-solid:sms" /></span></li>
@@ -1793,7 +2219,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     <div className="token4 row4Token4 " >
     <h4 id="event" style={{color:"white"}}>{Events}</h4>
     {coursel ? (
-    <div style={{justifyContent:"center", textAlign:"center", margin:"20px 100px"}}>
+    <div style={{justifyContent:"center", textAlign:"center", margin:"20px 100px",height:"100%"}}>
         {isAppointment && (
             <div className="appoint">
             
@@ -1854,8 +2280,22 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
   <div className="slide-track" ref ={sliderRef} style={{width:"100%", height:"30vh",}} >
   
   
-  <div className='slide'  ><img className='display-img'  src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
-  <div className="slide" ><img className='display-img' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+  <div className='slide'  style={{width:"200px"}} ><img className='imgSlide'   src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
 
 </div>
 
@@ -1875,7 +2315,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
            
            <div className='slider ' >
   
-         <div className="slide-track" ref={sliderRef}>
+         <div className="slide-track" ref={sliderRef}  style={{height:"100%"}}>
          <div className="slide"><img className='imgSlide' src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
   <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
   <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
@@ -2091,16 +2531,23 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         )}
     
 {token? (
-  <div className="row20">
-  <h3>Employee Progress</h3>
-  {/* <BarChart id="barChart"
-      dataset={dataset}
-      yAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-      series={[{ dataKey: 'seoul', label: 'Seoul rainfall', valueFormatter }]}
-      layout="horizontal"
-      grid={{ vertical: true }}
-      {...chartSetting}
-    /> */}
+  <div className="row20" style={{boxShadow:"none" ,background:"none"}}>
+  <h3 style={{boxShadow:"none"}}>Sales Progress</h3>
+  <BarChart width={900} height={400} data={dataBarChat}>
+  <CartesianGrid strokeDasharray="3 3" />
+  <XAxis dataKey="name" />
+  <YAxis />
+  <Tooltip />
+  <Legend />
+  <Bar dataKey="orders">
+    {dataBarChat.map((entry, index) => (
+      <Cell
+        key={`cell-${index}`}
+        fill={entry.orders === maxOrders ? '#FF5733' : '#8884d8'}
+      />
+    ))}
+  </Bar>
+</BarChart>
 
   </div>
 ):(

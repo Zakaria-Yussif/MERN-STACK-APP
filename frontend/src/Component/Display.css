@@ -477,17 +477,18 @@ box-shadow: 0px 0px 0px 0px;
      width: 95%;
    grid-template-columns: 30% 30% 30%;
     justify-content: center;
-    box-shadow: 10px 10px 10px 10px rgba(44,31,31,1);
-     background: linear-gradient(200deg,var(--color--blue-10), var(--color--white)); 
+    /* box-shadow: 10px 10px 10px 10px rgba(44,31,31,1); */
+     /* background: linear-gradient(200deg,var(--color--blue-10), var(--color--white));  */
     /* background: linear-gradient(10deg, var(--color--red-50) ,var(--color--white)); */
 
-    margin: 880px 50px 100px;
+    margin: 8px 50px 100px;
     cursor: pointer;
     box-shadow: 0px 0px 0px 0px ;
     border-radius: 20px;
+  top: 900px;
     height: auto;
     gap: 50px;
-    position: absolute;
+    position: absolute; 
     font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
 }
@@ -533,25 +534,22 @@ box-shadow: 0px 0px 0px 0px;
     padding: 5px;
     word-wrap: break-word;
     margin: 10px;
-    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
     background-color:rgba(255, 255, 255, 2) ;
     box-shadow: 0px 0px 0px 0px;
 }
 .token-eLearning{
-    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
 }
 .token-liveChat{
-    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
 }
 .col-token2 p{
     margin: 10px;
     font: 19px Georgia, 'Times New Roman', Times, serif;
 }
-.col-token2:hover{
-    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
-color: #05537a;
 /* width: 100%; */
-}
+
 #elearning{
     width: 150px;
     height: 40px;
@@ -806,19 +804,23 @@ p{
 
 
     .row4Token4{
-        box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
-        min-height: 30vh;
+        /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+        min-height: auto;
         /* background: var(--gradient-lime-50) */
         overflow-y: scroll;
         overflow-x: hidden;
       text-align: start;
         /* background: linear-gradient(300deg, var(--color--black-50) ,var(--color--white));  */
     }
+    .row4Token4 ul li{
+        color:#000;
+    }
+
     .row4Token3{
         
-        box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
-        background: linear-gradient(200deg, var(--color--blue-800) ,var(--color--blue-800), var(--color--blue-200));  
-        color: white;
+        /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+        /* background: linear-gradient(200deg, var(--color--blue-800) ,var(--color--blue-800), var(--color--blue-200));   */
+        color:black;
     }
     
     #AI_Icon{
@@ -954,7 +956,7 @@ p{
         width: 100%;
         border-radius: var(--radius--medium);
         height: 30vh;
-        box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3);
+        /* box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3); */
         cursor: pointer;
         /* background-position: 50% 100%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.527" preserveAspectRatio="none"><path d="M35.278 2.463v-.125A82.946 82.946 0 000 2.345v.125a82.783 82.783 0 0135.278-.007m0 .615v-.25A83.105 83.105 0 000 2.835v.25a82.777 82.777 0 0135.278-.007m-33.252.45a82.855 82.855 0 0131.26 0h1.992v-.093A83.44 83.44 0 000 3.442v.085zm10.8 0h-8.84a84.249 84.249 0 0127.339 0h-8.839zM35.278 1.97v-.075A82.878 82.878 0 000 1.902v.075a82.771 82.771 0 0135.278-.007" fill="%23b9d9eb"/></svg>');  */
         background-position: 50% 99%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.52" preserveAspectRatio="none"><path d="M0 3.528S27.04 3.352 35.278 0v3.528z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.374 35.278.425v3.103z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.396 35.278.882v2.646z" fill="%23b9d9eb"/><path d="M0 3.527h35.278v.092H0z" fill="%23b9d9eb"/></svg>'); 
@@ -1276,6 +1278,9 @@ cursor: pointer;
      background-color: green;
       height: -1px;
     }
+    #totalCOST{
+        background-color: white;
+    }
     #line6{
         background-color: #F400A1;
         height: -1px;
@@ -1450,7 +1455,7 @@ cursor: pointer;
     width: 92%;
     margin: 1050px 60px;
     position: absolute; 
-    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
     justify-content: center;
     height: auto;
     font:  17px 'Roboto Mono', monospace;
