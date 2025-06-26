@@ -191,6 +191,44 @@ useEffect(() => {
   };
 
   
+  async function GetList() {
+    try {
+      const response = await axios.get("https://render-backend-28.onrender.com/api/employee/getEmployeeList");
+      console.log("emplo",response);
+  
+      setButtonClicked(true);
+  
+      if (response.status === 200) {
+        // Update EmployeeList
+        setEmployeelist((prevData) => [...prevData, ...response.data.uniqueArray]);
+  
+        const newEmployeeId = response.data[0].ID;
+      
+      
+        const newRow =EmployeeList.map((item)=>({
+          checked: <input type="checkbox" />,
+          ID: newEmployeeId,
+          FirstName: item.firstName, // Make sure you have appropriate values here
+          LastName: item.lastName,
+          Email:item.email,
+          Contact: item.contact,
+          Contract:item.contract,
+          Position:item.position,
+          Picture:item.picture,
+        }))
+  
+      setEmployeelist((prevData) => [...prevData, newRow]);
+
+      } else if (response.status === 201) {
+        alert("No Data");
+      }
+    } catch (error) {
+      console.error("Error fetching employee data:", error);
+    } finally {
+      // Set the button clicked state to true
+      setButtonClicked(true);
+    }
+  }
 
   
   const AddEmployee2 = (newRow)=>{

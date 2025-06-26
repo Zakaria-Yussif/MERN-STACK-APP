@@ -145,6 +145,11 @@ const [isInputVisible, setInputVisible] = useState("false");
         const [price,setPrice,]=useState("")
         const [numberOfItems, setNumberOfItems]=useState("")
         const [sum, setSum]=useState("")
+        const [priceSales,setPriceSales,]=useState("")
+        const [numberOfItemsSales, setNumberOfItemsSales]=useState("")
+        const [sumSales, setSumSales]=useState("")
+        const [SalesName, setSalesName]=useState("")
+        const[nameSales, setNameSales]=useSelector("")
         
 
         
@@ -261,7 +266,7 @@ if (token){
  
   
   
-  async function GetList() {
+  async function GetListss() {
     try {
       const response = await axios.get("https://render-backend-28.onrender.com/api/employee/getEmployeeList");
       console.log("emplo",response);
@@ -300,6 +305,45 @@ if (token){
     }
   }
   
+  
+  async function GetList() {
+    try {
+      const response = await axios.get("https://render-backend-28.onrender.com/api/employee/getEmployeeList");
+      console.log("emplo",response);
+  
+      setButtonClicked(true);
+  
+      if (response.status === 200) {
+        // Update EmployeeList
+        setEmployeelistData((prevData) => [...prevData, ...response.data.uniqueArray]);
+  
+        const newEmployeeId = response.data[0].ID;
+      
+      
+        const newRow =EmployeeList.map((item)=>({
+          checked: <input type="checkbox" />,
+          ID: newEmployeeId,
+          FirstName: item.firstName, // Make sure you have appropriate values here
+          LastName: item.lastName,
+          Email:item.email,
+          Contact: item.contact,
+          Contract:item.contract,
+          Position:item.position,
+          Picture:item.picture,
+        }))
+  
+      setEmployeelist1((prevData) => [...prevData, newRow]);
+
+      } else if (response.status === 201) {
+        alert("No Data");
+      }
+    } catch (error) {
+      console.error("Error fetching employee data:", error);
+    } finally {
+      // Set the button clicked state to true
+      setButtonClicked(true);
+    }
+  }
 
 
 
@@ -915,7 +959,7 @@ const AddEmployee2 = (newRow)=>{
   
     }
 
-    const Save = async (min, max) => {
+    const SaveSales = async (min, max) => {
  
     
       min =100;
@@ -935,12 +979,13 @@ const AddEmployee2 = (newRow)=>{
       const newEmployee = {
         ID: datePurchase,
         
-        FirstName: firstName,
-        LastName: lastName,
-        Email: email,
-        Contact: contact,
-        Contract: contract,
-        Position: position,
+        Product: firstName,
+        Status: lastName,
+      Liters: email,
+        Quantity: numberOfItems,
+        Price: priceSales,
+        TotalPrice:sumSales,
+        Name:nameSales,
         // Picture:picture,
       };
     
@@ -949,13 +994,15 @@ const AddEmployee2 = (newRow)=>{
         const newRow = {
          
           checked: <input type="checkbox" />,
-          ID:newId, // Use the updated ID
-          FirstName: firstName,
-          LastName: lastName,
-          Email: email,
-          Contact: contact,
-          Contract: contract,
-          Position: position,
+          ID: datePurchase,
+        
+          Product: firstName,
+          Status: lastName,
+         Liters: email,
+          Quantity: numberOfItemsSales,
+          Price: priceSales,
+          TotalPrice:sumSales,
+          Name:name,
           // Picture: picture,
         };
     
@@ -971,13 +1018,14 @@ const AddEmployee2 = (newRow)=>{
           setEmployeelist(prevData => [...prevData, newRow]);
         setInputVisible(!isInputVisible)
         // Update state for individual fields
-        setContact("");
-        setContract("");
+        setPriceSales("")
+        setNumberOfItemsSales("")
         setEmail("");
         setId("");
         setFirstName("");
         setLastName("");
-        setPic(null);
+        setNameSales("")
+        setSumSales("")
   
   
      
@@ -985,6 +1033,88 @@ const AddEmployee2 = (newRow)=>{
         alert("Fill in all inputs");
       }
     };
+
+
+    const SaveNewOrder = async (min, max) => {
+ 
+    
+      min =100;
+      max =99;
+      
+      const newId = ' CTC' + Math.floor(Math.random() * (max - min +1)) + min;
+  const today = new Date();
+  const day = today.getDate(); // Day of month
+  const month = today.getMonth() + 1; // Month is zero-based
+  const year = today.getFullYear(); // Full year
+  
+  const datePurchase = `${day}/${month}/${year}`;
+     
+      
+        // Store the Base64-en
+     
+      const newEmployee = {
+        ID: datePurchase,
+        
+        Product: firstName,
+        Size: lastName,
+      Liters: email,
+      Retailer:contract,
+
+        Quantity: numberOfItems,
+        Price: priceSales,
+        TotalPrice:sumSales,
+        Name:nameSales,
+        // Picture:picture,
+      };
+    
+      // Check if any field is empty
+      if (!Object.values(newEmployee).some(value => value === "")) {
+        const newRow = {
+         
+          checked: <input type="checkbox" />,
+          ID: datePurchase,
+        
+          Product: firstName,
+          Size: lastName,
+         Boxes: email,
+         Retailer:contract,
+         
+          Quantity: numberOfItems,
+          Price: price,
+          TotalPrice:sum,
+          
+          // Picture: picture,
+        };
+    
+        // Update state using functional form of setState
+        // setEmployeelist(prevData => [...prevData, newRow]);
+  
+        if(newEmployee){
+          console.log(newEmployee)
+          let response= await axios.post("https://render-backend-28.onrender.com/api/employee/employeeList", newEmployee )
+         console.log(response)
+           
+          }
+          setEmployeelist(prevData => [...prevData, newRow]);
+        setInputVisible(!isInputVisible)
+        // Update state for individual fields
+        setPriceSales("")
+        setNumberOfItems("")
+        setEmail("");
+        setId("");
+        setFirstName("");
+        setLastName("");
+        setNameSales("")
+        setSum("")
+        setContact("")
+  
+  
+     
+      } else {
+        alert("Fill in all inputs");
+      }
+    };
+  
   
 const Delete = () => {
   // console.log('deleteEmployee:', deleteEmployee);
@@ -1094,6 +1224,15 @@ useEffect(() => {
     setSum(total);
   }
 }, [price, numberOfItems])
+
+
+useEffect(() => {
+  if (priceSales != null && numberOfItemsSales != null) {
+    let total = priceSales * numberOfItemsSales;
+    console.log(total)
+    setSumSales(total);
+  }
+}, [priceSales, numberOfItemsSales])
 
 
 const dataBarChat = [
@@ -1282,7 +1421,7 @@ null
             <input placeholder='Search' type='s                                   earch' className='employee search'/>
            
             <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
-            <button  type="button " onClick={Save}  className="btn btn-primary delete">Save</button>
+            <button  type="button " onClick={SaveSales}  className="btn btn-primary delete">Save</button>
             <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
             <button   type="button" onClick={Delete} class="btn btn-danger delete">Delete</button>
                         <button onClick={Edit}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
@@ -1294,13 +1433,13 @@ null
   <th>Check</th>
     <th>Date</th>
     <th>Product</th>
-    <th>Product Name</th>
+    <th>Status</th>
     <th>Liters</th>
     <th>Quantity</th>
     <th>Price 
     <span style={{color:"red"}}>GHS</span></th>
     <th>Total Price <span style={{color:"green"}}>GHS</span></th>
-    <th>Picture</th>
+    <th>Name</th>
   </tr>
   
   <tr>
@@ -1436,13 +1575,29 @@ null
   <th><input id='input2' type='checkbox' /> </th>
   <td>Date</td>
     <td><input id='input1' type='text' onChange={(e)=>setFirstName(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setLastName(e.target.value)}/></td>
+    <td>
+    <div className="outline-primary" id="input1">
+  <select
+    className="form-select"
+    style={{ width: "200px", height: "6vh" }}
+    value={lastName} // <-- bind to state
+    onChange={(e) => setLastName(e.target.value)}
+    aria-label="Status selection"
+  >
+    <option value="">Status</option>
+    <option value="Sales">Sales</option>
+    <option value="Order">Order</option>
+  </select>
+</div>
+
+    
+    </td>
     <td><input id='input1' type='text' onChange={(e)=>setEmail(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setContact(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setContract(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setPosition(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setNumberOfItemsSales(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setPriceSales(e.target.value)}/></td>
+    <td>{sumSales}</td>
   
-    <td></td>
+    <td><input id='input1' type='text' onChange={(e)=>setSalesName(e.target.value)}/></td>
   </tr>
   )}
 
@@ -1464,7 +1619,7 @@ null
             <input placeholder='Search' type='search' className='employee search'/>
            
             <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
-            <button  type="button " onClick={Save}  className="btn btn-primary delete">Save</button>
+            <button  type="button " onClick={SaveNewOrder}  className="btn btn-primary delete">Save</button>
             <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
             <button   type="button" onClick={Delete} class="btn btn-danger delete">Delete</button>
                         <button onClick={Edit}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
