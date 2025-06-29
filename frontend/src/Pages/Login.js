@@ -40,7 +40,10 @@ const Submit = async (event) => {
   // Assuming password is defined somewhere
 
     try {
+        console.log("debug", user)
         const response = await axios.post("https://render-backend-28.onrender.com/api/login", user);
+        
+        console.log("resp", response)
 
         if (response.status === 2004 ) {
             // User successfully logged in

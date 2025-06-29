@@ -26,7 +26,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
-import { BarChart, Bar,Pie,PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell } from 'recharts';
+import { BarChart, Bar,Pie,PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,ResponsiveContainer } from 'recharts';
 import { trusted } from 'mongoose';
 
 //
@@ -148,8 +148,26 @@ const [isInputVisible, setInputVisible] = useState("false");
         const [priceSales,setPriceSales,]=useState("")
         const [numberOfItemsSales, setNumberOfItemsSales]=useState("")
         const [sumSales, setSumSales]=useState("")
-        const [SalesName, setSalesName]=useState("")
-        const[nameSales, setNameSales]=useSelector("")
+        const [salesName, setSalesName]=useState("")
+        const[nameSales, setNameSales]=useState("")
+        const[salesData,setSalesData]=useState([])
+        const[newOrderList, setNewOrderList]=useState([])
+        const[numberOfBoxes, setNumberOFboxes]=useState("")
+        const[liters,setLiters]=useState("")
+        const[product,setProduct]=useState("")
+        const[retailer,setRetailer]=useState("")
+        const[pricePerItem, setPricePerItem]=useState("")
+         const[totalBoxes, setTotalBoxes]=useState("")
+         const[personName, setPersonName]=useState("")
+         
+const [grandTotal, setGrandTotal] = useState(0)
+const [chartData, setChartData] = useState([]);
+
+
+
+
+
+        
         
 
         
@@ -257,7 +275,7 @@ if (token){
       setTaskNuber(true)
     }else{
       setTaskNuber(!taskNumber)
-      setIncreaseData(parsedNum);
+      setIncreaseData(parsedNum)
     }
 
   }, [localStorage, setIncreaseData,increaseData]);
@@ -266,84 +284,102 @@ if (token){
  
   
   
-  async function GetListss() {
-    try {
-      const response = await axios.get("https://render-backend-28.onrender.com/api/employee/getEmployeeList");
-      console.log("emplo",response);
-  
-      setButtonClicked(true);
-  
-      if (response.status === 200) {
-        // Update EmployeeList
-        setEmployeelistData((prevData) => [...prevData, ...response.data.uniqueArray]);
-  
-        const newEmployeeId = response.data[0].ID;
-      
-      
-        const newRow =EmployeeList.map((item)=>({
-          checked: <input type="checkbox" />,
-          ID: newEmployeeId,
-          FirstName: item.firstName, // Make sure you have appropriate values here
-          LastName: item.lastName,
-          Email:item.email,
-          Contact: item.contact,
-          Contract:item.contract,
-          Position:item.position,
-          Picture:item.picture,
-        }))
-  
-      setEmployeelist1((prevData) => [...prevData, newRow]);
-
-      } else if (response.status === 201) {
-        alert("No Data");
-      }
-    } catch (error) {
-      console.error("Error fetching employee data:", error);
-    } finally {
-      // Set the button clicked state to true
-      setButtonClicked(true);
-    }
-  }
-  
   
   async function GetList() {
-    try {
-      const response = await axios.get("https://render-backend-28.onrender.com/api/employee/getEmployeeList");
-      console.log("emplo",response);
-  
-      setButtonClicked(true);
-  
-      if (response.status === 200) {
-        // Update EmployeeList
-        setEmployeelistData((prevData) => [...prevData, ...response.data.uniqueArray]);
-  
-        const newEmployeeId = response.data[0].ID;
-      
-      
-        const newRow =EmployeeList.map((item)=>({
-          checked: <input type="checkbox" />,
-          ID: newEmployeeId,
-          FirstName: item.firstName, // Make sure you have appropriate values here
-          LastName: item.lastName,
-          Email:item.email,
-          Contact: item.contact,
-          Contract:item.contract,
-          Position:item.position,
-          Picture:item.picture,
-        }))
-  
-      setEmployeelist1((prevData) => [...prevData, newRow]);
+  try {
+    const response = await axios.get("https://render-backend-28.onrender.com/api/sales/getSales");
+    console.log("sales response:", response);
 
-      } else if (response.status === 201) {
-        alert("No Data");
-      }
-    } catch (error) {
-      console.error("Error fetching employee data:", error);
-    } finally {
-      // Set the button clicked state to true
-      setButtonClicked(true);
+    setButtonClicked(true);
+
+    if (response.status === 200) {
+      const data = response.data.sales; // Make sure this matches your backend key
+
+      const newRow = data.map((item) => ({
+        checked: <input type="checkbox" />,
+        ID: item.ID,
+        Product: item.Product,
+        Status: item.Status,
+        Liters: item.Liters,
+        Quantity: item.Quantity,
+        Price: item.Price,
+        TotalPrice: item.TotalPrice,
+        Name: item.Name,
+      }));
+
+      console.log("Mapped sales data:", newRow);
+
+      setSalesData((prevData) => [...prevData, ...newRow]);
+      
+    } else if (response.status === 201) {
+      alert("No Data");
     }
+  } catch (error) {
+    console.error("Error fetching sales data:", error);
+  } finally {
+    setButtonClicked(true);
   }
+}
+
+
+  
+  async function GetNewOrderList() {
+  try {
+    const response = await axios.get("https://render-backend-28.onrender.com/api/newOrder/getNewOrder");
+    console.log("newOrder response:", response);
+
+    setButtonClicked(true);
+
+    if (response.status === 200) {
+      const data = response.data.uniqueArray; 
+      // Make sure this matches your backend key
+      // Make sure this matches your backend key
+const newRow = data.map((item) => ({
+  _id: item._id,
+  checked: <input type="checkbox" />,
+  ID: item.ID,
+  Product: item.Product,
+  Liters: item.Liters,
+  NumberOfBoxes: item.NumberOfBoxes,
+  numberOfItems: item.numberOfItems,
+  PricePerItem: item.PricePerItem,
+  TotalPrice: item.TotalPrice,
+  Retailer: item.Retailer,
+}));
+
+
+
+
+
+
+      console.log("Mapped sales data:", newRow);
+
+      setNewOrderList((prevData) => [...prevData, ...newRow]);
+      
+    } else if (response.status === 201) {
+      alert("No Data");
+    }
+  } catch (error) {
+    console.error("Error fetching sales data:", error);
+  } finally {
+    setButtonClicked(true);
+  }
+}
+
+
+useEffect(() => {
+  const sum = newOrderList.reduce(
+    (s, row) => s + (parseFloat(row.TotalPrice) || 0),
+    0
+  );
+  setGrandTotal(sum);
+}, [newOrderList]);
+
+
+
+
+
+
 
 
 
@@ -972,7 +1008,15 @@ const AddEmployee2 = (newRow)=>{
   const year = today.getFullYear(); // Full year
   
   const datePurchase = `${day}/${month}/${year}`;
-     
+    console.log(firstName)
+      console.log(lastName)
+        console.log(email)
+          console.log(nameSales)
+          console.log(numberOfItemsSales)
+           console.log(sumSales)
+           console.log("Name",nameSales)
+          
+
       
         // Store the Base64-en
      
@@ -982,13 +1026,15 @@ const AddEmployee2 = (newRow)=>{
         Product: firstName,
         Status: lastName,
       Liters: email,
-        Quantity: numberOfItems,
+        Quantity: numberOfItemsSales,
         Price: priceSales,
         TotalPrice:sumSales,
-        Name:nameSales,
+          Name:nameSales,
         // Picture:picture,
       };
-    
+
+      console.log("neWW",newEmployee)
+     
       // Check if any field is empty
       if (!Object.values(newEmployee).some(value => value === "")) {
         const newRow = {
@@ -1002,20 +1048,21 @@ const AddEmployee2 = (newRow)=>{
           Quantity: numberOfItemsSales,
           Price: priceSales,
           TotalPrice:sumSales,
-          Name:name,
+         Name:personName,
           // Picture: picture,
         };
-    
+        console.log("jjj",newRow)
         // Update state using functional form of setState
-        // setEmployeelist(prevData => [...prevData, newRow]);
-  
+        setEmployeelist(prevData => [...prevData, newRow]);
+
+         
         if(newEmployee){
           console.log(newEmployee)
-          let response= await axios.post("https://render-backend-28.onrender.com/api/employee/employeeList", newEmployee )
+          let response= await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", newEmployee )
          console.log(response)
            
           }
-          setEmployeelist(prevData => [...prevData, newRow]);
+          setEmployeelist(prevData => [...prevData, newRow])
         setInputVisible(!isInputVisible)
         // Update state for individual fields
         setPriceSales("")
@@ -1033,6 +1080,8 @@ const AddEmployee2 = (newRow)=>{
         alert("Fill in all inputs");
       }
     };
+
+    
 
 
     const SaveNewOrder = async (min, max) => {
@@ -1055,35 +1104,34 @@ const AddEmployee2 = (newRow)=>{
       const newEmployee = {
         ID: datePurchase,
         
-        Product: firstName,
-        Size: lastName,
-      Liters: email,
-      Retailer:contract,
+        Product: product,
+        
+      Liters: liters,
+      Retailer:totalBoxes,
+      numberOfItems:numberOfItems,
 
-        Quantity: numberOfItems,
-        Price: priceSales,
-        TotalPrice:sumSales,
-        Name:nameSales,
-        // Picture:picture,
+        NumberOfBoxes: numberOfBoxes,
+        PricePerItem: pricePerItem,
+        TotalPrice:sum,
+        
       };
-    
+    console.log("dd",newEmployee)
       // Check if any field is empty
       if (!Object.values(newEmployee).some(value => value === "")) {
         const newRow = {
          
           checked: <input type="checkbox" />,
-          ID: datePurchase,
+        ID: datePurchase,
         
-          Product: firstName,
-          Size: lastName,
-         Boxes: email,
-         Retailer:contract,
-         
-          Quantity: numberOfItems,
-          Price: price,
-          TotalPrice:sum,
-          
-          // Picture: picture,
+        Product: product,
+        
+      Liters: liters,
+      Retailer:totalBoxes,
+      numberOfItems:numberOfItems,
+
+        NumberOfBoxes: numberOfBoxes,
+        PricePerItem: pricePerItem,
+        TotalPrice:sum,
         };
     
         // Update state using functional form of setState
@@ -1091,20 +1139,22 @@ const AddEmployee2 = (newRow)=>{
   
         if(newEmployee){
           console.log(newEmployee)
-          let response= await axios.post("https://render-backend-28.onrender.com/api/employee/employeeList", newEmployee )
+          let response= await axios.post("https://render-backend-28.onrender.com/api/newOrder/saveNewOrder", newEmployee )
          console.log(response)
            
           }
-          setEmployeelist(prevData => [...prevData, newRow]);
+          setNewOrderList(prevData => [...prevData, newRow]);
+          console.log("newOrderLIST",newOrderList)
+      
         setInputVisible(!isInputVisible)
         // Update state for individual fields
-        setPriceSales("")
+        setPrice("")
         setNumberOfItems("")
         setEmail("");
         setId("");
         setFirstName("");
         setLastName("");
-        setNameSales("")
+        // setNameSales("")
         setSum("")
         setContact("")
   
@@ -1115,16 +1165,65 @@ const AddEmployee2 = (newRow)=>{
       }
     };
   
-  
-const Delete = () => {
-  // console.log('deleteEmployee:', deleteEmployee);
-  // console.log('selectedRows:', selectedRows);
+  function Delete(){
 
+  }
+ 
+const DeleteOrder = async () => {
   if (selectedRows.length === 0) {
     alert("Please, check the box first");
-  } else {
-    // Perform actions when deleteEmployee is not null
-    setDelete1(!delete1);
+    return;
+  }
+
+  try {
+    const response = await axios.post(
+      "https://render-backend-28.onrender.com/api/newOrder/deleteNewOrder",
+      deleteEmployee
+    );
+
+    
+
+    if (response.status === 200) {
+      alert("Order(s) deleted successfully.");
+      // Optionally, refresh the list or clear selections here
+    window.location.reload();
+
+    } else {
+      alert("Failed to delete order(s). Please try again.");
+    }
+  } catch (error) {
+    console.error("Error deleting order:", error);
+    alert("An error occurred while deleting. Please try again.");
+  }
+};
+
+
+
+const DeleteSales = async () => {
+  if (selectedRows.length === 0) {
+    alert("Please, check the box first");
+    return;
+  }
+
+  try {
+    const response = await axios.post(
+      "https://render-backend-28.onrender.com/api/sales/deleteSales",
+      deleteEmployee
+    );
+
+    
+
+    if (response.status === 200) {
+      alert("Order(s) deleted successfully.");
+      // Optionally, refresh the list or clear selections here
+    window.location.reload();
+
+    } else {
+      alert("Failed to delete order(s). Please try again.");
+    }
+  } catch (error) {
+    console.error("Error deleting order:", error);
+    alert("An error occurred while deleting. Please try again.");
   }
 };
 
@@ -1165,6 +1264,9 @@ function Edit(){
      console.log(selectedRows);
    }
  };
+
+ 
+
  
  const handleEditSales = async (id, field, value) => {
    const rowIndex = tableData.findIndex((row) => row.id === id);
@@ -1218,12 +1320,17 @@ const NewOrder= ()=>{
   setOverView(false)
 }
 useEffect(() => {
-  if (price != null && numberOfItems != null) {
-    let total = price * numberOfItems;
-    console.log(total)
-    setSum(total);
+  console.log("name",personName)
+  if (numberOfBoxes != null && numberOfItems != null) {
+    const totalItems = numberOfBoxes * numberOfItems;
+    setTotalBoxes(totalItems);
+
+    if (pricePerItem != null && totalItems) {
+      const totalPrice = totalItems * pricePerItem;
+      setSum(totalPrice);
+    }
   }
-}, [price, numberOfItems])
+}, [pricePerItem, numberOfItems, numberOfBoxes])
 
 
 useEffect(() => {
@@ -1235,17 +1342,92 @@ useEffect(() => {
 }, [priceSales, numberOfItemsSales])
 
 
-const dataBarChat = [
-  { name: 'Oil 1kg', orders: 30 },
-  {name: 'Oil 2kg', orders: 20 },
-  {name: 'Oil 5kg', orders: 10 },
 
-  { name: 'Tomato Paste', orders: 50 },
-  { name: 'Spaghetti', orders: 70 },
-  // { name: 'Noodles', orders: 40 },
-];
+// const dataBarChat = [
+//   { name: 'Oil 1kg', orders: 30 },
+//   {name: 'Oil 2kg', orders: 20 },
+//   {name: 'Oil 5kg', orders: 10 },
 
-const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
+//   { name: 'Tomato Paste', orders: 50 },
+//   { name: 'Spaghetti', orders: 70 },
+//   // { name: 'Noodles', orders: 40 },
+// ];
+
+// const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
+
+// const [chartData, setChartData] = useState([]);
+
+//   useEffect(() => {
+//     const fetchSales = async () => {
+//       try {
+//         const response = await axios.get(
+//           "https://render-backend-28.onrender.com/api/sales/getSales"
+//         );
+
+//         const rawSales = response.data;
+
+//         // Group and count quantity by product
+//         const grouped = {};
+
+//         rawSales.forEach((sale) => {
+//           const product = sale.Product?.trim() || "Unknown";
+//           const quantity = parseInt(sale.Quantity) || 0;
+
+//           if (!grouped[product]) {
+//             grouped[product] = { name: product, quantity: 0 };
+//           }
+
+//           grouped[product].quantity += quantity;
+//         });
+
+//         const data = Object.values(grouped);
+//         setChartData(data);
+//       } catch (error) {
+//         console.error("Error fetching sales data:", error);
+//       }
+//     };
+
+//     fetchSales();
+//   }, []);
+
+
+  useEffect(() => {
+    const fetchSales = async () => {
+      try {
+        const response = await axios.get(
+          "https://render-backend-28.onrender.com/api/sales/getSales"
+        );
+
+        const rawSales = response.data;
+
+        const grouped = {};
+
+        rawSales.forEach((sale) => {
+          const product = sale.Product?.trim() || "Unknown";
+          const quantity = parseInt(sale.Quantity) || 0;
+
+          if (!grouped[product]) {
+            grouped[product] = { name: product, quantity: 0 };
+          }
+
+          grouped[product].quantity += quantity;
+        });
+
+        const data = Object.values(grouped);
+        setChartData(data);
+      } catch (error) {
+        console.error("Error fetching sales data:", error);
+      }
+    };
+
+    fetchSales();
+  }, []);
+
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const HIGHLIGHT_COLOR = "#FF0000";
+
+  const maxQuantity = Math.max(...chartData.map((item) => item.quantity));
+
 
 
 const dataPieChart = [
@@ -1261,9 +1443,6 @@ const dataPieChart = [
 
 const maxValue = Math.max(...dataPieChart.map(item => item.value));
 
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-const HIGHLIGHT_COLOR = '#FF0000';
 
 
 
@@ -1423,7 +1602,7 @@ null
             <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
             <button  type="button " onClick={SaveSales}  className="btn btn-primary delete">Save</button>
             <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
-            <button   type="button" onClick={Delete} class="btn btn-danger delete">Delete</button>
+            <button   type="button" onClick={DeleteSales} class="btn btn-danger delete">Delete</button>
                         <button onClick={Edit}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
                         <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Refresh</button>
             </div>
@@ -1475,93 +1654,94 @@ null
   </tr>
 ))} */}
 
+{salesData.map((row, index) => (
+  <tr key={row._id || row.id}>  {/* Prefer _id if using MongoDB */}
+      {/* Checkbox */}
+      <td>
+        <input
+          type="checkbox"
+          value={row._id}
+          data-value1={row._id}
+          onChange={handleCheckboxChange}
+        />
+      </td>
+    <td>{row.ID}</td>
 
-{EmployeeListData.map((row) => (
-    <tr key={row.id}  >
-      <td><input id='input2' type='checkbox'
-     value={row._id}
-    data-value1={row._id}
-     
-        onChange={handleCheckboxChange}
-         
-      /></td>
-      <td>{row.ID}</td>
-      {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'FirstName', e.target.innerText)}
-                >
-                  {row.FirstName}
-                </td>
-              ) : (
-                <td>{row.FirstName}</td>
-              )}
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'Product', e.target.innerText)}
+      >
+        {row.Product}
+      </td>
+    ) : (
+      <td>{row.Product}</td>
+    )}
 
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'LastName', e.target.innerText)}
-                >
-                  {row.LastName}
-                </td>
-              ) : (
-                <td>{row.LastName}</td>
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'Status', e.target.innerText)}
+      >
+        {row.Status}
+      </td>
+    ) : (
+      <td>{row.Status}</td>
+    )}
 
-              )}
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'Liters', e.target.innerText)}
+      >
+        {row.Liters}
+      </td>
+    ) : (
+      <td>{row.Liters}</td>
+    )}
 
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'Quantity', e.target.innerText)}
+      >
+        {row.Quantity}
+      </td>
+    ) : (
+      <td>{row.Quantity}</td>
+    )}
 
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.Id, 'Email', e.target.innerText,
-                  row.ID
-                  )}
-                >
-                  {row.Email}
-                </td>
-              ) : (
-                <td>{row.Email}</td>
-              )}
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'Price', e.target.innerText)}
+      >
+        {row.Price}
+      </td>
+    ) : (
+      <td>{row.Price}</td>
+    )}
 
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'TotalPrice', e.target.innerText)}
+      >
+        {row.TotalPrice}
+      </td>
+    ) : (
+      <td>{row.TotalPrice}</td>
+    )}
 
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'Contact', e.target.innerText)}
-                >
-                  {row.Contact}
-                </td>
-              ) : (
-                <td>{row.Contact}</td>
-              )}
-
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'Contract', e.target.innerText)}
-                >
-                  {row.Contract}
-                </td>
-              ) : (
-                <td>{row.Contract}</td>
-              )}
-
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'Position', e.target.innerText)}
-                >
-                  {row.Position}
-                </td>
-              ) : (
-                <td>{row.Position}</td>
-              )}
-     
-      <td  contentEditable onBlur={(e) => handleEditSales(row.id, 'Picture', row.Picture)}><img style={{width:"70px", height:"50px"}} src={row.Picture}/></td>
-    </tr>
-  ))}
-
-
+    
+  </tr>
+))}
 
 
  {/* input */}
@@ -1596,8 +1776,9 @@ null
     <td><input id='input1' type='text' onChange={(e)=>setNumberOfItemsSales(e.target.value)}/></td>
     <td><input id='input1' type='text' onChange={(e)=>setPriceSales(e.target.value)}/></td>
     <td>{sumSales}</td>
+    <td><input id='input1' type='text' onChange={(e)=>setPersonName(e.target.value)}/></td>
   
-    <td><input id='input1' type='text' onChange={(e)=>setSalesName(e.target.value)}/></td>
+    {/* <td><input id='input1' type='text' onChange={(e)=>setPersonName(e.target.value)}/></td> */}
   </tr>
   )}
 
@@ -1620,10 +1801,10 @@ null
            
             <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
             <button  type="button " onClick={SaveNewOrder}  className="btn btn-primary delete">Save</button>
-            <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
-            <button   type="button" onClick={Delete} class="btn btn-danger delete">Delete</button>
+            <button onClick={GetNewOrderList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
+            <button   type="button" onClick={DeleteOrder} class="btn btn-danger delete">Delete</button>
                         <button onClick={Edit}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
-                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Refresh</button>
+                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Save Edit</button>
             </div>
             
             <table>
@@ -1634,7 +1815,7 @@ null
     <th>Sizes/Litres/G/KG</th>
     <th>Number Of Boxes</th>
     <th>Items Per Box</th>
-    <th>R-Price</th>
+    <th>Total Items</th>
     
     <th> Price Per Item <span style={{color:"green"}}>GHS</span></th>
     <th><span style={{color:"blue"}}> Total Cost GHS</span></th>
@@ -1656,90 +1837,76 @@ null
 
  
 
+{newOrderList.map((row) => (
+    <tr key={row._id || row.id}>  {/* Prefer _id if using MongoDB */}
+      {/* Checkbox */}
+      <td>
+        <input
+          type="checkbox"
+          value={row._id}
+          data-value1={row._id}
+          onChange={handleCheckboxChange}
+        />
+      </td>
 
-{EmployeeListData.map((row) => (
-    <tr key={row.id}  >
-      <td><input id='input2' type='checkbox'
-     value={row._id}
-    data-value1={row._id}
-     
-        onChange={handleCheckboxChange}
-         
-      /></td>
+      {/* Purchase Date */}
       <td>{row.ID}</td>
-      {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'FirstName', e.target.innerText)}
-                >
-                  {row.FirstName}
-                </td>
-              ) : (
-                <td>{row.FirstName}</td>
-              )}
 
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'LastName', e.target.innerText)}
-                >
-                  {row.LastName}
-                </td>
-              ) : (
-                <td>{row.LastName}</td>
+      {/* Product */}
+      <td
+        contentEditable={!edit1}
+        onBlur={(e) => handleEditSales(row._id, 'Product', e.target.innerText)}
+      >
+        {row.Product}
+      </td>
 
-              )}
+      {/* Liters */}
+      <td
+        contentEditable={!edit1}
+        onBlur={(e) => handleEditSales(row._id, 'Liters', e.target.innerText)}
+      >
+        {row.Liters}
+      </td>
 
+      {/* Number of Boxes */}
+      <td
+        contentEditable={!edit1}
+        onBlur={(e) => handleEditSales(row._id, 'NumberOfBoxes', e.target.innerText)}
+      >
+        {row.NumberOfBoxes}
+      </td>
 
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.Id, 'Email', e.target.innerText,
-                  row.ID
-                  )}
-                >
-                  {row.Email}
-                </td>
-              ) : (
-                <td>{row.Email}</td>
-              )}
+      {/* Number of Items */}
+      <td
+        contentEditable={!edit1}
+        onBlur={(e) => handleEditSales(row._id, 'numberOfItems', e.target.innerText)}
+      >
+        {row.numberOfItems}
+      </td>
 
+      {/* Price Per Item */}
+      <td
+        contentEditable={!edit1}
+        onBlur={(e) => handleEditSales(row._id, 'PricePerItem', e.target.innerText)}
+      >
+        {row.PricePerItem}
+      </td>
 
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'Contact', e.target.innerText)}
-                >
-                  {row.Contact}
-                </td>
-              ) : (
-                <td>{row.Contact}</td>
-              )}
+      {/* Retailer */}
+      <td
+        contentEditable={!edit1}
+        onBlur={(e) => handleEditSales(row._id, 'Retailer', e.target.innerText)}
+      >
+        {row.Retailer}
+      </td>
 
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'Contract', e.target.innerText)}
-                >
-                  {row.Contract}
-                </td>
-              ) : (
-                <td>{row.Contract}</td>
-              )}
-
-              {!edit1 ? (
-                <td
-                  contentEditable
-                  onBlur={(e) => handleEditSales(row.id, 'Position', e.target.innerText)}
-                >
-                  {row.Position}
-                </td>
-              ) : (
-                <td>{row.Position}</td>
-              )}
-     
-      <td  contentEditable onBlur={(e) => handleEditSales(row.id, 'Picture', row.Picture)}><img style={{width:"70px", height:"50px"}} src={row.Picture}/></td>
-      <td>{sum}</td>
+      {/* Total Price */}
+      <td
+        contentEditable={!edit1}
+        onBlur={(e) => handleEditSales(row._id, 'TotalPrice', e.target.innerText)}
+      >
+        {row.TotalPrice}
+      </td>
     </tr>
   ))}
 
@@ -1756,13 +1923,13 @@ null
  {!isInputVisible && (<tr className='inputTree'>
   <th><input id='input2' type='checkbox' /> </th>
   <td></td>
-    <td><input id='input1' type='text' onChange={(e)=>setFirstName(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setLastName(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setEmail(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setNumberOfItems(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setContract(e.target.value)}/></td>
-    <td><input id='input1' type='text' onChange={(e)=>setPrice(e.target.value)}/></td>
-    <td style={{color:"blue"}}>{sum}</td>
+    <td><input id='input1' type='text' onChange={(e)=>setProduct(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setLiters(e.target.value)}/></td>
+    <td><input id='input1' type='number' onChange={(e)=>setNumberOFboxes(e.target.value)}/></td>
+    <td><input id='input1' type='number' onChange={(e)=>setNumberOfItems(e.target.value)}/></td>
+    <td onChange={(e)=>setRetailer(e.target.value)}>{totalBoxes}</td>
+    <td><input id='input1' type='text' onChange={(e)=>setPricePerItem(e.target.value)}/></td>
+    <td style={{color:"blue"}} onChange={(e)=>setPrice(e.target.value)} >{sum}</td>
   
     {/* <td><input id='input1' type='text' onChange={(e)=>setPosition(e.target.value)}/></td>  */}
   </tr>
@@ -1790,10 +1957,13 @@ null
       <td id='totalCOST'></td>
       <td id='totalCOST'></td>
       <td id='totalCOST'></td>
-      <td id='totalCOST'>hhh</td>
+      <td id='totalCOST'></td>
       <td id='totalCOST'></td>
        <td id='totalCOST'></td> 
-      <td id='totalCOST'  style={{width:"50px", fontSize:"20px", fontFamily:"bold" ,color:"BLUE", m:"50px"}}>3000</td>
+      <td id='totalCOST'  style={{width:"50px", fontSize:"20px", fontFamily:"bold" ,color:"BLUE", m:"50px"}}>
+  Grand Total: {grandTotal.toFixed(2)}
+
+</td>
     </tr>
   </table>
 </div>
@@ -2712,23 +2882,27 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
   <div>
   <h3 style={{boxShadow:"none"}}>Sales Progress</h3>
   
-  <BarChart width={700} height={400} data={dataBarChat}>
-  <CartesianGrid strokeDasharray="3 3" />
-  <XAxis dataKey="name" />
-  <YAxis />
-  <Tooltip />
-  <Legend />
-  <Bar dataKey="orders">
-    {dataBarChat.map((entry, index) => (
-      <Cell
-        key={`cell-${index}`}
-        fill={entry.orders === maxOrders ? HIGHLIGHT_COLOR : COLORS[index % COLORS.length]}
-      />
-    ))}
-  </Bar>
-</BarChart>
-
   
+        <BarChart data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis allowDecimals={false} />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="quantity" name="Quantity Sold">
+            {chartData.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={
+                  entry.quantity === maxQuantity
+                    ? HIGHLIGHT_COLOR
+                    : COLORS[index % COLORS.length]
+                }
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      
   
 
   
