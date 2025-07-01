@@ -161,7 +161,8 @@ const [isInputVisible, setInputVisible] = useState("false");
          const[personName, setPersonName]=useState("")
          
 const [grandTotal, setGrandTotal] = useState(0)
-const [chartData, setChartData] = useState([]);
+const [dataBarChat, setdataBarChat] = useState([]);
+const [dataPieChart, setdataPieChart] = useState([]);
 
 
 
@@ -297,6 +298,7 @@ if (token){
 
       const newRow = data.map((item) => ({
         checked: <input type="checkbox" />,
+        _id:item._id,
         ID: item.ID,
         Product: item.Product,
         Status: item.Status,
@@ -579,7 +581,7 @@ const copyFileData={...fileData}
         Name: task.Employee.map((employee) => employee.name).join(','),
         Priority: task.Priority,
         File: task.File,
-        Message: task.Message,
+        Message: task.Message, 
         AdminName: task.AdminName,
       }))
     );
@@ -941,7 +943,7 @@ console.log("hello")
     messageReco:sendingMsgRecom,
     name:decodedName,
 
-  }
+  } 
 
 if(data.length ===0){
 alert("fill inputs")
@@ -1029,7 +1031,7 @@ const AddEmployee2 = (newRow)=>{
         Quantity: numberOfItemsSales,
         Price: priceSales,
         TotalPrice:sumSales,
-          Name:nameSales,
+          // Name:nameSales,
         // Picture:picture,
       };
 
@@ -1048,7 +1050,7 @@ const AddEmployee2 = (newRow)=>{
           Quantity: numberOfItemsSales,
           Price: priceSales,
           TotalPrice:sumSales,
-         Name:personName,
+        //  Name:personName,
           // Picture: picture,
         };
         console.log("jjj",newRow)
@@ -1098,8 +1100,8 @@ const AddEmployee2 = (newRow)=>{
   
   const datePurchase = `${day}/${month}/${year}`;
      
-      
-        // Store the Base64-en
+  
+        // Store the Base64-en#
      
       const newEmployee = {
         ID: datePurchase,
@@ -1121,6 +1123,7 @@ const AddEmployee2 = (newRow)=>{
         const newRow = {
          
           checked: <input type="checkbox" />,
+        
         ID: datePurchase,
         
         Product: product,
@@ -1228,13 +1231,24 @@ const DeleteSales = async () => {
 };
 
 
-function Edit(){
+function EditSales(){
   setEdit(!edit1)
   if(!edit1){
     alert("You can Edit data")
   }
  
+
  
+  }
+
+  
+function EditOrder(){
+  setEdit(!edit1)
+  if(!edit1){
+    alert("You can Edit data")
+  }
+ 
+
  
   }
  
@@ -1268,13 +1282,14 @@ function Edit(){
  
 
  
- const handleEditSales = async (id, field, value) => {
-   const rowIndex = tableData.findIndex((row) => row.id === id);
+ const handleEditSales = async (_id, field, value) => {
+   const rowIndex = tableData.findIndex((row) => row._id === _id);
    const updatedTableData = [...tableData];
    updatedTableData[rowIndex] = { ...updatedTableData[rowIndex], [field]: value };
    updatedTableData.push(...selectedRows);
    setTableData(updatedTableData);
-   // console.log(updatedTableData);
+   
+   console.log(updatedTableData);
   
    const pushTableData =updatedTableData.length > 0 ? updatedTableData[0] : null;
    setEditTable(pushTableData)
@@ -1290,15 +1305,18 @@ function Edit(){
     
     
   
+ 
  const SaveEdit = async () => {
   if (!EditTable) {
     alert("Please edit data first!");
     return; // Stop execution if EditTable is null or undefined
   }
 
+  
+
   try {
     const response = await axios.post(
-      "https://render-backend-28.onrender.com/api/employee/employeeUpdates",
+      "https://render-backend-28.onrender.com/api/sales/salesUpdates",
       EditTable
     );
 
@@ -1341,103 +1359,144 @@ useEffect(() => {
   }
 }, [priceSales, numberOfItemsSales])
 
-
-
-// const dataBarChat = [
-//   { name: 'Oil 1kg', orders: 30 },
-//   {name: 'Oil 2kg', orders: 20 },
-//   {name: 'Oil 5kg', orders: 10 },
-
-//   { name: 'Tomato Paste', orders: 50 },
-//   { name: 'Spaghetti', orders: 70 },
-//   // { name: 'Noodles', orders: 40 },
-// ];
-
-// const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
-
-// const [chartData, setChartData] = useState([]);
-
-//   useEffect(() => {
-//     const fetchSales = async () => {
-//       try {
-//         const response = await axios.get(
-//           "https://render-backend-28.onrender.com/api/sales/getSales"
-//         );
-
-//         const rawSales = response.data;
-
-//         // Group and count quantity by product
-//         const grouped = {};
-
-//         rawSales.forEach((sale) => {
-//           const product = sale.Product?.trim() || "Unknown";
-//           const quantity = parseInt(sale.Quantity) || 0;
-
-//           if (!grouped[product]) {
-//             grouped[product] = { name: product, quantity: 0 };
-//           }
-
-//           grouped[product].quantity += quantity;
-//         });
-
-//         const data = Object.values(grouped);
-//         setChartData(data);
-//       } catch (error) {
-//         console.error("Error fetching sales data:", error);
-//       }
-//     };
-
-//     fetchSales();
-//   }, []);
-
-
-  useEffect(() => {
-    const fetchSales = async () => {
+ useEffect(() => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://render-backend-28.onrender.com/api/sales/getSales"
-        );
+        const response = await axios.get("https://render-backend-28.onrender.com/api/sales/getSales");
+        const rawData = response.data?.sales;
+        // console.log("rawData",rawData)
 
-        const rawSales = response.data;
+        if (!Array.isArray(rawData)) {
+          console.error('Sales data is not an array:', rawData);
+          setdataBarChat([]);
+          return;
+        }
 
-        const grouped = {};
+        const formattedData = rawData.map(item => ({
+          name: `${item.Product} ${item.Liters}L`,
+          orders: Number(item.TotalPrice) || 0,
+        }));
 
-        rawSales.forEach((sale) => {
-          const product = sale.Product?.trim() || "Unknown";
-          const quantity = parseInt(sale.Quantity) || 0;
+        const allowedNames = [
+          'Oil 1kg',
+          'Oil 2kg',
+          'Oil 5kg',
+          'Tomatoes Paste 200kg ',
+          'Spaghetti 500kg',
+          'Noodles 500kg',
+        ];
 
-          if (!grouped[product]) {
-            grouped[product] = { name: product, quantity: 0 };
-          }
+        const completeData = allowedNames.map(allowed => {
+          const matches = formattedData.filter(item =>
+            item.name.toLowerCase().includes(allowed.toLowerCase())
+          );
+         
+          const total = matches.reduce((sum, item) => sum + item.orders, 0)
+          // console.log("you", total)
+          
+          
 
-          grouped[product].quantity += quantity;
+          return {
+            name: allowed,
+            orders: total
+          };
         });
 
-        const data = Object.values(grouped);
-        setChartData(data);
+        // console.log("data",completeData)
+
+
+        setdataBarChat(completeData); // ✅ trigger chart re-render
       } catch (error) {
-        console.error("Error fetching sales data:", error);
+        console.error('Error fetching sales data:', error);
+        setdataBarChat([]);
       }
     };
 
-    fetchSales();
+    fetchData();
   }, []);
+
+  
+ useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://render-backend-28.onrender.com/api/newOrder/getNewOrder");
+        const rawData = response.data?.uniqueArray;
+        console.log("rawDataPie",rawData)
+
+        if (!Array.isArray(rawData)) {
+          console.error('Sales data is not an array:', rawData);
+          setdataPieChart([]);
+          return;
+        }
+
+        const formattedData = rawData.map(item => ({
+          name: `${item.Product} ${item.Liters}`,
+          orders: Number(item.TotalPrice) || 0,
+        }));
+
+        console.log("form",formattedData)
+        const allowedNames = [
+          'Oil 1kg',
+          'Oil 2kg',
+          'Oil 5kg',
+          'Tomatoes Paste 200kg ',
+          'Spaghetti 500kg',
+          'Noodles 500kg',
+        ];
+
+        const completeData = allowedNames.map(allowed => {
+          const matches = formattedData.filter(item =>
+            item.name.toLowerCase().includes(allowed.toLowerCase())
+          );
+         
+          const total = matches.reduce((sum, item) => sum + item.orders, 0)
+          console.log("you", total)
+          
+          
+
+          return {
+            name: allowed,
+            orders: total
+          };
+        });
+
+        console.log("dataff",completeData)
+
+
+        setdataPieChart(completeData); // ✅ trigger chart re-render
+      } catch (error) {
+        console.error('Error fetching sales data:', error);
+        setdataPieChart([]);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+
+
+//  const dataBarChat = [
+//   { name: 'Oil 1kg', orders: 30 },
+// {name: 'Oil 2kg', orders: 20 },
+// {name: 'Oil 5kg', orders: 10 },
+
+//  { name: 'Tomato Paste', orders: 50 },
+//  { name: 'Spaghetti', orders: 70 },
+//  { name: 'Noodles', orders: 40 },
+// ];
+
+
+ const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
+
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const HIGHLIGHT_COLOR = "#FF0000";
 
-  const maxQuantity = Math.max(...chartData.map((item) => item.quantity));
+  
 
 
 
-const dataPieChart = [
-  { name: 'Oil', value: 400 },
-  { name: 'Oil 1kg', value: 30 },
-  { name: 'Oil 2kg', value: 20 },
-  { name: 'Oil 5kg', value: 500 },
-  { name: 'Tomato Paste', value: 200 },
-  { name: 'Spaghetti', value: 300 },
-];
   
   
 
@@ -1490,7 +1549,7 @@ const maxValue = Math.max(...dataPieChart.map(item => item.value));
 
  {overView ? (
   <div className="OverView"  >
-  <h4 className={headerTitle} style={{ textAlign: "center",  zIndex:"20",justifyContent:"center" , margin:" 0px 10px 10px "}}>OverView</h4>
+  <h4 className={headerTitle} style={{with:"100%" ,textAlign: "center",  zIndex:"20",justifyContent:"center" , margin:" 0px 10px 10px "}}>OverView</h4>
   <div style={{margin:"50px 4px 5px 6px", width:"85%"}}>
   <p id="p" > <span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}>1.   In response to the evolving landscape of remote work</span>, I embarked on developing a sophisticated remote work application that addresses the challenges faced by distributed teams. This application represents a paradigm shift in how remote teams communicate and manage tasks, offering a comprehensive suite of features to facilitate seamless collaboration.</p>
   <p id="p"><span style={{color:"black", fontSize:"18px", fontWeight:"bolder"}}> 2. At the heart of this application is its ability to foster communication without barriers.</span> Through the integration of chat, audio, and video call functionalities, team members can engage in real-time discussions, brainstorming sessions, and collaborative problem-solving,<Link to="/zoom">connecteZoom here</Link> regardless of their geographical locations. This not only strengthens team cohesion but also enhances productivity by reducing communication delays and misunderstandings.</p>
@@ -1603,8 +1662,8 @@ null
             <button  type="button " onClick={SaveSales}  className="btn btn-primary delete">Save</button>
             <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
             <button   type="button" onClick={DeleteSales} class="btn btn-danger delete">Delete</button>
-                        <button onClick={Edit}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
-                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Refresh</button>
+                        <button onClick={EditSales}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
+                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Save Edit</button>
             </div>
             
             <table>
@@ -1803,7 +1862,7 @@ null
             <button  type="button " onClick={SaveNewOrder}  className="btn btn-primary delete">Save</button>
             <button onClick={GetNewOrderList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
             <button   type="button" onClick={DeleteOrder} class="btn btn-danger delete">Delete</button>
-                        <button onClick={Edit}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
+                        <button onClick={EditOrder}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
                         <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Save Edit</button>
             </div>
             
@@ -2550,7 +2609,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
        )}
 
 {token ? (
-  <div className='row4-token'  >
+  <div className='row4-token' style={{display:"none"}}    >
     <div className="token4 row4Token3">
       
       <h4 id="b" >Activities</h4>
@@ -2879,42 +2938,40 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
 {token? (
   <div className="row20" style={{boxShadow:"none" ,background:"none"}}>
   <div className='dataPie'>
-  <div>
+  <div class=" dataPie barChart">
   <h3 style={{boxShadow:"none"}}>Sales Progress</h3>
-  
-  
-        <BarChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis allowDecimals={false} />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="quantity" name="Quantity Sold">
-            {chartData.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={
-                  entry.quantity === maxQuantity
-                    ? HIGHLIGHT_COLOR
-                    : COLORS[index % COLORS.length]
-                }
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      
-  
+  <ResponsiveContainer>
+  <BarChart width={100} height={100} data={dataBarChat}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis allowDecimals={false} />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="orders" name="Orders">
+          {dataBarChat.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={
+                entry.orders === maxOrders
+                  ? HIGHLIGHT_COLOR
+                  : COLORS[index % COLORS.length]
+              }
+            />
+          ))}
+        </Bar>
+      </BarChart>
 
-  
+  </ResponsiveContainer>
   
 </div>
 
 
 
-<div>
+<div class="pieChat">
 
 <h3> Goods Ordered</h3>
-<PieChart width={700} height={400}>
+<ResponsiveContainer>
+<PieChart width={100} height={400}>
   <Pie
     data={dataPieChart}
     dataKey="value"
@@ -2935,7 +2992,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
   <Tooltip />
   <Legend />
 </PieChart>
-
+</ResponsiveContainer>
 </div>
 </div>
 

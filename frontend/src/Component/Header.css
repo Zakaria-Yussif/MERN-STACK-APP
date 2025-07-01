@@ -648,8 +648,8 @@ font:  20px  'Roboto Mono', monospace;;
         background-image: linear-gradient(#002244,#0C2340);     
         /* background-image: url("../Component/vid/video.mp4");  */
         height: 10vh;
-      max-width: 100%;
-        position: fixed;
+      max-width: 120%;
+    
     }
 
     .navBar.change{
@@ -660,8 +660,8 @@ font:  20px  'Roboto Mono', monospace;;
          
     } 
     .Container-profile{
-  margin: 2px 60px ;
-  justify-content: center;
+  margin: 2px -1000px ;
+  justify-content: left;
     }
     .avatar_img{
         margin: 8px 0px 0px -75px;
