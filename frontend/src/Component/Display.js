@@ -2836,26 +2836,26 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
            <div className='slider ' >
   
          <div className="slide-track" ref={sliderRef} >
-         <div className="slide"><img className='imgSlide' src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
-  <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+         <div className="slide"><img className='imgSlide' src='https://www.nutria.gr/wp-content/uploads/2023/06/ANALYSIS_HORECA_GOLD_SUNFLOWER-OIL.png'/></div>
+  <div className='slide'><img className='imgSlide'  src="https://www.eligos.gr/images/a_LAMPERO_1LT_ALL_.png"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://images.jdmagicbox.com/quickquotes/images_main/-0bzn11aw.png"/></div>
+  <div className='slide'><img className='imgSlide' src="https://imartgrocersph.com/wp-content/uploads/2020/09/Del-Monte-Tomato-Paste-70g.png"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStyCbDq9_owocGvJUXTqjFI2VvQYs4_C0r3HibhAqyrNQtC3xjHrEfyWoGBCzsnFhj_6k&usqp=CAU"/></div>
+  <div className='slide'><img className='imgSlide' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRONkilN4f4H_En5axGRYqlLxlhfTr3lge4YojFLixFNsi6-KjfAEBSknYGkg6S_qP6yo0&usqp=CAU"/></div>
+  <div className='slide'><img className='imgSlide' src="https://littleitalyltd.com/cdn/shop/products/Spaghetti_int_500g_sx.png?v=1744288517"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbWQGBP5MgmMkAEFEmITwAR577NbaVt7JjFBogDyZgX8I_9KuEfp_loDSHjkYZWUYTLg&usqp=CAU"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://vifon.com.vn/vnt_upload/product/mi/roma-mi-spaghetti-sot-ca-chua-goi-120g.png"/></div>
+  <div className='slide'><img className='imgSlide' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKiP34AeGA9NmdKUMGNll9OS6bYEc48Q9IEEnzxE5OfksvcL9UNHO0P9djP4Lq2gjL3Xo&usqp=CAU"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSWmnxbIk5pBgWsZs0Q29MHHGDXMwQ5e0ifQ&s"/></div>
+  <div className='slide'><img className='imgSlide' src="https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1727965951_42017.jpg"/></div>
+  <div className='slide'><img className='imgSlide' src="https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1650529454_42092.jpg"/></div>
 
-  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1750330322_704536.jpg"/></div>
+  <div className='slide'><img className='imgSlide' src="https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1706257491_67339.jpg"/></div>
   
-  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
-  <div className='slide'><img className='imgSlide' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://www.greekfoodtales.com/wp-content/uploads/2023/09/Tonosalata-Trata-Kapnistos-Tonos-Fakes-1-300x196.png"/></div>
+  <div className='slide'><img className='imgSlide' src="https://yufoodsco.com/cdn/shop/files/Picture2.png?v=1701949471"/></div>
+  <div className='slide'><img className='imgSlide' src="https://horizon.com/wp-content/uploads/fat-free-milk-v2.png"/></div>
          </div>
   
      
@@ -2882,26 +2882,28 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
          <div className='slider '  >
   
   <div className="slide-track" ref={sliderRef}  >
-  <div className="slide"><img className='imgSlide'  src='https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1670332734_50164.jpg'/></div>
-<div className='slide'><img className='imgSlide'  src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fthehungrykat.com%2Fpost%2F187870441209%2Fdonaelenalinguine&psig=AOvVaw3TmJKccfVqzhFLQaKCVY_0&ust=1751554060779000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCE_ce1no4DFQAAAAAdAAAAABAE"/></div>
-<div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div className="slide"><img className='imgSlide' src='https://www.nutria.gr/wp-content/uploads/2023/06/ANALYSIS_HORECA_GOLD_SUNFLOWER-OIL.png'/></div>
+  <div className='slide'><img className='imgSlide'  src="https://www.eligos.gr/images/a_LAMPERO_1LT_ALL_.png"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://images.jdmagicbox.com/quickquotes/images_main/-0bzn11aw.png"/></div>
+  <div className='slide'><img className='imgSlide' src="https://imartgrocersph.com/wp-content/uploads/2020/09/Del-Monte-Tomato-Paste-70g.png"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStyCbDq9_owocGvJUXTqjFI2VvQYs4_C0r3HibhAqyrNQtC3xjHrEfyWoGBCzsnFhj_6k&usqp=CAU"/></div>
+  <div className='slide'><img className='imgSlide' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRONkilN4f4H_En5axGRYqlLxlhfTr3lge4YojFLixFNsi6-KjfAEBSknYGkg6S_qP6yo0&usqp=CAU"/></div>
+  <div className='slide'><img className='imgSlide' src="https://littleitalyltd.com/cdn/shop/products/Spaghetti_int_500g_sx.png?v=1744288517"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbWQGBP5MgmMkAEFEmITwAR577NbaVt7JjFBogDyZgX8I_9KuEfp_loDSHjkYZWUYTLg&usqp=CAU"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://vifon.com.vn/vnt_upload/product/mi/roma-mi-spaghetti-sot-ca-chua-goi-120g.png"/></div>
+  <div className='slide'><img className='imgSlide' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKiP34AeGA9NmdKUMGNll9OS6bYEc48Q9IEEnzxE5OfksvcL9UNHO0P9djP4Lq2gjL3Xo&usqp=CAU"/></div>
+  <div className='slide'><img className='imgSlide'  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSWmnxbIk5pBgWsZs0Q29MHHGDXMwQ5e0ifQ&s"/></div>
+  <div className='slide'><img className='imgSlide' src="https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1727965951_42017.jpg"/></div>
+  <div className='slide'><img className='imgSlide' src="https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1650529454_42092.jpg"/></div>
 
-<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
+  <div className='slide'><img className='imgSlide' src="https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1750330322_704536.jpg"/></div>
+  <div className='slide'><img className='imgSlide' src="https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1706257491_67339.jpg"/></div>
+  
+  <div className='slide'><img className='imgSlide' src="https://www.greekfoodtales.com/wp-content/uploads/2023/09/Tonosalata-Trata-Kapnistos-Tonos-Fakes-1-300x196.png"/></div>
+  <div className='slide'><img className='imgSlide' src="https://yufoodsco.com/cdn/shop/files/Picture2.png?v=1701949471"/></div>
+  <div className='slide'><img className='imgSlide' src="https://horizon.com/wp-content/uploads/fat-free-milk-v2.png"/></div>
 
-<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.VkxFtdfRLPIbksmAIF75pwHaE8&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse3.mm.bing.net/th?id=OIP.xkh7I4BdD1Ecf6nWsMTx2QHaHa&pid=Api&P=0&h=220"/></div>
-<div className='slide'><img className='imgSlide' src="https://tse2.mm.bing.net/th?id=OIP.zSvVisjWsE4yYtGaqQwXsgHaF7&pid=Api&P=0&h=220"/></div>
+
   </div>
 
 
@@ -2942,7 +2944,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
   <h3 style={{boxShadow:"none"}}>Sales Progress</h3>
   <ResponsiveContainer>
   <BarChart width={200} height={400} data={dataBarChat}>
-        <CartesianGrid strokeDasharray="3 3" />
+        {/* <CartesianGrid strokeDasharray="0 0" /> */}
         <XAxis dataKey="name" />
         <YAxis allowDecimals={false} />
         <Tooltip />
