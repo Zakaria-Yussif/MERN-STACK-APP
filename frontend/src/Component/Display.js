@@ -2882,8 +2882,8 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
          <div className='slider '  >
   
   <div className="slide-track" ref={sliderRef}  >
-  <div className="slide"><img className='imgSlide'  src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
-<div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
+  <div className="slide"><img className='imgSlide'  src='https://s3.eu-central-1.amazonaws.com/w4ve/kritikos/products/1670332734_50164.jpg'/></div>
+<div className='slide'><img className='imgSlide'  src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fthehungrykat.com%2Fpost%2F187870441209%2Fdonaelenalinguine&psig=AOvVaw3TmJKccfVqzhFLQaKCVY_0&ust=1751554060779000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCE_ce1no4DFQAAAAAdAAAAABAE"/></div>
 <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
 <div className='slide'><img className='imgSlide' src="https://tse4.mm.bing.net/th?id=OIP.ChoKuKS3HJbUcDtJ8a0jpgHaEL&pid=Api&P=0&h=220"/></div>
 <div className='slide'><img className='imgSlide'  src="https://tse3.mm.bing.net/th?id=OIP.U8Qsga_hn-UdqO6PuzNPSAHaEK&pid=Api&P=0&h=220"/></div>
@@ -2941,7 +2941,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
   <div class=" dataPie barChart">
   <h3 style={{boxShadow:"none"}}>Sales Progress</h3>
   <ResponsiveContainer>
-  <BarChart width={100} height={100} data={dataBarChat}>
+  <BarChart width={200} height={400} data={dataBarChat}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="name" />
         <YAxis allowDecimals={false} />
@@ -2967,14 +2967,14 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
 
 
 
-<div class="pieChat">
+<div class=" dataPie pieChat">
 
 <h3> Goods Ordered</h3>
 <ResponsiveContainer>
-<PieChart width={100} height={400}>
+<PieChart width={100} height={500}>
   <Pie
     data={dataPieChart}
-    dataKey="value"
+    dataKey="orders"
     nameKey="name"
     cx="50%"
     cy="50%"
