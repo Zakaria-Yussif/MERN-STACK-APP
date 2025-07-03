@@ -5,6 +5,9 @@ import { useState,useEffect,useRef } from "react";
 import 'react-multi-carousel/lib/styles.css';
 // import  Carousel  from 'react-responsive-carousel';
 // import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
 import AOS from 'aos'
 import { Icon } from '@iconify/react';
 import io  from 'socket.io-client'
@@ -1055,16 +1058,16 @@ const AddEmployee2 = (newRow)=>{
         };
         console.log("jjj",newRow)
         // Update state using functional form of setState
-        setEmployeelist(prevData => [...prevData, newRow]);
+        setSalesData(prevData => [...prevData, newRow]);
 
          
-        if(newEmployee){
-          console.log(newEmployee)
-          let response= await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", newEmployee )
-         console.log(response)
+        // if(newEmployee){
+        //   console.log(newEmployee)
+        //   let response= await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", newEmployee )
+        //  console.log(response)
            
-          }
-          setEmployeelist(prevData => [...prevData, newRow])
+        //   }
+          setSalesData(prevData => [...prevData, newRow])
         setInputVisible(!isInputVisible)
         // Update state for individual fields
         setPriceSales("")
@@ -1474,6 +1477,134 @@ useEffect(() => {
   }, []);
 
 
+const receipt = async () => {
+  console.log("dataArray", salesData);
+
+  if (!Array.isArray(salesData)) {
+    alert("Sales data is invalid.");
+    return;
+  }
+
+  if (salesData.length === 0) {
+    alert("No sales data to display.");
+    return;
+  }
+
+  const receiptData = {
+    company: "White Olives Ltd",
+    date: new Date().toLocaleDateString(),
+    receiptNo: "REC-" + Date.now(),
+    items: salesData.map(item => ({
+      name: item.Product,
+      quantity: item.Quantity,
+      price: item.Price
+    }))
+  };
+
+  const total = receiptData.items.reduce(
+    (sum, item) => sum + item.quantity * item.price,
+    0
+  );
+
+  const container = document.getElementById("receipt-area");
+  container.innerHTML = "";
+
+  const title = document.createElement("h2");
+  title.textContent = receiptData.company;
+
+  const date = document.createElement("p");
+  date.textContent = `Date: ${receiptData.date}`;
+
+  const number = document.createElement("p");
+  number.textContent = `Receipt No: ${receiptData.receiptNo}`;
+
+  const table = document.createElement("table");
+  table.style.borderCollapse = "collapse";
+  table.style.width = "100%";
+
+  const header = document.createElement("tr");
+  ["Item Purchase", "Qty", "Price", "Total"].forEach(text => {
+    const th = document.createElement("th");
+    th.textContent = text;
+    th.style.border = "1px solid black";
+    th.style.padding = "8px";
+    header.appendChild(th);
+  });
+  table.appendChild(header);
+
+  receiptData.items.forEach(item => {
+    const row = document.createElement("tr");
+    [item.name, item.quantity, item.price, item.quantity * item.price].forEach(val => {
+      const td = document.createElement("td");
+      td.textContent = val;
+
+      // Optional background watermark image
+      td.style.backgroundImage = "url('/imgs/logo512.png')"; // path from public folder
+      td.style.backgroundRepeat = "no-repeat";
+      td.style.backgroundPosition = "center";
+      td.style.backgroundSize = "contain";
+      td.style.opacity = "0.9"; // optional for watermark effect
+
+      td.style.border = "1px solid black";
+      td.style.padding = "8px";
+      row.appendChild(td);
+    });
+    table.appendChild(row);
+  });
+
+  const totalRow = document.createElement("tr");
+  totalRow.innerHTML = `
+    <td colspan="3" style="text-align:right; border:1px solid black; padding:8px;"><strong>Total</strong></td>
+    <td style="border:1px solid black; padding:8px;"><strong>${total}</strong></td>
+  `;
+  table.appendChild(totalRow);
+
+  container.appendChild(title);
+  container.appendChild(date);
+  container.appendChild(number);
+  container.appendChild(table);
+
+  // ✅ Move this AFTER rendering is done
+  const receiptElement = document.getElementById("receipt-area");
+  if (!receiptElement) {
+    alert("Receipt content not found.");
+    return;
+  }
+
+  // Convert to canvas
+  const canvas = await html2canvas(receiptElement, {
+    scale: 2,
+    useCORS: true
+  });
+
+  const imgData = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+  });
+
+  const imgProps = pdf.getImageProperties(imgData);
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  pdf.save("receipt.pdf");
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //  const dataBarChat = [
@@ -1512,6 +1643,7 @@ const maxValue = Math.max(...dataPieChart.map(item => item.value));
 
 
   
+
 
 
 
@@ -1656,7 +1788,8 @@ null
 
             <h4 id="EmployeeData" style={{ textAlign: "center" }}>Sales</h4>
             <div className='employee-menu'> 
-            <input placeholder='Search' type='s                                   earch' className='employee search'/>
+            {/* <input placeholder='Search' type='s                                   earch' className='employee search'/> */}
+            <button  type="button" onClick={receipt}  className=" p-2 mb-2 btn btn-success delete">Receipt</button>
            
             <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
             <button  type="button " onClick={SaveSales}  className="btn btn-primary delete">Save</button>
