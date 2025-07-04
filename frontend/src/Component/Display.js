@@ -7,6 +7,7 @@ import 'react-multi-carousel/lib/styles.css';
 // import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import QRCode from 'qrcode';
 
 import AOS from 'aos'
 import { Icon } from '@iconify/react';
@@ -29,8 +30,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
+import logo from "../Component/imgs/logo.png"
 import { BarChart, Bar,Pie,PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,ResponsiveContainer } from 'recharts';
 import { trusted } from 'mongoose';
+import { div, imag } from '@tensorflow/tfjs';
 
 //
 const socket = io.connect("https://render-backend-28.onrender.com")
@@ -1003,24 +1006,14 @@ const AddEmployee2 = (newRow)=>{
     const SaveSales = async (min, max) => {
  
     
-      min =100;
-      max =99;
       
-      const newId = ' CTC' + Math.floor(Math.random() * (max - min +1)) + min;
   const today = new Date();
   const day = today.getDate(); // Day of month
   const month = today.getMonth() + 1; // Month is zero-based
   const year = today.getFullYear(); // Full year
   
   const datePurchase = `${day}/${month}/${year}`;
-    console.log(firstName)
-      console.log(lastName)
-        console.log(email)
-          console.log(nameSales)
-          console.log(numberOfItemsSales)
-           console.log(sumSales)
-           console.log("Name",nameSales)
-          
+   
 
       
         // Store the Base64-en
@@ -1038,7 +1031,6 @@ const AddEmployee2 = (newRow)=>{
         // Picture:picture,
       };
 
-      console.log("neWW",newEmployee)
      
       // Check if any field is empty
       if (!Object.values(newEmployee).some(value => value === "")) {
@@ -1056,18 +1048,12 @@ const AddEmployee2 = (newRow)=>{
         //  Name:personName,
           // Picture: picture,
         };
-        console.log("jjj",newRow)
+        
         // Update state using functional form of setState
         setSalesData(prevData => [...prevData, newRow]);
 
          
-        // if(newEmployee){
-        //   console.log(newEmployee)
-        //   let response= await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", newEmployee )
-        //  console.log(response)
-           
-        //   }
-          setSalesData(prevData => [...prevData, newRow])
+        
         setInputVisible(!isInputVisible)
         // Update state for individual fields
         setPriceSales("")
@@ -1476,9 +1462,8 @@ useEffect(() => {
     fetchData();
   }, []);
 
-
 const receipt = async () => {
-  console.log("dataArray", salesData);
+ 
 
   if (!Array.isArray(salesData)) {
     alert("Sales data is invalid.");
@@ -1490,12 +1475,17 @@ const receipt = async () => {
     return;
   }
 
+   const userName = prompt("Enter customer name") || "Unknown";
+  const userPhone = prompt("Enter phone number") || "N/A";
+  const userEmail = prompt("Enter email address") || "N/A";
+
   const receiptData = {
-    company: "White Olives Ltd",
+    company: "White Olive Ltd",
     date: new Date().toLocaleDateString(),
     receiptNo: "REC-" + Date.now(),
     items: salesData.map(item => ({
       name: item.Product,
+      status:item.Status,
       quantity: item.Quantity,
       price: item.Price
     }))
@@ -1509,25 +1499,50 @@ const receipt = async () => {
   const container = document.getElementById("receipt-area");
   container.innerHTML = "";
 
+  // Optional: Add background watermark
+  container.style.backgroundImage = `url(${logo})`;
+  container.style.backgroundRepeat = "non-repeat";
+  container.style.backgroundPosition = "center";
+  container.style.backgroundSize = "40%";
+  container.style.width="100%"
+
+  container.style.opacity = "0.98";
+  container.style.minHeight="100vh"
+
+  container.style.zIndex="0"
+
+  // Title
   const title = document.createElement("h2");
   title.textContent = receiptData.company;
 
-  const date = document.createElement("p");
-  date.textContent = `Date: ${receiptData.date}`;
+  title.style.margin="40px 0px"
 
-  const number = document.createElement("p");
-  number.textContent = `Receipt No: ${receiptData.receiptNo}`;
+  // Customer Info
+  const customerInfo = document.createElement("div");
+  customerInfo.innerHTML = `
+    <p><strong>Name:</strong> ${userName}</p>
+    <p><strong>Phone:</strong> ${userPhone}</p>
+    <p><strong>Email:</strong> ${userEmail}</p>
+    <p><strong>Date:</strong> ${receiptData.date}</p>
+    <p><strong>Receipt No:</strong> ${receiptData.receiptNo}</p>
+  `;
+  customerInfo.style.zIndex="100"
+  customerInfo.style.margin="20"
 
+  // Table
   const table = document.createElement("table");
   table.style.borderCollapse = "collapse";
   table.style.width = "100%";
-
+  table.style.zIndex="100"
+  table.style.margin="30px 0px"
+  table.style.width="90%"
   const header = document.createElement("tr");
   ["Item Purchase", "Qty", "Price", "Total"].forEach(text => {
     const th = document.createElement("th");
     th.textContent = text;
     th.style.border = "1px solid black";
     th.style.padding = "8px";
+    th.style.backgroundColor = "#f0f0f0";
     header.appendChild(th);
   });
   table.appendChild(header);
@@ -1537,14 +1552,6 @@ const receipt = async () => {
     [item.name, item.quantity, item.price, item.quantity * item.price].forEach(val => {
       const td = document.createElement("td");
       td.textContent = val;
-
-      // Optional background watermark image
-      td.style.backgroundImage = "url('/imgs/logo512.png')"; // path from public folder
-      td.style.backgroundRepeat = "no-repeat";
-      td.style.backgroundPosition = "center";
-      td.style.backgroundSize = "contain";
-      td.style.opacity = "0.9"; // optional for watermark effect
-
       td.style.border = "1px solid black";
       td.style.padding = "8px";
       row.appendChild(td);
@@ -1559,20 +1566,36 @@ const receipt = async () => {
   `;
   table.appendChild(totalRow);
 
+  // QR Code
+  const qrCanvas = document.createElement("canvas");
+  const qrData = `Name: ${userName}\nPhone: ${userPhone}\nEmail: ${userEmail}\nReceipt No: ${receiptData.receiptNo}\nTotal: ${total}`;
+  await QRCode.toCanvas(qrCanvas, qrData, { width: 120 });
+
+  qrCanvas.style.display = "block";
+  qrCanvas.style.margin = "20px auto";
+  qrCanvas.style.zIndex="100"
+
+  // Footer info (use a <div>)
+  const footer = document.createElement("div");
+  footer.innerHTML = `
+    <p style="text-align:center; font-size:12px; color:gray; margin-top:10px;">
+      White Olives Oil - Agona-Ashanti<br/>
+      Tel: 0243892234
+    </p>
+  `;
+footer.style.zIndex="100"
+  // Append to container
   container.appendChild(title);
-  container.appendChild(date);
-  container.appendChild(number);
+  container.appendChild(customerInfo);
   container.appendChild(table);
+  container.appendChild(qrCanvas);
+  container.appendChild(footer);
 
-  // ✅ Move this AFTER rendering is done
-  const receiptElement = document.getElementById("receipt-area");
-  if (!receiptElement) {
-    alert("Receipt content not found.");
-    return;
-  }
+  // Wait for DOM rendering
+  await new Promise(resolve => setTimeout(resolve, 100));
 
-  // Convert to canvas
-  const canvas = await html2canvas(receiptElement, {
+  // Convert to canvas and export to PDF
+  const canvas = await html2canvas(container, {
     scale: 2,
     useCORS: true
   });
@@ -1591,15 +1614,38 @@ const receipt = async () => {
 
   pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
   pdf.save("receipt.pdf");
+try {
+    // Send sales data first
+    await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", salesData);
+
+    // Convert PDF to Blob
+    const pdfBlob = pdf.output("blob");
+
+    // Prepare form data
+    const formData = new FormData();
+    formData.append("file", pdfBlob, `${receiptData.receiptNo}.pdf`);
+    formData.append("name", userName);
+    formData.append("phone", userPhone);
+    formData.append("email", userEmail);
+    formData.append("total", total);
+    formData.append("receiptNo", receiptData.receiptNo);
+    formData.append("date", receiptData.date);
+
+    // Send receipt file to server
+    await axios.post("https://render-backend-28.onrender.com/api/sales/sendReceipt", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+
+    alert("Receipt uploaded successfully!");
+    setSalesData([]); // Clear sales data
+
+  } catch (error) {
+    console.error("Error uploading receipt:", error);
+    alert("An error occurred while uploading receipt.");
+  }
 };
-
-
-
-
-
-
-
-
 
 
 
@@ -1639,7 +1685,8 @@ const maxValue = Math.max(...dataPieChart.map(item => item.value));
     return ( 
         <> 
         
-
+        
+<div id="receipt-area"></div>
 
 
   
