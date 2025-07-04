@@ -1686,7 +1686,7 @@ const maxValue = Math.max(...dataPieChart.map(item => item.value));
         <> 
         
         
-<div id="receipt-area" style={{display:"none"}}></div>
+<div id="receipt-area" ></div>
 
 
   
