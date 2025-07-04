@@ -1500,7 +1500,7 @@ const receipt = async () => {
   container.innerHTML = "";
 
   // Optional: Add background watermark
-  container.style.backgroundImage = `url(${logoData})`;
+  container.style.backgroundImage = `url(${logo})`;
   container.style.backgroundRepeat = "non-repeat";
   container.style.backgroundPosition = "center";
   container.style.backgroundSize = "40%";
