@@ -30,7 +30,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ReactDOMServer from 'react-dom/server';
 import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
-import logo from "../Component/imgs/logo.png"
+import logo from "../Component/imgs/logoData.png"
 import { BarChart, Bar,Pie,PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,ResponsiveContainer } from 'recharts';
 import { trusted } from 'mongoose';
 import { div, imag } from '@tensorflow/tfjs';
@@ -1500,7 +1500,7 @@ const receipt = async () => {
   container.innerHTML = "";
 
   // Optional: Add background watermark
-  container.style.backgroundImage = `url(${logo})`;
+  container.style.backgroundImage = `url(${logoData})`;
   container.style.backgroundRepeat = "non-repeat";
   container.style.backgroundPosition = "center";
   container.style.backgroundSize = "40%";
