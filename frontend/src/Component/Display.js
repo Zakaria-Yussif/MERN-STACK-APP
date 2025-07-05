@@ -1631,15 +1631,14 @@ try {
     formData.append("receiptNo", receiptData.receiptNo);
     formData.append("date", receiptData.date);
     
-
-//     const sms = {
-//   to: userPhone,
-//   message: `Thank you ${userName} for shopping with White Olive Ltd. Receipt No: ${receiptData.receiptNo}, Total: ${total}.`,
-// };
-
+    const sms = {
+  to: userPhone,  
+ message: `Thank you ${userName} for shopping with White Olive Ltd. Receipt No: ${receiptData.receiptNo}, Total: ${total}.`,
+};
 
 
-    // await axios.post("https://render-backend-28.onrender.com/api/sales/send-sms",sms)
+
+     await axios.post("https://render-backend-28.onrender.com/api/sales/send-sms",sms)
 
     // Send receipt file to server
     await axios.post("https://render-backend-28.onrender.com/api/sales/sendReceipt", formData, {
