@@ -169,6 +169,9 @@ const [isInputVisible, setInputVisible] = useState("false");
 const [grandTotal, setGrandTotal] = useState(0)
 const [dataBarChat, setdataBarChat] = useState([]);
 const [dataPieChart, setdataPieChart] = useState([]);
+ const [sumTotalUp, setSumTotalUp] = useState("");
+ const [sumTotalUpData, setSumTotalUpData] = useState("");
+
 
 
 
@@ -1051,6 +1054,8 @@ const AddEmployee2 = (newRow)=>{
         
         // Update state using functional form of setState
         setSalesData(prevData => [...prevData, newRow]);
+        console.log("sales",salesData)
+
 
          
         
@@ -1347,62 +1352,63 @@ useEffect(() => {
     setSumSales(total);
   }
 }, [priceSales, numberOfItemsSales])
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://render-backend-28.onrender.com/api/sales/getSales");
+      const rawData = response.data?.sales;
 
- useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://render-backend-28.onrender.com/api/sales/getSales");
-        const rawData = response.data?.sales;
-        // console.log("rawData",rawData)
-
-        if (!Array.isArray(rawData)) {
-          console.error('Sales data is not an array:', rawData);
-          setdataBarChat([]);
-          return;
-        }
-
-        const formattedData = rawData.map(item => ({
-          name: `${item.Product} ${item.Liters}L`,
-          orders: Number(item.TotalPrice) || 0,
-        }));
-
-        const allowedNames = [
-          'Oil 1kg',
-          'Oil 2kg',
-          'Oil 5kg',
-          'Tomatoes Paste 200kg ',
-          'Spaghetti 500kg',
-          'Noodles 500kg',
-        ];
-
-        const completeData = allowedNames.map(allowed => {
-          const matches = formattedData.filter(item =>
-            item.name.toLowerCase().includes(allowed.toLowerCase())
-          );
-         
-          const total = matches.reduce((sum, item) => sum + item.orders, 0)
-          // console.log("you", total)
-          
-          
-
-          return {
-            name: allowed,
-            orders: total
-          };
-        });
-
-        // console.log("data",completeData)
-
-
-        setdataBarChat(completeData); // ✅ trigger chart re-render
-      } catch (error) {
-        console.error('Error fetching sales data:', error);
+      if (!Array.isArray(rawData)) {
+        console.error('Sales data is not an array:', rawData);
         setdataBarChat([]);
+        return;
       }
-    };
 
-    fetchData();
-  }, []);
+      const formattedData = rawData.map(item => ({
+        name: `${item.Product} ${item.Liters}L`,
+        orders: Number(item.TotalPrice) || 0,
+      }));
+
+      const allowedNames = [
+        'Oil 1kg',
+        'Oil 2kg',
+        'Oil 5kg',
+        'Tomatoes Paste 200kg',
+        'Spaghetti 500kg',
+        'Noodles 500kg',
+      ];
+
+      let grandTotal = 0;
+
+      const completeData = allowedNames.map(allowed => {
+        const matches = formattedData.filter(item =>
+          item.name.toLowerCase().includes(allowed.toLowerCase())
+        );
+
+        const total = matches.reduce((sum, item) => sum + item.orders, 0);
+     const summary = `The sale made so far today is $${total}, including purchases from customer .`;
+console.log(summary);
+
+
+        return {
+          name: allowed,
+          orders: total
+        };
+      });
+
+      console.log("Grand Total so far:", grandTotal);
+      setSumTotalUp(grandTotal); // ✅ now correctly sets the real grand total
+
+      setdataBarChat(completeData);
+    } catch (error) {
+      console.error('Error fetching sales data:', error);
+      setdataBarChat([]);
+    }
+  };
+
+  fetchData();
+}, [setSumTotalUp]);
+
 
   
  useEffect(() => {
@@ -1442,6 +1448,7 @@ useEffect(() => {
           console.log("you", total)
           
           
+          
 
           return {
             name: allowed,
@@ -1474,6 +1481,7 @@ const receipt = async () => {
     alert("No sales data to display.");
     return;
   }
+ 
 
    const userName = prompt("Enter customer name") || "Unknown";
   const userPhone = prompt("Enter phone number") || "N/A";
@@ -1523,6 +1531,7 @@ const receipt = async () => {
     <p><strong>Name:</strong> ${userName}</p>
     <p><strong>Phone:</strong> ${userPhone}</p>
     <p><strong>Email:</strong> ${userEmail}</p>
+    <p><strong>Status:</strong> ${receiptData.status}</p>
     <p><strong>Date:</strong> ${receiptData.date}</p>
     <p><strong>Receipt No:</strong> ${receiptData.receiptNo}</p>
   `;
@@ -1537,7 +1546,7 @@ const receipt = async () => {
   table.style.margin="30px 0px"
   table.style.width="90%"
   const header = document.createElement("tr");
-  ["Item Purchase", "Qty", "Price", "Total"].forEach(text => {
+  ["Product","kg/L/g" ,"Qty", "Price Per Unit", "Total"].forEach(text => {
     const th = document.createElement("th");
     th.textContent = text;
     th.style.border = "1px solid black";
@@ -1549,7 +1558,7 @@ const receipt = async () => {
 
   receiptData.items.forEach(item => {
     const row = document.createElement("tr");
-    [item.name, item.quantity, item.price, item.quantity * item.price].forEach(val => {
+    [item.name, item.status, item.quantity, item.price, item.quantity * item.price].forEach(val => {
       const td = document.createElement("td");
       td.textContent = val;
       td.style.border = "1px solid black";
@@ -1614,15 +1623,34 @@ footer.style.zIndex="100"
 
   pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
   pdf.save("receipt.pdf");
+   console.log("fafaa",salesData)
+   const cleanedSalesData = salesData.map(item => ({
+  ID: item.ID,
+  Product: item.Product,
+  Status: item.Status,
+  Liters: item.Liters,
+  Quantity: item.Quantity,
+  Price: item.Price,
+  TotalPrice: item.TotalPrice
+}));
+
+
 try {
     // Send sales data first
-    await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", salesData);
+  const response=  await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", cleanedSalesData);
+  
+    // const sms = {
+    //   to: userPhone,
+    //   message: `Thank you ${userName} for shopping with White Olive Ltd. Receipt No: ${receiptData.receiptNo}, Total: ${total}.`
+    // };
+    // console.log("Sending SMS payload:", sms);
 
     // Convert PDF to Blob
     const pdfBlob = pdf.output("blob");
 
     // Prepare form data
     const formData = new FormData();
+
     formData.append("file", pdfBlob, `${receiptData.receiptNo}.pdf`);
     formData.append("name", userName);
     formData.append("phone", userPhone);
@@ -1630,33 +1658,33 @@ try {
     formData.append("total", total);
     formData.append("receiptNo", receiptData.receiptNo);
     formData.append("date", receiptData.date);
+
+
     
-
-    const sms = {
-  to: userPhone,
-  message: `Thank you ${userName} for shopping with White Olive Ltd. Receipt No: ${receiptData.receiptNo}, Total: ${total}.`,
-};
-
-
-
-    await axios.post("https://render-backend-28.onrender.com/api/sales/send-sms",sms)
-
+   
     // Send receipt file to server
-    await axios.post("https://render-backend-28.onrender.com/api/sales/sendReceipt", formData, {
+      await axios.post("https://render-backend-28.onrender.com/api/sales/sendReceipt", formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
     });
+    
 
+          
+    
     alert("Receipt uploaded successfully!");
-    setSalesData([]); // Clear sales data
+    setSalesData([]); 
+    window.location.reload()// Clear sales data
+    
+
+   
+    
 
   } catch (error) {
     console.error("Error uploading receipt:", error);
     alert("An error occurred while uploading receipt.");
   }
 };
-
 
 
 
@@ -1846,7 +1874,7 @@ null
             <h4 id="EmployeeData" style={{ textAlign: "center" }}>Sales</h4>
             <div className='employee-menu'> 
             {/* <input placeholder='Search' type='s                                   earch' className='employee search'/> */}
-            <button  type="button" onClick={receipt}  className=" p-2 mb-2 btn btn-success delete">Receipt</button>
+            <button  type="button" onClick={receipt}  className=" p-2 mb-2 btn btn-light delete">Receipt</button>
            
             <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
             <button  type="button " onClick={SaveSales}  className="btn btn-primary delete">Save</button>
@@ -2752,9 +2780,11 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
       
        <img  id ="live" src="https://tse1.mm.bing.net/th?id=OIP.FSmSdnFcdLkRAlZeGgy8FgHaCe&pid=Api&P=0&h=220"/> 
 
-       <p>With ClickUp we've seen a <br></br> 40% improvement in our total<br></br> go-to-market efficiency!”</p>
-     <Link to="/zoom"><button id="elearning" >Meeting...</button></Link> 
-      <div><hr hr style={{height:"5px",backgroundColor:"pink", borderRadius:"7px"}}></hr></div>
+       <p>
+       {sumTotalUp}
+       </p>
+     {/* <Link to="/zoom"><button id="elearning" >Meeting...</button></Link>  */}
+      <div><hr hr style={{height:"5px",backgroundColor:"none    ", borderRadius:"7px"}}></hr></div>
        </div>
        
      <div className='col-token2 token-Meetings'>
