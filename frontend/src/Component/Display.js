@@ -14,7 +14,7 @@ import { Icon } from '@iconify/react';
 import io  from 'socket.io-client'
 import 'aos/dist/aos.css'
 // import ChatBot from 'react-simple-chatbot'
-import segment from 'semantic-ui-react'
+import segment, { Checkbox } from 'semantic-ui-react'
 // import {BarGraph} from './BarGraph';
 // import {AdminAcc} from '../Component/AdminAcc'
 // import DatePicker from 'react-datepicker';
@@ -1227,22 +1227,22 @@ const DeleteSales = async () => {
 
 function EditSales(){
   setEdit(!edit1)
-  if(!edit1){
-    alert("You can Edit data")
+  if(!edit1 && !selectedRows ){
+    alert("Check the box first")
   }
  
 
- 
+   setEdit(!edit1)
   }
 
   
 function EditOrder(){
-  setEdit(!edit1)
-  if(!edit1){
-    alert("You can Edit data")
+  
+  if(!edit1 && !selectedRows){
+    alert("Check the box first ")
   }
  
-
+  setEdit(!EditOrder )
  
   }
  
@@ -1277,16 +1277,36 @@ function EditOrder(){
 
  
  const handleEditSales = async (_id, field, value) => {
-   const rowIndex = tableData.findIndex((row) => row._id === _id);
-   const updatedTableData = [...tableData];
+   const rowIndex = salesData.findIndex((row) => row._id === _id);
+   const updatedTableData = [...salesData];
    updatedTableData[rowIndex] = { ...updatedTableData[rowIndex], [field]: value };
    updatedTableData.push(...selectedRows);
    setTableData(updatedTableData);
    
-   console.log(updatedTableData);
+   console.log("updated",updatedTableData);
   
    const pushTableData =updatedTableData.length > 0 ? updatedTableData[0] : null;
    setEditTable(pushTableData)
+   console.log("push",pushTableData)
+ 
+   console.log( "pushTable",pushTableData)
+   
+   
+ };
+
+ 
+ const handleEditOrder = async (_id, field, value) => {
+   const rowIndex = newOrderList.findIndex((row) => row._id === _id);
+   const updatedTableData = [...newOrderList];
+   updatedTableData[rowIndex] = { ...updatedTableData[rowIndex], [field]: value };
+   updatedTableData.push(...selectedRows);
+   setTableData(updatedTableData);
+   
+   console.log("updated",updatedTableData);
+  
+   const pushTableData =updatedTableData.length > 0 ? updatedTableData[0] : null;
+   setEditTable(pushTableData)
+   console.log("push",pushTableData)
  
    console.log( "pushTable",pushTableData)
    
@@ -1300,13 +1320,13 @@ function EditOrder(){
     
   
  
- const SaveEdit = async () => {
+ const SaveEdit = async (e) => {
   if (!EditTable) {
-    alert("Please edit data first!");
+    alert("Please,check the box and edit data first!");
     return; // Stop execution if EditTable is null or undefined
   }
 
-  
+  console.log("Rdit",EditTable)
 
   try {
     const response = await axios.post(
@@ -1315,6 +1335,9 @@ function EditOrder(){
     );
 
     console.log("Edit response:", response);
+    setEditTable([])
+    // setSelectedRows("")
+    handleCheckboxChange(e.target.value=false)
     // setEditTable("");
     alert("Edit saved successfully!");
   } catch (error) {
@@ -1325,6 +1348,32 @@ function EditOrder(){
 };
 
 
+ const SaveEditOrder = async (e) => {
+  if (!EditTable ) {
+    alert("Please,check the box and edit data first!");
+    return; // Stop execution if EditTable is null or undefined
+  }
+
+  console.log("Rdit",EditTable)
+
+  try {
+    const response = await axios.post(
+      "https://render-backend-28.onrender.com/api/newOrder/newOrderUpdates",
+      EditTable
+    );
+
+    console.log("Edit response:", response);
+    // setEditTable("");
+    alert("Edit saved successfully!");
+      handleCheckboxChange(e.target.value=false)
+     setEditTable([])
+    // setSelectedRows("")
+  } catch (error) {
+    console.error("Error saving data:", error);
+    alert("Failed to save edit. Please try again.");
+  }
+
+};
 const NewOrder= ()=>{
  
   setSumbitTask(submitTask)
@@ -1873,7 +1922,7 @@ null
 
             <h4 id="EmployeeData" style={{ textAlign: "center" }}>Sales</h4>
             <div className='employee-menu'> 
-            {/* <input placeholder='Search' type='s                                   earch' className='employee search'/> */}
+            {/* <input placeholder='Search' type='search' className='employee search'/> */}
             <button  type="button" onClick={receipt}  className=" p-2 mb-2 btn btn-light delete">Receipt</button>
            
             <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
@@ -2081,7 +2130,7 @@ null
             <button onClick={GetNewOrderList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
             <button   type="button" onClick={DeleteOrder} class="btn btn-danger delete">Delete</button>
                         <button onClick={EditOrder}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
-                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Save Edit</button>
+                        <button onClick={SaveEditOrder}  type="button" class="btn btn-secondary delete">Save Edit</button>
             </div>
             
             <table>
@@ -2140,7 +2189,7 @@ null
       {/* Liters */}
       <td
         contentEditable={!edit1}
-        onBlur={(e) => handleEditSales(row._id, 'Liters', e.target.innerText)}
+        onBlur={(e) =>  handleEditOrder(row._id, 'Liters', e.target.innerText)}
       >
         {row.Liters}
       </td>
@@ -2148,7 +2197,7 @@ null
       {/* Number of Boxes */}
       <td
         contentEditable={!edit1}
-        onBlur={(e) => handleEditSales(row._id, 'NumberOfBoxes', e.target.innerText)}
+        onBlur={(e) =>  handleEditOrder(row._id, 'NumberOfBoxes', e.target.innerText)}
       >
         {row.NumberOfBoxes}
       </td>
@@ -2156,7 +2205,7 @@ null
       {/* Number of Items */}
       <td
         contentEditable={!edit1}
-        onBlur={(e) => handleEditSales(row._id, 'numberOfItems', e.target.innerText)}
+        onBlur={(e) =>  handleEditOrder(row._id, 'numberOfItems', e.target.innerText)}
       >
         {row.numberOfItems}
       </td>
@@ -2164,7 +2213,7 @@ null
       {/* Price Per Item */}
       <td
         contentEditable={!edit1}
-        onBlur={(e) => handleEditSales(row._id, 'PricePerItem', e.target.innerText)}
+        onBlur={(e) =>  handleEditOrder(row._id, 'PricePerItem', e.target.innerText)}
       >
         {row.PricePerItem}
       </td>
@@ -2172,15 +2221,15 @@ null
       {/* Retailer */}
       <td
         contentEditable={!edit1}
-        onBlur={(e) => handleEditSales(row._id, 'Retailer', e.target.innerText)}
+        onBlur={(e) =>  handleEditOrder(row._id, 'Retailer', e.target.innerText)}
       >
         {row.Retailer}
       </td>
 
       {/* Total Price */}
       <td
-        contentEditable={!edit1}
-        onBlur={(e) => handleEditSales(row._id, 'TotalPrice', e.target.innerText)}
+        // contentEditable={!edit1}
+        // onBlur={(e) =>  handleEditOrder(row._id, 'TotalPrice', e.target.innerText)}
       >
         {row.TotalPrice}
       </td>
