@@ -1544,6 +1544,7 @@ const receipt = async () => {
       name: item.Product,
       status:item.Status,
       quantity: item.Quantity,
+      liters:item.Liters,
       price: item.Price
     }))
   };
@@ -1564,7 +1565,8 @@ const receipt = async () => {
   container.style.width="100%"
 
   container.style.opacity = "0.98";
-  container.style.minHeight="100vh"
+  
+  
 
   container.style.zIndex="0"
 
@@ -1592,7 +1594,7 @@ const receipt = async () => {
   table.style.borderCollapse = "collapse";
   table.style.width = "100%";
   table.style.zIndex="100"
-  table.style.margin="30px 0px"
+  
   table.style.width="90%"
   const header = document.createElement("tr");
   ["Product","kg/L/g" ,"Qty", "Price Per Unit", "Total"].forEach(text => {
@@ -1607,7 +1609,7 @@ const receipt = async () => {
 
   receiptData.items.forEach(item => {
     const row = document.createElement("tr");
-    [item.name, item.status, item.quantity, item.price, item.quantity * item.price].forEach(val => {
+    [item.name, item.liters, item.quantity, item.price, item.quantity * item.price].forEach(val => {
       const td = document.createElement("td");
       td.textContent = val;
       td.style.border = "1px solid black";
@@ -1619,7 +1621,7 @@ const receipt = async () => {
 
   const totalRow = document.createElement("tr");
   totalRow.innerHTML = `
-    <td colspan="3" style="text-align:right; border:1px solid black; padding:8px;"><strong>Total</strong></td>
+    <td colspan="4" style="text-align:right; border:1px solid black; padding:8px;"><strong>Total</strong></td>
     <td style="border:1px solid black; padding:8px;"><strong>${total}</strong></td>
   `;
   table.appendChild(totalRow);
