@@ -33,7 +33,8 @@ import {jwtDecode} from 'jwt-decode';
 import logo from "../Component/imgs/logoData.png"
 import { BarChart, Bar,Pie,PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,ResponsiveContainer } from 'recharts';
 import { trusted } from 'mongoose';
-import { div, imag } from '@tensorflow/tfjs';
+import { div, imag, sub } from '@tensorflow/tfjs';
+import { get } from 'jquery';
 
 //
 const socket = io.connect("https://render-backend-28.onrender.com")
@@ -1419,15 +1420,13 @@ useEffect(() => {
       }));
 
       const allowedNames = [
-        'Oil 1kg',
-        'Oil 2kg',
-        'Oil 5kg',
-        'Tomatoes Paste 200kg',
-        'Spaghetti 500kg',
-        'Noodles 500kg',
+        'Oil 1l',
+        'Oil 2l',
+        'Oil 5l',
+        'Tomatoes Paste 200g',
+        'Spaghetti 500g',
+        'Pasta 500g',
       ];
-
-      let grandTotal = 0;
 
       const completeData = allowedNames.map(allowed => {
         const matches = formattedData.filter(item =>
@@ -1435,8 +1434,7 @@ useEffect(() => {
         );
 
         const total = matches.reduce((sum, item) => sum + item.orders, 0);
-     const summary = `The sale made so far today is $${total}, including purchases from customer .`;
-console.log(summary);
+     
 
 
         return {
@@ -1445,8 +1443,8 @@ console.log(summary);
         };
       });
 
-      console.log("Grand Total so far:", grandTotal);
-      setSumTotalUp(grandTotal); // ✅ now correctly sets the real grand total
+      
+       // ✅ now correctly sets the real grand total
 
       setdataBarChat(completeData);
     } catch (error) {
@@ -1456,7 +1454,61 @@ console.log(summary);
   };
 
   fetchData();
+}, []);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://render-backend-28.onrender.com/api/sales/getSales");
+      console.log("Sales response:", response);
+
+      if (response.status === 200) {
+        const data = response.data.sales;
+
+        // Group and sum quantities by product
+        const productSales = data.reduce((acc, item) => {
+          const productName = item.Product;
+          const quantity = Number(item.Quantity) || 0;
+          acc[productName] = (acc[productName] || 0) + quantity;
+          return acc;
+        }, {});
+
+        // Build JSX array of <p> elements
+        const productSalesJsx = Object.entries(productSales)
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([product, quantity]) => (
+            <p key={product}>{product}: {quantity} units sold</p>
+          ));
+
+        // Total sales and units
+        const totalSummary = data.reduce(
+          (acc, item) => {
+            acc.totalSales += Number(item.TotalPrice) || 0;
+            acc.totalUnits += Number(item.Quantity) || 0;
+            return acc;
+          },
+          { totalSales: 0, totalUnits: 0 }
+        );
+
+        // Final JSX message
+        const message = (
+          <div>
+            {productSalesJsx}
+            <p>🧾 Total Products Sold: {totalSummary.totalUnits} units</p>
+            <p>Total Sales Made Today: GH¢ {totalSummary.totalSales.toFixed(2)}</p>
+          </div>
+        );
+
+        setSumTotalUp(message);
+      }
+    } catch (error) {
+      console.error("Error fetching sales data:", error);
+    }
+  };
+
+  fetchData();
 }, [setSumTotalUp]);
+
 
 
   
@@ -1480,12 +1532,12 @@ console.log(summary);
 
         console.log("form",formattedData)
         const allowedNames = [
-          'Oil 1kg',
-          'Oil 2kg',
-          'Oil 5kg',
-          'Tomatoes Paste 200kg ',
-          'Spaghetti 500kg',
-          'Noodles 500kg',
+           'Oil 1l',
+        'Oil 2l',
+        'Oil 5l',
+        'Tomatoes Paste 200g',
+        'Spaghetti 500g',
+        'Pasta 500g',
         ];
 
         const completeData = allowedNames.map(allowed => {
@@ -1517,10 +1569,7 @@ console.log(summary);
 
     fetchData();
   }, []);
-
 const receipt = async () => {
- 
-
   if (!Array.isArray(salesData)) {
     alert("Sales data is invalid.");
     return;
@@ -1530,21 +1579,20 @@ const receipt = async () => {
     alert("No sales data to display.");
     return;
   }
- 
 
-   const userName = prompt("Enter customer name") || "Unknown";
+  const userName = prompt("Enter customer name") || "Unknown";
   const userPhone = prompt("Enter phone number") || "N/A";
   const userEmail = prompt("Enter email address") || "N/A";
 
   const receiptData = {
-    company: "White Olive Ltd",
+    company: '<h1>White Olive Ltd</h1>',
     date: new Date().toLocaleDateString(),
     receiptNo: "REC-" + Date.now(),
     items: salesData.map(item => ({
       name: item.Product,
-      status:item.Status,
+      status: item.Status,
       quantity: item.Quantity,
-      liters:item.Liters,
+      liters: item.Liters,
       price: item.Price
     }))
   };
@@ -1557,47 +1605,34 @@ const receipt = async () => {
   const container = document.getElementById("receipt-area");
   container.innerHTML = "";
 
-  // Optional: Add background watermark
   container.style.backgroundImage = `url(${logo})`;
-  container.style.backgroundRepeat = "non-repeat";
+  container.style.backgroundRepeat = "repeat";
   container.style.backgroundPosition = "center";
-  container.style.backgroundSize = "40%";
-  container.style.width="100%"
-
+  container.style.backgroundSize = "20%";
   container.style.opacity = "0.98";
-  
-  
+  container.style.zIndex = "0";
 
-  container.style.zIndex="0"
-
-  // Title
   const title = document.createElement("h2");
-  title.textContent = receiptData.company;
+  title.innerHTML = receiptData.company;
+  title.style.margin = "40px 0px";
 
-  title.style.margin="40px 0px"
-
-  // Customer Info
   const customerInfo = document.createElement("div");
   customerInfo.innerHTML = `
     <p><strong>Name:</strong> ${userName}</p>
     <p><strong>Phone:</strong> ${userPhone}</p>
     <p><strong>Email:</strong> ${userEmail}</p>
-    <p><strong>Status:</strong> ${receiptData.status}</p>
     <p><strong>Date:</strong> ${receiptData.date}</p>
     <p><strong>Receipt No:</strong> ${receiptData.receiptNo}</p>
   `;
-  customerInfo.style.zIndex="100"
-  customerInfo.style.margin="20"
+  customerInfo.style.margin = "2px";
 
-  // Table
   const table = document.createElement("table");
   table.style.borderCollapse = "collapse";
-  table.style.width = "100%";
-  table.style.zIndex="100"
-  
-  table.style.width="90%"
+  table.style.width = "90%";
+  table.style.margin = "10px auto";
+
   const header = document.createElement("tr");
-  ["Product","kg/L/g" ,"Qty", "Price Per Unit", "Total"].forEach(text => {
+  ["Product", "kg/L/g", "Qty", "Price Per Unit", "Total"].forEach(text => {
     const th = document.createElement("th");
     th.textContent = text;
     th.style.border = "1px solid black";
@@ -1622,20 +1657,52 @@ const receipt = async () => {
   const totalRow = document.createElement("tr");
   totalRow.innerHTML = `
     <td colspan="4" style="text-align:right; border:1px solid black; padding:8px;"><strong>Total</strong></td>
-    <td style="border:1px solid black; padding:8px;"><strong>${total}</strong></td>
+    <td style="border:1px solid black; padding:8px;"><strong>${total.toFixed(2)}</strong></td>
   `;
   table.appendChild(totalRow);
+
+  const subFooter = document.createElement("div");
+  subFooter.innerHTML = `
+    <p style="text-align:center; font-size:12px; color:gray; margin-top:10px;">
+      <span style="color:blue;">Tax (0%): GH¢0.00</span><br/>
+      <span style="color:green;">Total Amount Paid: GH¢${total.toFixed(2)}</span><br/>
+      <span>Thank you for shopping with us!</span><br/>
+      We appreciate your business and hope to see you again soon.
+    </p>
+  `;
+  subFooter.style.zInde="100"
+
+  // 🟨 SALES SUMMARY SECTION
+  const salesSummary = document.createElement("div");
+  salesSummary.innerHTML = `
+    <h3 style="margin-top:30px;">Sales Summary</h3>
+    <p><strong>Customer Name:</strong> ${userName}</p>
+    <p><strong>Receipt Number:</strong> ${receiptData.receiptNo}</p>
+    <p><strong>Phone Number:</strong> ${userPhone}</p>
+    <p><strong>Email Address:</strong> ${userEmail}</p>
+    <p><strong>Date:</strong> ${receiptData.date}</p>
+    <p><strong>Total Items Purchased:</strong> ${receiptData.items.length}</p>
+    <ul style="margin-left:20px;">
+      ${receiptData.items.map(item => `<li>${item.name} (${item.quantity} × GH¢${item.price})</li>`).join('')}
+    </ul>
+    <p><strong>Total Amount Paid:</strong> GH¢${total.toFixed(2)}</p>
+    <p style="margin-top:10px;">
+      Thank you for shopping with <strong>White Olive Ltd</strong>.<br/>
+      We appreciate your business and look forward to serving you again!
+    </p>
+  `;
+  salesSummary.style.marginTop = "20px";
+  salesSummary.style.fontSize = "14px";
+  salesSummary.style.lineHeight = "1.5"
+  ;
 
   // QR Code
   const qrCanvas = document.createElement("canvas");
   const qrData = `Name: ${userName}\nPhone: ${userPhone}\nEmail: ${userEmail}\nReceipt No: ${receiptData.receiptNo}\nTotal: ${total}`;
   await QRCode.toCanvas(qrCanvas, qrData, { width: 120 });
-
   qrCanvas.style.display = "block";
   qrCanvas.style.margin = "20px auto";
-  qrCanvas.style.zIndex="100"
 
-  // Footer info (use a <div>)
   const footer = document.createElement("div");
   footer.innerHTML = `
     <p style="text-align:center; font-size:12px; color:gray; margin-top:10px;">
@@ -1643,25 +1710,26 @@ const receipt = async () => {
       Tel: 0243892234
     </p>
   `;
-footer.style.zIndex="100"
-  // Append to container
+
+  // Append elements to container
   container.appendChild(title);
   container.appendChild(customerInfo);
   container.appendChild(table);
+  container.appendChild(subFooter);
+  // container.appendChild(salesSummary);
   container.appendChild(qrCanvas);
   container.appendChild(footer);
 
-  // Wait for DOM rendering
+  // Wait for DOM to render
   await new Promise(resolve => setTimeout(resolve, 100));
 
-  // Convert to canvas and export to PDF
+  // Convert to canvas
   const canvas = await html2canvas(container, {
     scale: 2,
     useCORS: true
   });
 
   const imgData = canvas.toDataURL("image/png");
-
   const pdf = new jsPDF({
     orientation: "portrait",
     unit: "mm",
@@ -1674,32 +1742,21 @@ footer.style.zIndex="100"
 
   pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
   pdf.save("receipt.pdf");
-   console.log("fafaa",salesData)
-   const cleanedSalesData = salesData.map(item => ({
-  ID: item.ID,
-  Product: item.Product,
-  Status: item.Status,
-  Liters: item.Liters,
-  Quantity: item.Quantity,
-  Price: item.Price,
-  TotalPrice: item.TotalPrice
-}));
 
+  const cleanedSalesData = salesData.map(item => ({
+    ID: item.ID,
+    Product: item.Product,
+    Status: item.Status,
+    Liters: item.Liters,
+    Quantity: item.Quantity,
+    Price: item.Price,
+    TotalPrice: item.TotalPrice
+  }));
 
-try {
-    // Send sales data first
-  const response=  await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", cleanedSalesData);
-  
-    // const sms = {
-    //   to: userPhone,
-    //   message: `Thank you ${userName} for shopping with White Olive Ltd. Receipt No: ${receiptData.receiptNo}, Total: ${total}.`
-    // };
-    // console.log("Sending SMS payload:", sms);
+  try {
+    await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", cleanedSalesData);
 
-    // Convert PDF to Blob
     const pdfBlob = pdf.output("blob");
-
-    // Prepare form data
     const formData = new FormData();
 
     formData.append("file", pdfBlob, `${receiptData.receiptNo}.pdf`);
@@ -1710,26 +1767,15 @@ try {
     formData.append("receiptNo", receiptData.receiptNo);
     formData.append("date", receiptData.date);
 
-
-    
-   
-    // Send receipt file to server
-      await axios.post("https://render-backend-28.onrender.com/api/sales/sendReceipt", formData, {
+    await axios.post("https://render-backend-28.onrender.com/api/sales/sendReceipt", formData, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
     });
-    
 
-          
-    
     alert("Receipt uploaded successfully!");
-    setSalesData([]); 
-    window.location.reload()// Clear sales data
-    
-
-   
-    
+    setSalesData([]);
+    window.location.reload();
 
   } catch (error) {
     console.error("Error uploading receipt:", error);
@@ -1739,18 +1785,6 @@ try {
 
 
 
-
-
-
-//  const dataBarChat = [
-//   { name: 'Oil 1kg', orders: 30 },
-// {name: 'Oil 2kg', orders: 20 },
-// {name: 'Oil 5kg', orders: 10 },
-
-//  { name: 'Tomato Paste', orders: 50 },
-//  { name: 'Spaghetti', orders: 70 },
-//  { name: 'Noodles', orders: 40 },
-// ];
 
 
  const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
