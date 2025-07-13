@@ -1431,7 +1431,6 @@ useEffect(() => {
 
   fetchData();
 }, []);
-
 useEffect(() => {
   const fetchData = async () => {
     try {
@@ -1449,11 +1448,14 @@ useEffect(() => {
           return acc;
         }, {});
 
-        // Build JSX array of <p> elements
+        // Build table rows
         const productSalesJsx = Object.entries(productSales)
           .sort(([a], [b]) => a.localeCompare(b))
           .map(([product, quantity]) => (
-            <p key={product}>{product}: {quantity} units sold</p>
+            <tr key={product}>
+              <td style={{ padding: "6px" }}>{product}</td>
+              <td style={{ padding: "6px" }}>{quantity} units sold</td>
+            </tr>
           ));
 
         // Total sales and units
@@ -1466,10 +1468,22 @@ useEffect(() => {
           { totalSales: 0, totalUnits: 0 }
         );
 
-        // Final JSX message
+        // Final JSX message with a table header
         const message = (
           <div>
-            {productSalesJsx}
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left", padding: "6px", fontWeight: "bold", backgroundColor: "#f9f9f9" }}>
+                    Product
+                  </th>
+                  <th style={{ textAlign: "left", padding: "6px", fontWeight: "bold", backgroundColor: "#f9f9f9" }}>
+                    Units Sold
+                  </th>
+                </tr>
+              </thead>
+              <tbody>{productSalesJsx}</tbody>
+            </table>
             <p>🧾 Total Products Sold: {totalSummary.totalUnits} units</p>
             <p>Total Sales Made Today: GH¢ {totalSummary.totalSales.toFixed(2)}</p>
           </div>
@@ -1484,6 +1498,8 @@ useEffect(() => {
 
   fetchData();
 }, [setSumTotalUp]);
+
+
 
 
 
@@ -2840,7 +2856,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
       
        <div className='col-token2 token-eLearning' >
       
-       <img  id ="live" src="https://tse1.mm.bing.net/th?id=OIP.FSmSdnFcdLkRAlZeGgy8FgHaCe&pid=Api&P=0&h=220"/> 
+       {/* <img  id ="live" src="https://tse1.mm.bing.net/th?id=OIP.FSmSdnFcdLkRAlZeGgy8FgHaCe&pid=Api&P=0&h=220"/>  */}
 
        <p>
        {sumTotalUp}
