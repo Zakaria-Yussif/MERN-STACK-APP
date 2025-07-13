@@ -1247,87 +1247,65 @@ function EditOrder(){
  
   }
  
- 
-  const handleCheckboxChange = (e) => {
-   const checkboxValue = { _id: e.target.value };
-   setDeleteEmployee({...checkboxValue})
-   // console.log(deleteEmployee)
-   console.log("After setDeleteEmployee:", deleteEmployee);
-   console.log(checkboxValue)
-   if (e.target.checked) {
-    setSelectedRows((prevSelectedRows) => {
-   const isIDAlreadySelected = prevSelectedRows.some((item) => item.ID === checkboxValue.ID);
- 
-   if (!isIDAlreadySelected) {
-     // Add the new checkboxValue only if the ID is not already in the array
-     return [...prevSelectedRows, checkboxValue];
-   }
- 
-   // Return the existing array without adding the duplicate ID
-   return prevSelectedRows;
- });
-   } else {
-     setSelectedRows((prevSelectedRows) =>
-       prevSelectedRows.filter((value) => value.ID !== checkboxValue.ID)
-     );
-     console.log(selectedRows);
-   }
- };
+ const handleCheckboxChange = (e) => {
+  const checkboxId = e.target.value;
+  const checkboxValue = { _id: checkboxId };
 
- 
+  setDeleteEmployee(checkboxValue);
 
- 
- const handleEditSales = async (_id, field, value) => {
-   const rowIndex = salesData.findIndex((row) => row._id === _id);
-   const updatedTableData = [...salesData];
-   updatedTableData[rowIndex] = { ...updatedTableData[rowIndex], [field]: value };
-   updatedTableData.push(...selectedRows);
-   setTableData(updatedTableData);
-   
-   console.log("updated",updatedTableData);
-  
-   const pushTableData =updatedTableData.length > 0 ? updatedTableData[0] : null;
-   setEditTable(pushTableData)
-   console.log("push",pushTableData)
- 
-   console.log( "pushTable",pushTableData)
-   
-   
- };
-
- 
- const handleEditOrder = async (_id, field, value) => {
-   const rowIndex = newOrderList.findIndex((row) => row._id === _id);
-   const updatedTableData = [...newOrderList];
-   updatedTableData[rowIndex] = { ...updatedTableData[rowIndex], [field]: value };
-   updatedTableData.push(...selectedRows);
-   setTableData(updatedTableData);
-   
-   console.log("updated",updatedTableData);
-  
-   const pushTableData =updatedTableData.length > 0 ? updatedTableData[0] : null;
-   setEditTable(pushTableData)
-   console.log("push",pushTableData)
- 
-   console.log( "pushTable",pushTableData)
-   
-   
- };
- 
- 
-    
- 
-    
-    
-  
- 
- const SaveEdit = async (e) => {
-  if (!EditTable) {
-    alert("Please,check the box and edit data first!");
-    return; // Stop execution if EditTable is null or undefined
+  if (e.target.checked) {
+    setSelectedRows((prev) => {
+      const exists = prev.some((item) => item._id === checkboxId);
+      return exists ? prev : [...prev, checkboxValue];
+    });
+  } else {
+    setSelectedRows((prev) => prev.filter((item) => item._id !== checkboxId));
   }
 
-  console.log("Rdit",EditTable)
+  console.log("Checkbox selected:", checkboxValue);
+};
+
+ 
+
+ const handleEditSales = (_id, field, value) => {
+  const rowIndex = salesData.findIndex((row) => row._id === _id);
+  if (rowIndex === -1) return;
+
+  const updated = [...salesData];
+  updated[rowIndex] = { ...updated[rowIndex], [field]: value };
+
+  setTableData(updated);
+  setEditTable(updated[rowIndex]);
+
+  console.log("Edited sales row:", updated[rowIndex]);
+};
+
+
+ const handleEditOrder = (_id, field, value) => {
+  const rowIndex = newOrderList.findIndex((row) => row._id === _id);
+  if (rowIndex === -1) return;
+
+  const updated = [...newOrderList];
+  updated[rowIndex] = { ...updated[rowIndex], [field]: value };
+
+  setTableData(updated);
+  setEditTable(updated[rowIndex]);
+
+  console.log("Edited order row:", updated[rowIndex]);
+};
+
+ 
+ 
+    
+ 
+    
+    
+  
+ const SaveEdit = async () => {
+  if (!EditTable) {
+    alert("Please, check the box and edit data first!");
+    return;
+  }
 
   try {
     const response = await axios.post(
@@ -1335,27 +1313,23 @@ function EditOrder(){
       EditTable
     );
 
-    console.log("Edit response:", response);
-    setEditTable([])
-    // setSelectedRows("")
-    handleCheckboxChange(e.target.value=false)
-    // setEditTable("");
-    alert("Edit saved successfully!");
+    if (response.status === 200) {
+      console.log("Edit response:", response);
+      alert("Edit saved successfully!");
+      setEditTable(null);
+      setSelectedRows([]);
+    }
   } catch (error) {
-    console.error("Error saving data:", error);
+    console.error("Error saving sales edit:", error);
     alert("Failed to save edit. Please try again.");
   }
-
 };
 
-
- const SaveEditOrder = async (e) => {
-  if (!EditTable ) {
-    alert("Please,check the box and edit data first!");
-    return; // Stop execution if EditTable is null or undefined
+const SaveEditOrder = async () => {
+  if (!EditTable) {
+    alert("Please, check the box and edit data first!");
+    return;
   }
-
-  console.log("Rdit",EditTable)
 
   try {
     const response = await axios.post(
@@ -1363,18 +1337,19 @@ function EditOrder(){
       EditTable
     );
 
-    console.log("Edit response:", response);
-    // setEditTable("");
-    alert("Edit saved successfully!");
-      handleCheckboxChange(e.target.value=false)
-     setEditTable([])
-    // setSelectedRows("")
+    if (response.status === 200) {
+      console.log("Edit response:", response);
+      alert("Order edit saved successfully!");
+      setEditTable(null);
+      setSelectedRows([]);
+    }
   } catch (error) {
-    console.error("Error saving data:", error);
-    alert("Failed to save edit. Please try again.");
+    console.error("Error saving order edit:", error);
+    alert("Failed to save order. Please try again.");
   }
-
 };
+
+
 const NewOrder= ()=>{
  
   setSumbitTask(submitTask)
@@ -1423,7 +1398,8 @@ useEffect(() => {
         'Oil 1l',
         'Oil 2l',
         'Oil 5l',
-        'Tomatoes Paste 200g',
+        'Tomatoes Paste 210g',
+        'Tomatoes Paste 410g',
         'Spaghetti 500g',
         'Pasta 500g',
       ];
@@ -1535,7 +1511,8 @@ useEffect(() => {
            'Oil 1l',
         'Oil 2l',
         'Oil 5l',
-        'Tomatoes Paste 200g',
+        'Tomatoes Paste 210g',
+        'Tomatoes Paste 410g',
         'Spaghetti 500g',
         'Pasta 500g',
         ];
@@ -1707,7 +1684,7 @@ const receipt = async () => {
   footer.innerHTML = `
     <p style="text-align:center; font-size:12px; color:gray; margin-top:10px;">
       White Olives Oil - Agona-Ashanti<br/>
-      Tel: 0243892234
+      Tel: 0556060132/0245019064
     </p>
   `;
 
@@ -1790,7 +1767,7 @@ const receipt = async () => {
  const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
 
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042","#00ff80","	#bfff00"];
   const HIGHLIGHT_COLOR = "#FF0000";
 
   
