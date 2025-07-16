@@ -1556,6 +1556,7 @@ useEffect(() => {
 
     fetchData();
   }, []);
+
 const receipt = async () => {
   if (!Array.isArray(salesData)) {
     alert("Sales data is invalid.");
@@ -1566,6 +1567,7 @@ const receipt = async () => {
     alert("No sales data to display.");
     return;
   }
+
 
   const userName = prompt("Enter customer name") || "Unknown";
   const userPhone = prompt("Enter phone number") || "N/A";
@@ -1728,7 +1730,26 @@ const receipt = async () => {
   const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
   pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+
   pdf.save("receipt.pdf");
+
+
+  const smsMessage = `
+White Olive Ltd - Receipt
+
+Customer: ${userName}
+Receipt No: ${receiptData.receiptNo}
+Date: ${receiptData.date}
+Phone: ${userPhone}
+Items (${receiptData.items.length}):
+${receiptData.items.map(item => `- ${item.name} (${item.quantity} × GH¢${parseFloat(item.price).toFixed(2)})`).join('\n')}
+
+Total Paid: GH¢${total.toFixed(2)}
+
+Thank you for shopping with us!
+`.trim();
+
 
   const cleanedSalesData = salesDataList.map(item => ({
     ID: item.ID,
@@ -1759,6 +1780,11 @@ const receipt = async () => {
         "Content-Type": "multipart/form-data"
       }
     });
+   const response= await axios.post("https://render-backend-28.onrender.com/api/sales/sendSms", {
+  phone: userPhone,
+  message: smsMessage
+});
+
 
     alert("Receipt uploaded successfully!");
     setSalesData([]);
