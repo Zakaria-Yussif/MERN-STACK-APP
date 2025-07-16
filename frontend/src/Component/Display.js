@@ -158,6 +158,7 @@ const [isInputVisible, setInputVisible] = useState("false");
         const [salesName, setSalesName]=useState("")
         const[nameSales, setNameSales]=useState("")
         const[salesData,setSalesData]=useState([])
+        const[salesDataList,setSalesDataList]=useState([])
         const[newOrderList, setNewOrderList]=useState([])
         const[numberOfBoxes, setNumberOFboxes]=useState("")
         const[liters,setLiters]=useState("")
@@ -1002,7 +1003,8 @@ useEffect(() => {
 /////
 const AddEmployee2 = (newRow)=>{
   setInputVisible(!isInputVisible)
-  // setEmployeelist((prevData) => [...prevData, newRow]);
+
+  
   
   
     }
@@ -1055,7 +1057,10 @@ const AddEmployee2 = (newRow)=>{
         
         // Update state using functional form of setState
         setSalesData(prevData => [...prevData, newRow]);
+         setSalesDataList(prevData => [...prevData, newRow]);
+
         console.log("sales",salesData)
+
 
 
          
@@ -1468,20 +1473,10 @@ useEffect(() => {
           { totalSales: 0, totalUnits: 0 }
         );
 
-        // Final JSX message with a table header
+        // Final JSX message with a borderless table
         const message = (
           <div>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr>
-                  <th style={{ textAlign: "left", padding: "6px", fontWeight: "bold", backgroundColor: "#f9f9f9" }}>
-                    Product
-                  </th>
-                  <th style={{ textAlign: "left", padding: "6px", fontWeight: "bold", backgroundColor: "#f9f9f9" }}>
-                    Units Sold
-                  </th>
-                </tr>
-              </thead>
               <tbody>{productSalesJsx}</tbody>
             </table>
             <p>🧾 Total Products Sold: {totalSummary.totalUnits} units</p>
@@ -1498,7 +1493,6 @@ useEffect(() => {
 
   fetchData();
 }, [setSumTotalUp]);
-
 
 
 
@@ -1568,7 +1562,7 @@ const receipt = async () => {
     return;
   }
 
-  if (salesData.length === 0) {
+  if (salesDataList.length === 0) {
     alert("No sales data to display.");
     return;
   }
@@ -1581,7 +1575,7 @@ const receipt = async () => {
     company: '<h1>White Olive Ltd</h1>',
     date: new Date().toLocaleDateString(),
     receiptNo: "REC-" + Date.now(),
-    items: salesData.map(item => ({
+    items: salesDataList.map(item => ({
       name: item.Product,
       status: item.Status,
       quantity: item.Quantity,
@@ -1736,7 +1730,7 @@ const receipt = async () => {
   pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
   pdf.save("receipt.pdf");
 
-  const cleanedSalesData = salesData.map(item => ({
+  const cleanedSalesData = salesDataList.map(item => ({
     ID: item.ID,
     Product: item.Product,
     Status: item.Status,
