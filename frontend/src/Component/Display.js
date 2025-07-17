@@ -1734,22 +1734,12 @@ const receipt = async () => {
 
   pdf.save("receipt.pdf");
 
-
-  const smsMessage = `
-White Olive Ltd - Receipt
-
-Customer: ${userName}
-Receipt No: ${receiptData.receiptNo}
-Date: ${receiptData.date}
-Phone: ${userPhone}
-Items (${receiptData.items.length}):
-${receiptData.items.map(item => `- ${item.name} (${item.quantity} × GH¢${parseFloat(item.price).toFixed(2)})`).join('\n')}
-
-Total Paid: GH¢${total.toFixed(2)}
-
-Thank you for shopping with us!
-`.trim();
-
+const smsMessage = `White Olive Ltd
+Receipt: ${receiptData.receiptNo}
+Name: ${userName}
+Items: ${receiptData.items.length}
+Total: GH¢${total.toFixed(2)}
+Thanks for shopping with us!`;
 
   const cleanedSalesData = salesDataList.map(item => ({
     ID: item.ID,
@@ -1775,15 +1765,18 @@ Thank you for shopping with us!
     formData.append("receiptNo", receiptData.receiptNo);
     formData.append("date", receiptData.date);
 
-    await axios.post("https://render-backend-28.onrender.com/api/sales/sendReceipt", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    });
-   const response= await axios.post("https://render-backend-28.onrender.com/api/sales/sendSms", {
-  phone: userPhone,
-  message: smsMessage
-});
+await Promise.all([
+  axios.post("https://render-backend-28.onrender.com/api/sales/sendReceipt", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  }),
+  axios.post("https://render-backend-28.onrender.com/api/sales/sendSms", {
+    phone: userPhone,
+    message: smsMessage
+  })
+]);
+
 
 
     alert("Receipt uploaded successfully!");
