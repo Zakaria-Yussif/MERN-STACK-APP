@@ -173,6 +173,9 @@ const [dataBarChat, setdataBarChat] = useState([]);
 const [dataPieChart, setdataPieChart] = useState([]);
  const [sumTotalUp, setSumTotalUp] = useState("");
  const [sumTotalUpData, setSumTotalUpData] = useState("");
+  const [salesTodayData, setSalesTodayData] = useState([]);
+  const [salesTodayDataDisplay, setSalesTodayDataDisplay] = useState([]);
+
 
 
 
@@ -1435,8 +1438,16 @@ useEffect(() => {
   };
 
   fetchData();
+
 }, []);
+
+
 useEffect(() => {
+const dataSales=localStorage.getItem("totalSales ")
+console.log("ff",dataSales)
+
+
+
   const fetchData = async () => {
     try {
       const response = await axios.get("https://render-backend-28.onrender.com/api/sales/getSales");
@@ -1751,6 +1762,31 @@ Thanks for shopping with us!`;
     TotalPrice: item.TotalPrice
   }));
 
+
+const cleanedSalesDataDisplay = salesDataList.map(item => ({
+  ID: item.ID,
+  Receipt: receiptData.receiptNo,
+  Name: userName,
+  Items: receiptData.items.length,
+  Status: item.Status,
+  Liters: item.Liters,
+  Quantity: item.Quantity,
+  Price: item.Price,
+  TotalPrice: item.TotalPrice
+}));
+
+
+
+setSalesTodayData((prev) => {
+  const updated = [...prev, ...cleanedSalesData]; // ← FIXED HERE
+  localStorage.setItem("totalSales", JSON.stringify(updated));
+  return updated;
+});
+
+
+
+
+
   try {
     await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", cleanedSalesData);
 
@@ -1788,6 +1824,23 @@ await Promise.all([
     alert("An error occurred while uploading receipt.");
   }
 };
+
+useEffect(() => {
+  const data = localStorage.getItem("totalSales");
+  console.log("Raw from localStorage:", data);
+
+  try {
+    const dataSale = JSON.parse(data);
+    if (Array.isArray(dataSale)) {
+      setSalesTodayDataDisplay((prev) => [...prev, ...dataSale]);
+    } else {
+      console.warn("Expected an array but got:", dataSale);
+    }
+  } catch (err) {
+    console.error("Failed to parse JSON:", err);
+  }
+
+}, []);
 
 
 
@@ -2858,12 +2911,29 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
       
        {token ? ( 
         
-        <div className='row_token' >
-       <div className='col-token2 token-liveChat' >
+        <div className='row_token'  >
+       <div className='col-token2 token-liveChat'style={{height:"30vh",overflowY:"scroll"}} >
+    <h4>Receipts</h4>
+       
+       {salesTodayDataDisplay.map((item, index) => (
+  <div key={index}>
     
-       <img  id ="live" src="https://www.isitwp.com/wp-content/uploads/2020/06/live-chat-new-logo.png"/>
-       <p>ClickUp is how our teams <br></br>centralizework, stay on track, <br></br>and easily collaborate.</p>
-       <button  id="elearning1">Chat...</button>
+    <ul style={{listStyle:"none"}}>
+      <li> <span style={{color:"coral"}}>Name:</span>{item.Name}</li>
+      <li> <span style={{color:"coral"}}>Date:</span>{item.Date}</li>
+      <li><span style={{color:"coral"}}>Receipt_No:</span>{item.Date}</li>
+      <li><span style={{color:"coral"}}>Status:</span>{item.Status}</li>
+      <li><span style={{color:"coral"}}>Quantity:</span>{item.Quantity}</li>
+      
+      <li><span style={{color:"blue"}}>  TotalPrice:</span>{item.TotalPrice}</li>
+    </ul>
+     <hr></hr>
+  </div>
+  
+))}
+
+
+       {/* <button  id="elearning1">Chat...</button> */}
        <div><hr hr style={{height:"5px",backgroundColor:"coral", borderRadius:"7px"}}></hr></div>
        </div>
       
