@@ -2970,19 +2970,20 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         <div className='rowMe'  >
            
             <div className='col-team team2a' >
-            <h3 id="h3" style={{color:"white" }}>Connect your Docs to workflows.
-</h3>
+            <h1 id="tt" >Connect your Docs to workflows.
+</h1>
            <p id="pp"> Document your business processes, then connect them to workflows with total context. Assign comments with action items, chat in real-time, share attachments, and never miss a beat with notifications that bring everything in one place.</p>
       
             
             </div>
             <div className='col-team  team1a' >
             
-          <div className='collarate2'>
-          <button to="/login" style={{ margin:"190px 0px"}} onClick={startUp}  id="start2a">Try for Free</button>
-          <img id="img-cola" src="https://images.ctfassets.net/w8fc6tgspyjz/5rJSLwm9yolcDZoAbYYAM9/ed937a11385107fb576955578180aa9c/Software_Teams_LP_Tab_IMage_1__Plan__Docs.png?fm=avif&q=50&w=800"/>
+          <div className='collarate2' style={{ display:"flex", flexDirection:"row", margin:"10px", justifyContent:"center", alignItems:"center"}}>
+          {/* <button to="/login" style={{ margin:"190px 0px"}} onClick={startUp}  id="start2a">Try for Free</button> */}
+           
           
-
+<div style={{width:'50%'}}><img id="img-cola" src='https://plus.unsplash.com/premium_photo-1661508620175-3ae20da61cda?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'/> </div>
+<div style={{width:'50%'}}>hello</div>
           </div>
            
            </div>
@@ -3101,7 +3102,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
            
            <div className='slider ' >
   
-         <div className="slide-track" ref={sliderRef}  style={{height:"100%"}}>
+         <div className="slide-track" ref={sliderRef}  style={{height:"auto", backgroundColor:"white"}} >
          <div className="slide"><img className='imgSlide' src='https://tse1.mm.bing.net/th?id=OIP.9K0TEi9mdqQuiOCWHEQPlAHaDc&pid=Api&P=0&h=220'/></div>
   <div className='slide'><img className='imgSlide'  src="https://tse1.mm.bing.net/th?id=OIP.VFyC4NIVUDb0tCXB6Pu1OgHaCe&pid=Api&P=0&h=220"/></div>
   <div className='slide'><img className='imgSlide'  src="https://tse2.mm.bing.net/th?id=OIP.BYEEwaj177S0HkfwO12SKAHaFj&pid=Api&P=0&h=220"/></div>
@@ -3253,7 +3254,17 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         ):(
           <div className='col-teamVideo rowDis2' >
         
-        <video id="video" src={Video} type="video/webm" autoPlay style={{height:"60vh" ,marginTop:"-20px"}}/>
+        <video 
+  id="video" 
+  src={Video} 
+  type="video/webm" 
+  autoPlay 
+  muted 
+  playsInline 
+  loop 
+  style={{ height: "60vh", marginTop: "170px" }}
+/>
+
         
         </div>
         )}
@@ -3295,23 +3306,23 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         ):(
 
           <div  className="stayHead" >
-          <div className='col-teamHead  rowDis1' style={{boxShadow:" 10px 5px 10px 10px rgba(44,31,31,.3)"}} >
+          <div className='col-teamHead  rowDis1' style={{boxShadow:" 3px 5px 3px 3px rgba(44,31,31,.3)", background:"none"}} >
       
        
-      <h1 >Stay ahead of what’s next</h1>
-      <p style={{padding:"2px"}}> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>
+      <h1 id='stay' style={{color:"black"}}>Stay ahead of what’s next</h1>
+      <p  id='text_p' style={{padding:"2px" ,color:"black"}}> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>
       <img id='imgDis' src="https://clickup.com/assets/home-test/stay-ahead.png"/>
       
 
      
        </div>
 
-       <div  className="col-teamHead  stopHead" id="stop" > 
+       <div  className="col-teamHead  stopHead" id="stop" style={{boxShadow:" 3px 5px 3px 3px rgba(44,31,31,.3)", background:"none"}} > 
        
-      <h1 >Stay ahead of what’s next</h1>
-      <p style={{padding:"2px"}}> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>
-      <img id='imgDis'  src="https://d1l7hzv7igdihb.cloudfront.net/img/help/topPicksHero.png"/> 
-      
+      <h1  style={{color:"black"}}>Stay ahead of what’s next</h1>
+      <p  style={{padding:"2px" ,color:"grey", font:"20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif"}}> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>
+      <img id='imgDis'  src="https://images.pexels.com/photos/2422293/pexels-photo-2422293.jpeg?cs=srgb&dl=pexels-jopwell-2422293.jpg&fm=jpg"/> 
+        
 
        
       </div>

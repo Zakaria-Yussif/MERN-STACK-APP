@@ -113,13 +113,13 @@
     display: grid;
     /* background-color: rgb(57, 27, 112); */
     margin: 120px 50px 100px;
-    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
     
      width: 95%;
    grid-template-columns: 60% 40%;
     justify-content: center;
 
-    background: linear-gradient(10deg, var(--color--blue-400) ,var(--color--white));
+     background: linear-gradient(10deg, var(--color--blue-200),var(--color--white) ,var(--color--white)); 
 
     
     cursor: pointer;
@@ -131,16 +131,32 @@
 ;
     
 }
-#pp{
+/* #pp{
     background: linear-gradient(10deg, var(--color--purple-800) ,var(--color--black-50)); 
+} */
+
+
+
+.row4{
+    display:flex;
+      background: linear-gradient(100deg, var(--white) ,var(--color--green-200));  
+    width: 95%;
+    margin: 1190px  100px;
+    position: absolute; 
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+    justify-content: center;
+    min-height: 100px;
+    max-height: auto;
+    font:  17px 'Roboto Mono', monospace;
+
 }
 .rowMe{
     width: 95%;
    grid-template-columns: 40% 60%;
     justify-content: center;
     
-    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
-    margin: 490px 50px 100px;
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+    margin: 620px 50px 100px;
     cursor: pointer;
    
     border-radius: 20px;
@@ -652,11 +668,12 @@ h1{
 
 }
 .team2a{
-     background: linear-gradient(10deg, var(--color--pink-800) ,var(--color--white)); 
+     /* background: linear-gradient(10deg, var(--color--pink-800) ,var(--color--white));  */
     border-radius: 10px;
     justify-content: start;
     margin: 30px 2px ;
     height: auto;
+    color: var(--color--black-50);
 
 }
 
@@ -670,10 +687,11 @@ p{
 }
 
  .team1a{
-    background: linear-gradient(300deg, var(--color--pink-800) ,var(--color--pink-400));
+    /* background: linear-gradient(300deg, var(--color--pink-800) ,var(--color--pink-400)); */
     justify-content: center;
     text-align:right;
     margin: 3px ;
+    color: var(--color--black-50);
  }
  #start1{
     width: 150px;
@@ -940,8 +958,12 @@ p{
     }
     .rowDis2{
         /* background: url(/assets/home-test/teams-worldwide-planet.png); */
-     background: linear-gradient(300deg, var(--color--black) ,var(--color--white)); 
+     /* background: linear-gradient(300deg, var(--color--black) ,var(--color--white));  */
         border-radius: 10px;
+        justify-content: center;
+        position: absolute;
+        text-align: center;
+        margin: 150px 10px;
     }
     #stop{
         color: white;
@@ -1029,20 +1051,20 @@ p{
 
 
     .row20{
-        margin: 2100px 20px;
+        margin: 2250px 20px;
         justify-content: center;
         position: absolute; 
         
         text-align: center;
         display: grid;
-        
+        font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         width: 100%;
-        color: grey;
+        color:var(--color--black-100);
         
     
     
         z-index: 0;
-        background: linear-gradient(200deg, var(--color--blue-800),var(--color--blue-800) ,var(--color--white));
+        /* background: linear-gradient(200deg, var(--color--blue-800),var(--color--blue-800) ,var(--color--white)); */
         /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
     }
 
@@ -1157,7 +1179,7 @@ padding: auto;
     .footer{
         display:  flex; 
         flex-direction: column;
-        margin: 2900px auto 0px 0px;
+        margin: 3900px auto 0px 0px;
         position: absolute;
         justify-content: center;
         box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3);
@@ -1184,7 +1206,7 @@ cursor: pointer;
     } 
     .footer1{
         
-        margin: 2900px auto 0px 0px;
+        margin: 3900px auto 0px 0px;
         position: absolute;
         display:  none; 
         flex-direction: column;
@@ -1215,7 +1237,7 @@ cursor: pointer;
         margin: 200px auto 0px 0px;;
      }
      .footer.footerShow{
-      margin:  2900px auto 0px 0px;; 
+      margin:  3000px auto 0px 0px;; 
       height: 93vh;
       
       
@@ -1432,7 +1454,7 @@ cursor: pointer;
         width:90%  ;
     }
     .stayHead{
-        margin:2290px 30px; 
+        margin:2390px 30px; 
         position:absolute; 
         display:grid;
         grid-template-columns:50% 50%;
@@ -1451,13 +1473,13 @@ cursor: pointer;
         width: 96%;
         gap: 10px;
         z-index: 0;
-        margin: 1350px 0px;
+        margin: 1550px 0px;
         position: absolute;
         grid-template-columns: 30% 30% 30%;
         width: 100%;
         border-radius: var(--radius--medium);
         height: 30vh;
-        box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3);
+        /* box-shadow: 10px 5px 10px 10px rgba(44,31,31,.3); */
         cursor: pointer;
         /* background-position: 50% 100%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.527" preserveAspectRatio="none"><path d="M35.278 2.463v-.125A82.946 82.946 0 000 2.345v.125a82.783 82.783 0 0135.278-.007m0 .615v-.25A83.105 83.105 0 000 2.835v.25a82.777 82.777 0 0135.278-.007m-33.252.45a82.855 82.855 0 0131.26 0h1.992v-.093A83.44 83.44 0 000 3.442v.085zm10.8 0h-8.84a84.249 84.249 0 0127.339 0h-8.839zM35.278 1.97v-.075A82.878 82.878 0 000 1.902v.075a82.771 82.771 0 0135.278-.007" fill="%23b9d9eb"/></svg>');  */
         background-position: 50% 99%;  background-image: url('data:image/svg+xml;charset=utf8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35.278 3.52" preserveAspectRatio="none"><path d="M0 3.528S27.04 3.352 35.278 0v3.528z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.374 35.278.425v3.103z" opacity=".2" fill="%23b9d9eb"/><path d="M0 3.528S27.04 3.396 35.278.882v2.646z" fill="%23b9d9eb"/><path d="M0 3.527h35.278v.092H0z" fill="%23b9d9eb"/></svg>'); 
@@ -1501,18 +1523,7 @@ width: 100%;
     background-color: WHITE;
     width: 120%;
 }
-.row4{
-    display:flex;
-     background: linear-gradient(200deg, var(--color--green-200) ,var(--color--green-400)); 
-    width: 92%;
-    margin: 1050px 60px;
-    position: absolute; 
-    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
-    justify-content: center;
-    height: auto;
-    font:  17px 'Roboto Mono', monospace;
 
-}
 .footerPhone22{
     display: none;
 }
@@ -1722,16 +1733,32 @@ top: 0;
         width: 15px ;
         z-index: 4;
      }
+     .rowDis2{
+    background: none;
+    margin: 10px auto;
+    juastify-content: cente
+    r;
+    margin-top: 2100px;
+    width: 100%;
+    height: 40vh;
+}
 .col-teamVideo{
-    margin:2090px 30px;
-    justify-content: center;
-    position:absolute; 
-    height:40vh;
-    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+    margin:1850px 30px; 
+    /* justify-content: center; */
+    /* position:absolute;  */
+    /* min-height:40vh; */
+    max-height: fit-content;
+    /* color: var(--color--black-100); */
+    font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);  */
     width:90%  ;
 }
 #video{
-    margin-top:-20px;
+   margin:0px auto  0px 0px;
+   top: 0px;
+   justify-content: center;
+ /* position: absolute;  */
 }
 .stayHead{
     margin:2490px 30px; 
@@ -1742,6 +1769,16 @@ top: 0;
      width:98%;
       gap:10px;
 }
+#stay{
+    width: 100%;
+    height: 30vh;
+    font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin: 10px auto;
+}
+#text_p{
+    color: var(--color--grey-800); 
+}
+
 .row4-slide{
     margin: 1750px auto ;
     position: absolute;
@@ -1877,12 +1914,7 @@ justify-content: start;
     margin: -40px 100px;
 }
  
-.rowDis2{
-    background: none;
-    margin-top: 2000px;
-    width: 100%;
-    height: auto;
-}
+
 .rowDis1{
     background: none;
     color: #000;
@@ -2060,6 +2092,7 @@ width: 100%;
         font-size: 15px;
         
     }
+    
     .row4Token4{
        min-width:110%;
         justify-content: center;

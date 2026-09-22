@@ -22,25 +22,14 @@ body{
   color: #fff;
   z-index: 0;
    background-size: cover; 
-    background: linear-gradient(200deg,var(--color--blue-800), var(--color--blue-800), var(--color--blue-800));
+     background: linear-gradient(10deg,var(--color--blue-100), var(--color--white), var(--color--blue-400)); 
   
 }
 
 .shake {
     animation: shake 0.3s ease-in-out infinite;
   }
-  
-  @keyframes shake {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    25%, 75% {
-      transform: translateX(-10px);
-    }
-    50% {
-      transform: translateX(10px);
-    }
-  }
+ 
 
 #id_create{
   color: white;
@@ -81,7 +70,7 @@ h2{
      
  }
   label{
-  color:white;
+  color: rgb(27, 12, 12);
   font-weight: bold;
   
   display: flex;
@@ -153,9 +142,9 @@ h2{
 }
 .createAcc{
   background-color: rgba(255, 255, 255, 0.08); 
-   margin: 4px 510px; 
+   margin: 4px 600px; 
   justify-content: center;
-  position: fixed;
+  position: absolute;
   width: 25%;
   height: auto;
   top: 490px;
@@ -163,7 +152,7 @@ h2{
   padding: 2px;
   /* color: #131212b9; */
   /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
-  border-radius: ;
+  border-radius: 
 }
 #inputImage{
   width: 110px;
@@ -236,7 +225,7 @@ b{
     justify-content: center;
     text-align: center;
     margin:120px auto;
-    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4);
+  box-shadow: 6px 1px 3px 6px rgba(44,31,31,.1);
     width: 25%;
     border-radius: 7px;
     background-color: rgba(255, 255, 255, 0.103); 
@@ -363,9 +352,11 @@ label{
    font:  15px  'Roboto Mono', monospace;;
     width:95%;
     margin: 10px 0px 0px -70px;
+    color:grey;
+    border: grey 1px solid;
     left: 20px;
    border-radius:5px;
-    line-height: 33px;
+    line-height: 40px;
     justify-content:start;
     position: relative;
     outline-color:	#00bfff67;
@@ -500,6 +491,10 @@ font:  20px  'Roboto Mono', monospace;;
   justify-content: center;
 }
 
+.terms{
+  font-size: 14px;
+  color: #000;
+}
 
 
 
@@ -707,3 +702,16 @@ position: absolute;
 }
 
 }
+
+ 
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    25%, 75% {
+      transform: translateX(-10px);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+  }

@@ -8,6 +8,7 @@ import 'aos/dist/aos.css'
 import { BookForm } from '../Component/Display';
 import Video from '../Component/vid/vid.mp4.webm'
 import { Button } from 'semantic-ui-react';
+import logoUrl from './imgs/image.png';
  import {jwtDecode} from 'jwt-decode';
 import axios from 'axios';
 import io  from 'socket.io-client'
@@ -47,6 +48,8 @@ const [Elements, setElements] = useState([]);
 const [dynamicElements, setDynamicElements] = useState([]);
 const [display, setDisplay] =useState(false);
 const [ isProfileVisible, setProfileVisible] = useState(false);
+
+
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -268,10 +271,10 @@ setIsVisible(!isVisible);
         
            </div>
            
-           <div className="list-items" style={{color:"grey"}}>
-            <div  className={solution ? 'solution change1': 'solution'}>Services</div>
+           <div className="list-items"  >
+            <div  className={solution ? 'solution change1': 'solution'} style={{color:"black"}}>Services</div>
             
-            <div className={solution ? 'solution change1': 'solution'}>Contact</div>
+            <div className={solution ? 'solution change1': 'solution'}style={{color:"black"}}>Contact</div>
             {/* <div className={solution ? 'solution change1': 'solution'}>Helpdesk</div> */}
              </div>
 
@@ -406,7 +409,7 @@ setIsVisible(!isVisible);
     
     <div className="Container-profile" >
 {/* <div className='bell'><Icon icon="bxs:bell" /></div> */}
-    <Icon  id="threeDots" onClick={Profile} icon="ph:dots-three-outline-vertical-fill" /> 
+    <Icon style={{color:"black"}} id="threeDots" onClick={Profile} icon="ph:dots-three-outline-vertical-fill" /> 
      {isProfileVisible1 ?( 
       
      
@@ -441,7 +444,7 @@ setIsVisible(!isVisible);
 
 ) : (
   <div className='join'>
-    <Link  className= 'link' to='/login'>Login</Link>
+    <Link  className= 'link' id="loginLink" to='/login'>Login</Link>
   </div>
 )}
 
@@ -525,13 +528,14 @@ setIsVisible(!isVisible);
               
              
             </nav>
-            <div className="logo" id="idLogo" style={{ color: logo ? 'blue' : 'white' }} >
+            <div className="logo" id="idLogo" style={{ color: logo ? '#67bed9' : '#426943' }} >
             WhiteOlive 
               <span className='log1'>
-              <Icon id="logo2" icon="carbon:circle-filled" />
+              {/* <Icon id="logo2" icon="carbon:circle-filled" />
               <Icon id="logo3" icon="carbon:circle-filled" />
               <Icon  id="logo4" icon="carbon:circle-filled" />
-               
+                */}
+                <img  src={logoUrl} alt="Logo"  style={{ width: '100px', minHeight: '70px', maxHeight: '79px', margin: '-10px 2px'   }}/>
               </span>
               
               </div>

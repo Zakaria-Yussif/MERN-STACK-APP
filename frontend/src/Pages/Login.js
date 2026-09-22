@@ -45,11 +45,12 @@ const Submit = async (event) => {
         
         console.log("resp", response)
 
-        if (response.status === 2004 ) {
+        if (response.status !== 200 && !response.data.token) {
             // User successfully logged in
             
             setLogin(response.data.msg || "Invalid credentials. Please try again.");
             setIsShaking(true);
+            console.log("debug", failAttempts)
             setAttempts(failAttempts + 1);
             if (failAttempts + 1 >= 3) {
                 setLogin("Not registered, Sign Up");
@@ -207,8 +208,8 @@ const handleSignUp = async (event) => {
 
                 <div style={{color:"red", margin:"4"}}>{signUpMs}</div>
                 <div>
-                  <div className="terms" style={{color:"grey"}}>
-                <input id="checkbox" type="checkbox" required/> <a  > <span id="span1" style={{color:"white"}}>Terms & Conditions</span> </a>
+                  <div className="terms" style={{color:"black"}}>
+                <input style={{width:"15px", height:"15px"}} id="checkbox" type="checkbox" required/> <a  > <span id="span1" style={{color:"black"}}>Terms & Conditions</span> </a>
           </div>
                     <button className="submit2" 
                 type='submit'>Sign Up</button>
