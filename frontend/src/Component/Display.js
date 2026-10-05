@@ -35,6 +35,7 @@ import { BarChart, Bar,Pie,PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legen
 import { trusted } from 'mongoose';
 import { div, imag, sub } from '@tensorflow/tfjs';
 import { get } from 'jquery';
+import { use } from 'react';
 
 //
 const socket = io.connect("https://render-backend-28.onrender.com")
@@ -167,6 +168,7 @@ const [isInputVisible, setInputVisible] = useState("false");
         const[pricePerItem, setPricePerItem]=useState("")
          const[totalBoxes, setTotalBoxes]=useState("")
          const[personName, setPersonName]=useState("")
+         const[paymentList, setPaymentlist]=useState("")
          
 const [grandTotal, setGrandTotal] = useState(0)
 const [dataBarChat, setdataBarChat] = useState([]);
@@ -175,6 +177,7 @@ const [dataPieChart, setdataPieChart] = useState([]);
  const [sumTotalUpData, setSumTotalUpData] = useState("");
   const [salesTodayData, setSalesTodayData] = useState([]);
   const [salesTodayDataDisplay, setSalesTodayDataDisplay] = useState([]);
+  const [openOrderInput, setOpenOrderInput] = useState(false);
 
 
 
@@ -583,9 +586,11 @@ const Task = async () => {
 const fileData= response.data.tasks
 const copyFileData={...fileData}
   setFileData((prevData)=>[...prevData, copyFileData])
+  const finduser= fileData.find((task)=> task.Employee.some((employee)=> employee.email === decodedEmail))
+  console.log("find",finduser)
 
 
-      const newTasks = fileData.flatMap((task) =>
+      const newTasks = fileData.Employee.flatMap((task) =>
 
     
       task.Employee.map((employee, i) => ({
@@ -609,18 +614,26 @@ const copyFileData={...fileData}
     console.error("Error fetching tasks:", error);
     // Handle the error as needed, e.g., display an error message to the user
   }
+  if(setIsListVisible1){
+    setOverView(true)
+  }
   setIsListVisible1(true);
   setIsListVisible(!isListVisible);
   setIsListVisibleTimeSheet(true);
   setSumbitTask(true)
   setDataShow(false)
-  setOverView(true)
+  setOverView(false)
+  setIsReport(true)
+  setSumbitTask(true)
+  setIsListVisibleOrder(true)
+  setPaymentlist(true)
  };
 
  useEffect(()=>{
   setDataShow(true)
  },[setDataShow])
 
+ 
 
 
  const handleDownload = (event, fileData) => {
@@ -658,14 +671,7 @@ const handleEdit=  ()=>{
 const edit=  ()=>{
  
 }
-function List (){
-  setIsListVisible(true)
-  setIsListVisible1(!isListVisible1)
-  setIsListVisibleTimeSheet(true)
-  setIsReport(true)
-  setSumbitTask(true)
-  setOverView(false)
-}
+
 useEffect(() => {
   const fetchData = async () => {
     
@@ -710,9 +716,10 @@ const taskHeaderClass = addEmployee ? 'task_header' : 'task_header change';
  const headerTitle1  = addEmployee ? 'newTask2' : 'newTask2 change2';
 
  const TimeSheet = ()=>{
-  setIsListVisible1(true);
+  setIsListVisible1(false);
   setIsListVisible(true);
   setIsReport(true)
+  
   setIsListVisibleTimeSheet(!isVisibleTimeSheet)
   setSumbitTask(true)
   setOverView(false)
@@ -795,17 +802,101 @@ const report =()=>{
   setIsListVisible1(true)
   setIsListVisibleTimeSheet(true)
   setOverView(false)
+  setPaymentlist(true)
+  setIsListVisibleOrder(true)
+  setOverView(false)
   
 }
 
 function over (){
-setOverView(!overView)
+
+if (overView) {
 setIsListVisible1(true);
   setIsListVisible(true);
   setIsListVisibleTimeSheet(true);
   setSumbitTask(true)
+  setIsListVisibleOrder(true)
+  setIsReport(true)
+  setPaymentlist(true);
+}
+  setOverView(!overView)
   
 
+}
+
+function List (){
+  
+  
+  if (!isListVisible1) {
+    setOverView(true);
+
+  }
+  setIsReport(true)
+  setSumbitTask(true)
+  setPaymentlist(true)
+  setOverView(false)
+  setIsListVisible(true)
+  setIsListVisibleOrder(true)
+
+    setIsListVisibleTimeSheet(true)
+    setSumbitTask(true)
+    setIsReport(true)
+
+
+  setIsListVisible1(!isListVisible1)
+}
+
+
+function submitTaskData (){
+  if (!submitTask) {
+    setOverView(true);
+  }
+
+  setIsListVisible(true)
+  setOverView(true)
+  setIsListVisible1(true)
+  setIsListVisibleTimeSheet(true)
+  setIsReport(true)
+  setOverView(false)
+  setSumbitTask(!submitTask)
+  setIsListVisibleOrder(true)
+}
+
+
+function PaymentAmount(){
+  if (!paymentList) {
+    setOverView(true);
+  }
+
+
+   setIsListVisible(true)
+  setIsListVisible1(true)
+  setIsListVisibleTimeSheet(true)
+  setIsReport(true)
+  setSumbitTask(true)
+  setPaymentlist(!paymentList)
+  setOverView(false)
+
+  
+    }
+    
+const NewOrder= ()=>{
+
+  if(!isListVisibleOrder){
+    setOverView(true)
+  }
+ 
+  setSumbitTask(submitTask)
+  setIsListVisibleOrder(!isListVisibleOrder)
+  setOverView(false)
+  
+   setIsListVisible(true)
+  setIsListVisible1(true)
+  setIsListVisibleTimeSheet(true)
+  setIsReport(true)
+  setSumbitTask(true)
+  setPaymentlist(true)
+  setOverView(false)
 }
 
   // Call the Book function here or place your code here
@@ -846,17 +937,8 @@ function Book() {
   
 }
 
+
  
-function submitTaskData (){
-  setIsListVisible(true)
-  setOverView(true)
-  setIsListVisible1(true)
-  setIsListVisibleTimeSheet(true)
-  setIsReport(true)
-  setOverView(false)
-  setSumbitTask(!submitTask)
-  setIsListVisibleOrder(false)
-}
  
 // Example usage:
 
@@ -943,12 +1025,17 @@ alert("No answer")
     
   }
 }
+useEffect(() => { 
+  const order = 'Order'
+  if(lastName==order){ 
+    setOpenOrderInput(!openOrderInput)}
+  console.log("renderMessage", lastName);
+ },[lastName]);
 
 
 const submitIncidentReport=  async () =>{
 
   try {
-console.log("hello")
   setSignature(true)
   
   const data={
@@ -1022,6 +1109,12 @@ const AddEmployee2 = (newRow)=>{
   const year = today.getFullYear(); // Full year
   
   const datePurchase = `${day}/${month}/${year}`;
+  const order = 'Order'
+  if(lastName==order){ 
+    setOpenOrderInput(!openOrderInput)
+   
+  }
+
    
 
       
@@ -1054,7 +1147,7 @@ const AddEmployee2 = (newRow)=>{
           Quantity: numberOfItemsSales,
           Price: priceSales,
           TotalPrice:sumSales,
-        //  Name:personName,
+          Name:personName,
           // Picture: picture,
         };
         
@@ -1063,8 +1156,12 @@ const AddEmployee2 = (newRow)=>{
          setSalesDataList(prevData => [...prevData, newRow]);
 
         console.log("sales",salesData)
+        if(salesData.length>0){
+          return receipt();
+        }
 
 
+         
 
          
         
@@ -1078,7 +1175,7 @@ const AddEmployee2 = (newRow)=>{
         setLastName("");
         setNameSales("")
         setSumSales("")
-  
+      
   
      
       } else {
@@ -1358,12 +1455,6 @@ const SaveEditOrder = async () => {
 };
 
 
-const NewOrder= ()=>{
- 
-  setSumbitTask(submitTask)
-  setIsListVisibleOrder(!isListVisibleOrder)
-  setOverView(false)
-}
 useEffect(() => {
   console.log("name",personName)
   if (numberOfBoxes != null && numberOfItems != null) {
@@ -1504,8 +1595,13 @@ console.log("ff",dataSales)
 
   fetchData();
 }, [setSumTotalUp]);
+ 
+const onChangeSelectionPayment = (selectedRows) => {
+  console.log(selectedRows, "Selected Rows");
+}
 
 
+    
 
 
   
@@ -1754,6 +1850,7 @@ Thanks for shopping with us!`;
 
   const cleanedSalesData = salesDataList.map(item => ({
     ID: item.ID,
+    Name: item.Name,
     Product: item.Product,
     Status: item.Status,
     Liters: item.Liters,
@@ -1766,7 +1863,7 @@ Thanks for shopping with us!`;
 const cleanedSalesDataDisplay = salesDataList.map(item => ({
   ID: item.ID,
   Receipt: receiptData.receiptNo,
-  Name: userName,
+  Name: item.Name,
   Items: receiptData.items.length,
   Status: item.Status,
   Liters: item.Liters,
@@ -1789,6 +1886,7 @@ setSalesTodayData((prev) => {
 
   try {
     await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", cleanedSalesData);
+    console.log("Sales data saved successfully.");
 
     const pdfBlob = pdf.output("blob");
     const formData = new FormData();
@@ -1842,8 +1940,9 @@ useEffect(() => {
 
 }, []);
 
-
-
+const onChange=() => {
+ console.log("hello")
+}
 
 
  const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
@@ -1885,11 +1984,10 @@ const maxValue = Math.max(...dataPieChart.map(item => item.value));
  <ul>
  <li style={{color:"coral"}} >OverView</li>
   <li onClick={List}>Sales</li>
+  <li onClick={NewOrder}>New Arrival</li>
+    <li onClick={PaymentAmount}>Payment</li> 
   <li onClick={Task}>Task {!taskNumber && (<span className="TaskInc" > <span id="taskNum">{increaseData}</span></span>)}</li> 
   <li onClick={TimeSheet}>Time</li>
-  <li onClick={NewOrder}>New Arrival</li>
-  
-  <li>Discuss</li> 
   <li>Planning</li>
   <li>Purchase</li>
   
@@ -2056,24 +2154,6 @@ null
 
 
   
-{/* 
-  { EmployeeListData.map((row) => (
-  <tr key={row.ID}>
-    <td>
-      <input id='input2' type='checkbox' value={row.ID} data-value1={row.ID} />
-    </td>
-    <td>{row.ID}</td>
-    <td>{row.FirstName}</td>
-    <td>{row.LastName}</td>
-    <td>{row.Email}</td>
-    <td>{row.Contact}</td>
-    <td>{row.Contract}</td>
-    <td>{row.Position}</td>
-    <td><img className='img_Online' style={{width:"50px", height:"30px"}} src={row.Picture}/>
-    
-    </td>
-  </tr>
-))} */}
 
 {salesData.map((row, index) => (
   <tr key={row._id || row.id}>  {/* Prefer _id if using MongoDB */}
@@ -2165,13 +2245,6 @@ null
 ))}
 
 
- {/* input */}
-
-
-
-
-
- 
  {!isInputVisible && (<tr className='inputTree'>
   <th><input id='input2' type='checkbox' /> </th>
   <td>Date</td>
@@ -2197,6 +2270,151 @@ null
     <td><input id='input1' type='text' onChange={(e)=>setNumberOfItemsSales(e.target.value)}/></td>
     <td><input id='input1' type='text' onChange={(e)=>setPriceSales(e.target.value)}/></td>
     <td>{sumSales}</td>
+     {!openOrderInput?(null):(
+    <td><input id='input1' type='text' onChange={(e)=>setPersonName(e.target.value)}/></td>)}
+   
+    {/* <td><input id='input1' type='text' onChange={(e)=>setPersonName(e.target.value)}/></td> */}
+  </tr>
+  )}
+
+  
+</table>
+
+           </div>
+           )}
+
+           {/* Payment */}
+
+ {!paymentList &&(
+           <div className='addEmployee1'>
+
+            <h4 id="EmployeeData" style={{ textAlign: "center" }}>Payment</h4>
+            <div className='employee-menu'> 
+            {/* <input placeholder='Search' type='search' className='employee search'/> */}
+            {/* <button  type="button" onClick={receipt}  className=" p-2 mb-2 btn btn-light delete">Receipt</button> */}
+           
+            <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
+            <button  type="button " onClick={SaveSales}  className="btn btn-primary delete">Save</button>
+            <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
+            <button   type="button" onClick={DeleteSales} class="btn btn-danger delete">Delete</button>
+                        <button onClick={EditSales}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
+                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Save Edit</button>
+            </div>
+            
+            <table className='PaymentTable'>
+  <tr>
+  <th>Check</th>
+    <th>Date</th>
+    <th>Name</th>
+    
+    <th>Product</th>
+    
+    <th>Quantity</th>
+    <th>Amount Paid
+    <span style={{color:"green"}}>GHS</span></th>
+    {/* <th>Total Price <span style={{color:"green"}}>GHS</span></th> */}
+    <th style={{color:'red'}}>Balance</th>
+  </tr>
+  
+  <tr>
+  <th><input id='input2' type='checkbox'/></th>
+  <th> Thurs/4/2025 </th>
+    <td>Bismarck</td>
+    <td>1 liters</td>
+    
+    <td>20</td>
+    <td>100</td>
+    
+    <td style={{color:'coral', fontSize:"20px"}}>100</td>
+
+</tr>
+  
+
+{salesData.map((row, index) => (
+  <tr key={row._id || row.id}>  {/* Prefer _id if using MongoDB */}
+      {/* Checkbox */}
+      <td>
+        <input
+          type="checkbox"
+          value={row._id}
+          data-value1={row._id}
+          onChange={handleCheckboxChange}
+        />
+      </td>
+    <td>{row.ID}</td>
+    <td>{row.Name}</td>
+
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'Product', e.target.innerText)}
+      >
+        {row.Product}
+      </td>
+    ) : (
+      <td>{row.Product}</td>
+    )}
+
+    
+
+
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'Quantity', e.target.innerText)}
+      >
+        {row.Quantity}
+      </td>
+    ) : (
+      <td>{row.Quantity}</td>
+    )}
+
+  
+
+    {!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, 'TotalPrice', e.target.innerText)}
+      >
+        {row.AmountPaid}
+      </td>
+    ) : (
+      <td>{row.AmountPaid}</td>
+    )}
+ <td style={{color:'coral', fontSize:"20px"}}>{row.Balance}</td>
+    
+  </tr>
+))}
+
+
+ {!isInputVisible && (<tr className='inputTree'>
+  <th><input id='input2' type='checkbox' /> </th>
+  <td>Date</td>
+    <td><div className="outline-primary" id="input1">
+  <select
+    className="form-select"
+    style={{ width: "200px", height: "6vh" }}
+    value={lastName} // <-- bind to state
+    onChange={(e) => setLastName(e.target.value)}
+    aria-label="Status selection"
+  >
+    
+    <option style={{background:'grey'}} value="">Select Name</option>
+    <option value="Sales">Sales</option>
+    <option value="Order">Order</option>
+  </select>
+</div></td>
+    <td>
+    
+    
+    </td>
+    {/* <td><input id='input1' type='text' onChange={(e)=>setEmail(e.target.value)}/></td>
+    <td><input id='input1' type='text' onChange={(e)=>setNumberOfItemsSales(e.target.value)}/></td> */}
+     {/* <td><input id='input1' type='text' onChange={(e)=>setPriceSales(e.target.value)}/></td>  */}
+    <td>{sumSales}</td>
     <td><input id='input1' type='text' onChange={(e)=>setPersonName(e.target.value)}/></td>
   
     {/* <td><input id='input1' type='text' onChange={(e)=>setPersonName(e.target.value)}/></td> */}
@@ -2210,7 +2428,8 @@ null
 
            </div>
            )}
-           {/* New oRDEE */}
+
+           {/* New Order Table */}
 
 
            {!isListVisibleOrder &&(
@@ -2332,14 +2551,6 @@ null
   ))}
 
 
-
-
- {/* input */}
-
-
-
-
-
  
  {!isInputVisible && (<tr className='inputTree'>
   <th><input id='input2' type='checkbox' /> </th>
@@ -2389,9 +2600,11 @@ null
   </table>
 </div>
 
-
            </div>
            )}
+
+
+           
 
 
 
@@ -2912,7 +3125,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
        {token ? ( 
         
         <div className='row_token'  >
-       <div className='col-token2 token-liveChat'style={{height:"30vh",overflowY:"scroll"}} >
+       <div className='col-token2 token-liveChat' >
     <h4>Receipts</h4>
        
        {salesTodayDataDisplay.map((item, index) => (

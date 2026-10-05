@@ -180,7 +180,7 @@
   height:89vh;
     color: var(--color--black-50);
     cursor: pointer;
-    box-shadow: 0px 0px 0px 0px ;
+    box-shadow: 0px 0px  0px 0px ;
     border-radius: 20px;
     
     position: absolute;
@@ -244,6 +244,7 @@ h4{
     width: 100%;
     justify-content: center;
     margin: 0px 0px;
+    font-size: 20px;
     height:90vh;
     padding: 2px 2px 6px 2px;
     border-radius: 10px;
@@ -491,20 +492,21 @@ box-shadow: 0px 0px 0px 0px;
 
 .row_token{
     display: grid;
-    /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+    box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); 
      width: 95%;
-   grid-template-columns: 30% 30% 30%;
+   grid-template-columns: 40% 30% 30%;
     justify-content: center;
     /* box-shadow: 10px 10px 10px 10px rgba(44,31,31,1); */
      /* background: linear-gradient(200deg,var(--color--blue-10), var(--color--white));  */
     /* background: linear-gradient(10deg, var(--color--red-50) ,var(--color--white)); */
 
-    margin: 8px 50px 100px;
+    margin: 100px 50px 100px;
     cursor: pointer;
     box-shadow: 0px 0px 0px 0px ;
     border-radius: 20px;
   top: 900px;
-    height: auto;
+    
+    height: 50vh;
     gap: 50px;
     position: absolute; 
     font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -560,18 +562,12 @@ box-shadow: 0px 0px 0px 0px;
     /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
 }
 .token-liveChat{
+    overflow-y: scroll;
+    height: 50vh;
     /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
 }
-.col-token2 p{
-    margin: 10px;
-    font: 19px Georgia, 'Times New Roman', Times, serif;
-}
-/* width: 100%; */
-
-#elearning{
-    width: 150px;
-    height: 40px;
-    font-weight: bolder;
+.col-token2{
+    height: 50vh;
     /* right: 270px; */
     margin: 10px 0px ; 
     font:  15px 'Roboto Mono', monospace;
@@ -1620,7 +1616,9 @@ top: 0;
             position: absolute;
             font: 20px Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         }
-
+.addEmployee1{
+    font-size: 15px;
+}
 
 .rowDisplay23{
         
@@ -1768,6 +1766,11 @@ top: 0;
     grid-template-columns:50% 50%;
      width:98%;
       gap:10px;
+}
+#imgDis{
+    height: 30vh;
+    width: 10px;
+    margin: 10px auto;
 }
 #stay{
     width: 100%;

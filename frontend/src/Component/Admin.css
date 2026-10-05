@@ -91,6 +91,9 @@
     border: 1px solid rgb(158, 151, 151);
     padding: 2px;
 }
+td{
+    font-size: 20px;
+}
 .inputTree{
     width: 95%; 
     margin-left: 0px ; 
@@ -110,7 +113,7 @@
    background:  #018749;
 }
 th{
-    font-size: 19px;
+    font-size: 20px;
     
 }
 td{
@@ -123,8 +126,11 @@ tr:nth-child(even){
 tr:nth-child(odd){
     background-color: #ffff;
 }
+.PaymentTable tr:nth-child(even){
+    background-color: var(--color--red-100);
+}
 .employee-menu{
-    display: flex;
+    display: flex;  
     flex-direction: row;
     margin: 10px -5px;
     text-align: left;
