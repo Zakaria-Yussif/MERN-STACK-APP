@@ -32,7 +32,7 @@ import Video from '../Component/vid/vid.mp4.webm'
 import {jwtDecode} from 'jwt-decode';
 import logo from "../Component/imgs/logoData.png"
 import { BarChart, Bar,Pie,PieChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell,ResponsiveContainer } from 'recharts';
-import { trusted } from 'mongoose';
+import { set, trusted } from 'mongoose';
 import { div, imag, sub } from '@tensorflow/tfjs';
 import { get } from 'jquery';
 import { use } from 'react';
@@ -168,7 +168,9 @@ const [isInputVisible, setInputVisible] = useState("false");
         const[pricePerItem, setPricePerItem]=useState("")
          const[totalBoxes, setTotalBoxes]=useState("")
          const[personName, setPersonName]=useState("")
+         const[AmountPaid, setAmountPaid]=useState("")
          const[paymentList, setPaymentlist]=useState("")
+         const [creditorName, setCreditorName]=useState([]);
          
 const [grandTotal, setGrandTotal] = useState(0)
 const [dataBarChat, setdataBarChat] = useState([]);
@@ -178,6 +180,12 @@ const [dataPieChart, setdataPieChart] = useState([]);
   const [salesTodayData, setSalesTodayData] = useState([]);
   const [salesTodayDataDisplay, setSalesTodayDataDisplay] = useState([]);
   const [openOrderInput, setOpenOrderInput] = useState(false);
+  const [creditorArray, setCreditorArray  ] = useState([]);
+  const [SalesCreditortsStatus, setSetSalesCreditortsStatus] = useState([]);
+  const [SalesCreditortsStatusDisplay, setSetSalesCreditortsStatusDisplay] = useState([]);
+  const[balance, setBalance]=useState("")
+  const [salesCreditorsData, setSalesCreditorsData] = useState([]);
+  const [saleDataListcreditor, setSaleDataListCreditor]=useState([])
 
 
 
@@ -326,7 +334,7 @@ if (token){
         Name: item.Name,
       }));
 
-      console.log("Mapped sales data:", newRow);
+      
 
       setSalesData((prevData) => [...prevData, ...newRow]);
       
@@ -345,7 +353,7 @@ if (token){
   async function GetNewOrderList() {
   try {
     const response = await axios.get("https://render-backend-28.onrender.com/api/newOrder/getNewOrder");
-    console.log("newOrder response:", response);
+    
 
     setButtonClicked(true);
 
@@ -393,12 +401,6 @@ useEffect(() => {
   );
   setGrandTotal(sum);
 }, [newOrderList]);
-
-
-
-
-
-
 
 
 
@@ -562,7 +564,7 @@ AOS.init({duration:2000})
 
   },[])
 
-  
+   
 
   
 
@@ -1101,23 +1103,13 @@ const AddEmployee2 = (newRow)=>{
 
     const SaveSales = async (min, max) => {
  
-    
-      
   const today = new Date();
   const day = today.getDate(); // Day of month
   const month = today.getMonth() + 1; // Month is zero-based
   const year = today.getFullYear(); // Full year
   
   const datePurchase = `${day}/${month}/${year}`;
-  const order = 'Order'
-  if(lastName==order){ 
-    setOpenOrderInput(!openOrderInput)
-   
-  }
-
-   
-
-      
+  
         // Store the Base64-en
      
       const newEmployee = {
@@ -1129,7 +1121,7 @@ const AddEmployee2 = (newRow)=>{
         Quantity: numberOfItemsSales,
         Price: priceSales,
         TotalPrice:sumSales,
-          // Name:nameSales,
+         Name:nameSales ,
         // Picture:picture,
       };
 
@@ -1152,19 +1144,9 @@ const AddEmployee2 = (newRow)=>{
         };
         
         // Update state using functional form of setState
-        setSalesData(prevData => [...prevData, newRow]);
-         setSalesDataList(prevData => [...prevData, newRow]);
-
-        console.log("sales",salesData)
-        if(salesData.length>0){
-          return receipt();
-        }
-
-
+        // setSalesData(prevData => [...prevData, newRow]);
+         setSalesDataList(prevData => [...prevData, newRow]);                                                                                                                                                                                         
          
-
-         
-        
         setInputVisible(!isInputVisible)
         // Update state for individual fields
         setPriceSales("")
@@ -1176,12 +1158,20 @@ const AddEmployee2 = (newRow)=>{
         setNameSales("")
         setSumSales("")
       
+      return receipt()
+
+   
+  }
   
-     
-      } else {
-        alert("Fill in all inputs");
-      }
+
+       
     };
+
+    
+
+    
+
+
 
     
 
@@ -1217,7 +1207,7 @@ const AddEmployee2 = (newRow)=>{
         TotalPrice:sum,
         
       };
-    console.log("dd",newEmployee)
+    
       // Check if any field is empty
       if (!Object.values(newEmployee).some(value => value === "")) {
         const newRow = {
@@ -1495,7 +1485,7 @@ useEffect(() => {
 
       const allowedNames = [
         'Oil 1l',
-        'Oil 2l',
+        'Shower Gel 500ml',
         'Oil 5l',
         'Tomatoes Paste 210g',
         'Tomatoes Paste 410g',
@@ -1886,7 +1876,7 @@ setSalesTodayData((prev) => {
 
   try {
     await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", cleanedSalesData);
-    console.log("Sales data saved successfully.");
+    
 
     const pdfBlob = pdf.output("blob");
     const formData = new FormData();
@@ -1925,7 +1915,7 @@ await Promise.all([
 
 useEffect(() => {
   const data = localStorage.getItem("totalSales");
-  console.log("Raw from localStorage:", data);
+  
 
   try {
     const dataSale = JSON.parse(data);
@@ -1940,15 +1930,11 @@ useEffect(() => {
 
 }, []);
 
-const onChange=() => {
- console.log("hello")
-}
-
 
  const maxOrders = Math.max(...dataBarChat.map(item => item.orders));
 
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042","#00ff80","	#bfff00"];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042","#00ff80","	#1c210f,"];
   const HIGHLIGHT_COLOR = "#FF0000";
 
   
@@ -1959,6 +1945,179 @@ const onChange=() => {
   
 
 const maxValue = Math.max(...dataPieChart.map(item => item.value));
+
+const GetCreditor=async()=>{
+  setSalesCreditorsData([])
+  try{
+    const response = await axios.get('https://render-backend-28.onrender.com/api/creditors/getCreditors');
+    console.log("find data",response)
+    if(response.status==200){
+      const data= response.data.sales
+      // 1. Format the data array
+  const dataCreditor = data.map(item => ({
+    CreditorID: item._id,
+    Name: item.Name,
+    Balance: item.Balance,
+    Date: item.Date,
+    Quantity: item.Quantity,
+    Product: item.Product,
+    Paid: item.Paid,
+    TotalPrice: item.TotalPrice,
+  }));
+
+      console.log('rr',dataCreditor)
+      
+      setSalesCreditorsData((prev)=>[...prev, ...dataCreditor])
+      console.log('safeds',salesCreditorsData)
+    }
+
+  }catch{
+
+  }
+}
+
+useEffect(() => {
+  try{
+    const fetchData = async () => {
+      const response = await axios.get("https://render-backend-28.onrender.com/api/sales/getSales");
+      const data= response.data.sales;
+      
+      
+      const findCreditor = data.map(item => ({
+        Name: item.Name,
+        Amount: item.TotalPrice,
+        Date: item.Date,
+        Quantity: item.Quantity,
+        Product: item.Product
+      }));
+      console.log("Creditor Data:", findCreditor)
+ setCreditorName ((prev) => [...prev, ...findCreditor]);
+    };
+    fetchData();
+
+    if (AmountPaid> 0 && lastName && creditorName.length > 0) {
+ const existingCreditor = creditorName.find(item => item.Name === lastName);
+ 
+      if (existingCreditor) {
+
+        console.log("Existing Creditor:", Number(existingCreditor.Amount), Number(AmountPaid));
+        const updatedAmount = (Number(existingCreditor.Amount) - Number(AmountPaid)).toFixed(2);
+        console.log("Updated Amount for existing creditor:", updatedAmount);
+       if(updatedAmount <=0){
+        setBalance('Payment Complete')
+       }else if(updatedAmount>0){
+  setBalance(updatedAmount)
+       }
+
+        
+          
+        
+    //  setBalance(updatedAmount)
+        
+       
+      setSetSalesCreditortsStatus((prev) => [...prev, {
+         Name: lastName,
+          Balance: updatedAmount,
+          Amount: existingCreditor.Amount,
+           Date: new Date().toLocaleDateString(),
+            Quantity: existingCreditor.Quantity,
+             Product: existingCreditor.Product,
+             AmountPaid: AmountPaid,
+            
+            }]);
+        
+      }
+      
+      // Do something
+    }
+  }catch(error){
+    console.error("Error in GetCreditor useEffect:", error);
+  }
+},[setCreditorName, AmountPaid, lastName]);
+
+
+const onChangeCreditor=(e) => {
+  const selectedCreditor = e.target.value;
+  setLastName(selectedCreditor);
+console.log("Creditor Name:", creditorName)
+
+
+  const existingCreditor = creditorName.find((item => item.Name === lastName));
+  console.log("Existing Creditor:", existingCreditor)
+  if (existingCreditor) {
+    const finddisplay=creditorName.filter(item => item.Name === existingCreditor).map
+(item => item.TotalPrice, item => item.Date,item => item.Quantity,item => item.Product);
+console.log("Existing Creditor Amount:", finddisplay)
+const data= {
+  Name: existingCreditor.Name,
+  Amount: existingCreditor.Amount,
+  Date: new Date().toLocaleDateString("en-GB"),
+  Quantity: existingCreditor.Quantity,
+  Product:existingCreditor.Product,
+  TotalPrice:existingCreditor.TotalPrice,
+}
+console.log("Existing Creditor Data:", data)
+setSetSalesCreditortsStatusDisplay((prev) => [...prev, data]);
+if(SalesCreditortsStatusDisplay.length>0){ 
+setSetSalesCreditortsStatusDisplay('');
+}
+
+
+  }
+}
+
+const SaveCreditors = async () => {
+  setSalesCreditorsData([])
+  if (SalesCreditortsStatus.length === 0){
+   prompt('Fill all inputs')
+  }
+
+  // 1. Format the data array
+  const data = SalesCreditortsStatus.map(item => ({
+    CreditorID: item._id,
+    Name: item.Name,
+    Balance: item.Balance,
+    Date: item.Date,
+    Quantity: item.Quantity,
+    Product: item.Product,
+    Paid: item.AmountPaid,
+    TotalPrice: item.Amount,
+  }));
+
+  if(!Object.values(data).some(value=>value =='')){
+    const NewRow = SalesCreditortsStatus.map(item => ({
+    CreditorID: item._id,
+    Name: item.Name,
+    Balance: item.Balance,
+    Date: item.Date,
+    Quantity: item.Quantity,
+    Product: item.Product,
+    Paid: item.AmountPaid,
+    TotalPrice: item.Amount,
+  }));
+  setSalesCreditorsData((prev)=>[...prev,...NewRow])
+    
+  }
+  
+
+  // 3. API Request and State Management
+  try {
+    const response = await axios.post("http://localhost:8900/api/creditors/saveCreditors", data);
+    console.log(response.data);
+    
+    if (response.status === 200) {
+      console.log('Data saved successfully');
+      // Clear or update your list here safely
+      setSalesDataList([]); 
+      setSetSalesCreditortsStatus([])
+      setInputVisible('true');
+      // setSalesCreditorsData([])
+    }
+  } catch (error) {
+    console.error('Error sending data:', error);
+  }
+};
+
 
 
 
@@ -2294,11 +2453,11 @@ null
             {/* <button  type="button" onClick={receipt}  className=" p-2 mb-2 btn btn-light delete">Receipt</button> */}
            
             <button  type="button" onClick={AddEmployee2}  className=" p-2 mb-2 btn btn-success delete">Add</button>
-            <button  type="button " onClick={SaveSales}  className="btn btn-primary delete">Save</button>
-            <button onClick={GetList} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
+            <button  type="button " onClick={SaveCreditors}  className="btn btn-primary delete">Save</button>
+            <button onClick={GetCreditor} disabled={buttonClicked}   style={{ cursor: buttonClicked ? "not-allowed" : "pointer" }} type="button"  className="btn btn-outline-warning delete"> Get List</button>
             <button   type="button" onClick={DeleteSales} class="btn btn-danger delete">Delete</button>
                         <button onClick={EditSales}  type="button" class="btn btn-info delete"> <span  style={{color:" blue", fontSize:"10px",marginRight:"3px"}}><Icon icon="fluent:edit-12-regular" /></span>Edit</button>
-                        <button onClick={SaveEdit}  type="button" class="btn btn-secondary delete">Save Edit</button>
+                        <button onClick={SaveEdit}  type="button" cvass="btn btn-secondary delete">Save Edit</button>
             </div>
             
             <table className='PaymentTable'>
@@ -2309,7 +2468,7 @@ null
     
     <th>Product</th>
     
-    <th>Quantity</th>
+    <th>Price</th>
     <th>Amount Paid
     <span style={{color:"green"}}>GHS</span></th>
     {/* <th>Total Price <span style={{color:"green"}}>GHS</span></th> */}
@@ -2327,12 +2486,11 @@ null
     
     <td style={{color:'coral', fontSize:"20px"}}>100</td>
 
-</tr>
-  
+</tr>           
 
-{salesData.map((row, index) => (
+ { salesCreditorsData.map ((row, index) => (
   <tr key={row._id || row.id}>  {/* Prefer _id if using MongoDB */}
-      {/* Checkbox */}
+    
       <td>
         <input
           type="checkbox"
@@ -2341,7 +2499,9 @@ null
           onChange={handleCheckboxChange}
         />
       </td>
-    <td>{row.ID}</td>
+
+    <td>{row.Date}</td>
+    
     <td>{row.Name}</td>
 
     {!edit1 ? (
@@ -2365,10 +2525,10 @@ null
         suppressContentEditableWarning
         onBlur={(e) => handleEditSales(row._id, 'Quantity', e.target.innerText)}
       >
-        {row.Quantity}
+        {row.TotalPrice}
       </td>
     ) : (
-      <td>{row.Quantity}</td>
+      <td>{row.TotalPrice}</td>
     )}
 
   
@@ -2379,10 +2539,10 @@ null
         suppressContentEditableWarning
         onBlur={(e) => handleEditSales(row._id, 'TotalPrice', e.target.innerText)}
       >
-        {row.AmountPaid}
+        {row.Paid}
       </td>
     ) : (
-      <td>{row.AmountPaid}</td>
+      <td>{row.Paid}</td>
     )}
  <td style={{color:'coral', fontSize:"20px"}}>{row.Balance}</td>
     
@@ -2392,31 +2552,55 @@ null
 
  {!isInputVisible && (<tr className='inputTree'>
   <th><input id='input2' type='checkbox' /> </th>
-  <td>Date</td>
-    <td><div className="outline-primary" id="input1">
+  {!SalesCreditortsStatusDisplay || SalesCreditortsStatusDisplay.length === 0 ? (
+    <td>......</td>
+  ) : (
+    SalesCreditortsStatusDisplay.map((item, index) => (
+      <td key={index}>{item.Date}</td>
+    ))
+  )}
+    <td>
+    <div className="outline-primary" id="input1">
   <select
     className="form-select"
     style={{ width: "200px", height: "6vh" }}
     value={lastName} // <-- bind to state
-    onChange={(e) => setLastName(e.target.value)}
+
+    onChange={(e) => {
+    const value = e.target.value;
+    setLastName(value);
+    onChangeCreditor(e);
+  }}
     aria-label="Status selection"
   >
-    
-    <option style={{background:'grey'}} value="">Select Name</option>
-    <option value="Sales">Sales</option>
-    <option value="Order">Order</option>
+    <option value="">Status</option>
+    {creditorName.map((item, index) => (
+      <option key={index} value={item.Name}>{item.Name}</option>
+    ))}
   </select>
-</div></td>
-    <td>
-    
-    
+</div>
+   
     </td>
+{!SalesCreditortsStatusDisplay || SalesCreditortsStatusDisplay.length === 0 ? (
+    <td>......</td>
+  ) : (
+    SalesCreditortsStatusDisplay.map((item, index) => (
+      <td key={index}>{item.Product}</td>
+    ))
+  )}
+  {!SalesCreditortsStatusDisplay || SalesCreditortsStatusDisplay.length === 0 ? (
+    <td>......</td>
+  ) : (
+    SalesCreditortsStatusDisplay.map((item, index) => (
+      <td style={{color:'green', fontSize:"20px"}} key={index}>{item.Amount}</td>
+    ))
+  )}
     {/* <td><input id='input1' type='text' onChange={(e)=>setEmail(e.target.value)}/></td>
     <td><input id='input1' type='text' onChange={(e)=>setNumberOfItemsSales(e.target.value)}/></td> */}
      {/* <td><input id='input1' type='text' onChange={(e)=>setPriceSales(e.target.value)}/></td>  */}
-    <td>{sumSales}</td>
-    <td><input id='input1' type='text' onChange={(e)=>setPersonName(e.target.value)}/></td>
-  
+    
+    <td><input id='input1' type='text' onChange={(e)=>setAmountPaid(e.target.value)}/></td>
+  <td style={{color:'coral', fontSize:"20px", border:"1px solid #ccc"}}>{balance}</td>
     {/* <td><input id='input1' type='text' onChange={(e)=>setPersonName(e.target.value)}/></td> */}
   </tr>
   )}
@@ -3305,7 +3489,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     </div>
 )}
 
-
+z
 
 
     </div>
