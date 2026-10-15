@@ -1144,7 +1144,7 @@ const AddEmployee2 = (newRow)=>{
         };
         
         // Update state using functional form of setState
-        // setSalesData(prevData => [...prevData, newRow]);
+        setSalesData(prevData => [...prevData, newRow]);
          setSalesDataList(prevData => [...prevData, newRow]);                                                                                                                                                                                         
          
         setInputVisible(!isInputVisible)
@@ -2102,8 +2102,8 @@ const SaveCreditors = async () => {
 
   // 3. API Request and State Management
   try {
-    const response = await axios.post("http://localhost:8900/api/creditors/saveCreditors", data);
-    console.log(response.data);
+    const response = await axios.post('https://render-backend-28.onrender.com/api/creditors/saveCreditors', data);
+    
     
     if (response.status === 200) {
       console.log('Data saved successfully');
