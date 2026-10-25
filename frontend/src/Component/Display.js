@@ -169,13 +169,13 @@ const [isInputVisible, setInputVisible] = useState("false");
          const[totalBoxes, setTotalBoxes]=useState("")
          const[personName, setPersonName]=useState("")
          const[AmountPaid, setAmountPaid]=useState("")
-         const[paymentList, setPaymentlist]=useState("")
+         const[paymentList, setPaymentlist]=useState("false")
          const [creditorName, setCreditorName]=useState([]);
          
 const [grandTotal, setGrandTotal] = useState(0)
 const [dataBarChat, setdataBarChat] = useState([]);
 const [dataPieChart, setdataPieChart] = useState([]);
- const [sumTotalUp, setSumTotalUp] = useState("");
+ const [sumTotalUp, setSumTotalUp] = useState([]);
  const [sumTotalUpData, setSumTotalUpData] = useState("");
   const [salesTodayData, setSalesTodayData] = useState([]);
   const [salesTodayDataDisplay, setSalesTodayDataDisplay] = useState([]);
@@ -718,9 +718,19 @@ const taskHeaderClass = addEmployee ? 'task_header' : 'task_header change';
  const headerTitle1  = addEmployee ? 'newTask2' : 'newTask2 change2';
 
  const TimeSheet = ()=>{
+  if(setIsListVisibleTimeSheet){
+    setOverView(true)
+  }
   setIsListVisible1(false);
   setIsListVisible(true);
   setIsReport(true)
+  setIsListVisible(true)
+  setIsListVisible1(true)
+  setIsListVisibleTimeSheet(true)
+  setOverView(false)
+  setPaymentlist(true)
+  setIsListVisibleOrder(true)
+  
   
   setIsListVisibleTimeSheet(!isVisibleTimeSheet)
   setSumbitTask(true)
@@ -819,7 +829,7 @@ setIsListVisible1(true);
   setSumbitTask(true)
   setIsListVisibleOrder(true)
   setIsReport(true)
-  setPaymentlist(true);
+  setPaymentlist(false);
 }
   setOverView(!overView)
   
@@ -1101,76 +1111,162 @@ const AddEmployee2 = (newRow)=>{
   
     }
 
-    const SaveSales = async (min, max) => {
- 
+    
+const SaveSales = async (min, max) => {
   const today = new Date();
-  const day = today.getDate(); // Day of month
-  const month = today.getMonth() + 1; // Month is zero-based
-  const year = today.getFullYear(); // Full year
-  
-  const datePurchase = `${day}/${month}/${year}`;
-  
-        // Store the Base64-en
-     
-      const newEmployee = {
-        ID: datePurchase,
-        
-        Product: firstName,
-        Status: lastName,
-      Liters: email,
-        Quantity: numberOfItemsSales,
-        Price: priceSales,
-        TotalPrice:sumSales,
-         Name:nameSales ,
-        // Picture:picture,
-      };
 
-     
-      // Check if any field is empty
-      if (!Object.values(newEmployee).some(value => value === "")) {
-        const newRow = {
-         
-          checked: <input type="checkbox" />,
-          ID: datePurchase,
-        
-          Product: firstName,
-          Status: lastName,
-         Liters: email,
-          Quantity: numberOfItemsSales,
-          Price: priceSales,
-          TotalPrice:sumSales,
-          Name:personName,
-          // Picture: picture,
-        };
-        
-        // Update state using functional form of setState
-        setSalesData(prevData => [...prevData, newRow]);
-         setSalesDataList(prevData => [...prevData, newRow]);                                                                                                                                                                                         
-         
-        setInputVisible(!isInputVisible)
-        // Update state for individual fields
-        setPriceSales("")
-        setNumberOfItemsSales("")
-        setEmail("");
-        setId("");
-        setFirstName("");
-        setLastName("");
-        setNameSales("")
-        setSumSales("")
+  const datePurchase = `${today.getDate()}/${
+    today.getMonth() + 1
+  }/${today.getFullYear()}`;
+
+  const newSalesRecord = {
+    ID: datePurchase,
+    Product: firstName,
+    Status: lastName,
+    Liters: email,
+    Quantity: numberOfItemsSales,
+    Price: priceSales,
+    TotalPrice: sumSales,
+    Name: personName || null,
+  };
+
+  // Validate required fields
+  const hasEmptyFields = Object.entries(newSalesRecord).some(
+    ([key, value]) =>
+      key !== "Name" &&
+      (value === null ||
+        value === undefined ||
+        String(value).trim() === "")
+  );
+
+  if (hasEmptyFields) {
+    alert("Please fill out all inputs");
+    return;
+  }
+
+  // Store checkbox state as a boolean
+  const newRow = {
+    checked: false,
+    ...newSalesRecord,
+
+  };
+
+  console.log('sales',newSalesRecord)
+
+  const updatedata= newSalesRecord
+    // Build the updated array using the current state
+    // const updatedSalesData =newSalesRecord
+    
+    setSalesData(prev=>[...prev, updatedata])
+    console.log('sales', salesData)
+    const sendData=salesData.map((item=>({
+      ID:item.ID,
+    Product: item.Product,
+    Status: item.Status,
+    Liters: item.Liters,
+    Quantity: item.Quantity,
+    Price: item.Price,
+    TotalPrice:item.Price,
+    Name: item.Name,
+
+
+    })))
+
+
+
+
+  //   // Save to backend
+  const response= await axios.post(
+     "https://render-backend-28.onrender.com/api/sales/saveSales",
+    sendData
+     );
+    if(response.status==200){
       
-      return receipt()
+    setSalesDataList(sendData)
+    console.log('salesddd',salesDataList)
 
-   
+    setPriceSales("");
+    setNumberOfItemsSales("");
+    setEmail("");
+    setId("");
+    setFirstName("");
+    setLastName("");
+    setNameSales("");
+    setSumSales("");
+
+    setInputVisible((prev) => !prev);
+
+    return receipt();
+
+    }
+
+    
+   alert("Failed to save sales. Please try again.");
+
+};
+
+
+const Save = async () => {
+  
+  if (SalesCreditortsStatus.length === 0){
+   prompt('Fill all inputs')
+  }
+
+  // 1. Format the data array
+  const data = SalesCreditortsStatus.map(item => ({
+    CreditorID: item._id,
+    Name: item.Name,
+    Balance: item.Balance,
+    Date: item.Date,
+    Quantity: item.Quantity,
+    Product: item.Product,
+    Paid: item.AmountPaid,
+    TotalPrice: item.Amount,
+  }));
+
+  if(!Object.values(data).some(value=>value =='')){
+    const NewRow = SalesCreditortsStatus.map(item => ({
+    CreditorID: item._id,
+    Name: item.Name,
+    Balance: item.Balance,
+    Date: item.Date,
+    Quantity: item.Quantity,
+    Product: item.Product,
+    Paid: item.AmountPaid,
+    TotalPrice: item.Amount,
+  }));
+  setSalesCreditorsData((prev)=>[...prev,...NewRow])
+    
   }
   
 
-       
-    };
+  // 3. API Request and State Management
+  try {
+    const response = await axios.post('https://render-backend-28.onrender.com/api/creditors/saveCreditors', data);
+    
+    
+    if (response.status === 200) {
+      console.log('Data saved successfully');
+      // Clear or update your list here safely
+      setSalesDataList([]); 
+      setSetSalesCreditortsStatus([])
+      setInputVisible('true');
+      // setSalesCreditorsData([])
+    }
+  } catch (error) {
+    console.error('Error sending data:', error);
+  }
+};
+
+
+
 
     
-
+  
+    // 1. Update State arrays correctly
     
-
+   
+ 
 
 
     
@@ -1228,8 +1324,7 @@ const AddEmployee2 = (newRow)=>{
         };
     
         // Update state using functional form of setState
-        // setEmployeelist(prevData => [...prevData, newRow]);
-  
+        // setEmployeelist(prevData => [...prevData, newRow])
         if(newEmployee){
           console.log(newEmployee)
           let response= await axios.post("https://render-backend-28.onrender.com/api/newOrder/saveNewOrder", newEmployee )
@@ -1261,7 +1356,7 @@ const AddEmployee2 = (newRow)=>{
   function Delete(){
 
   }
- 
+      
 const DeleteOrder = async () => {
   if (selectedRows.length === 0) {
     alert("Please, check the box first");
@@ -1522,61 +1617,93 @@ useEffect(() => {
 
 }, []);
 
-
 useEffect(() => {
-const dataSales=localStorage.getItem("totalSales ")
-console.log("ff",dataSales)
-
-
-
   const fetchData = async () => {
     try {
       const response = await axios.get("https://render-backend-28.onrender.com/api/sales/getSales");
-      console.log("Sales response:", response);
-
+//       console.log("Sales response:", response);
       if (response.status === 200) {
         const data = response.data.sales;
 
-        // Group and sum quantities by product
-        const productSales = data.reduce((acc, item) => {
-          const productName = item.Product;
-          const quantity = Number(item.Quantity) || 0;
-          acc[productName] = (acc[productName] || 0) + quantity;
+        // 1. Group records according to the Date Sold (item.ID)
+        const salesGroupedByDate = data.reduce((acc, item) => {
+          const dateSold = item.ID; // Your dataset uses 'ID' for the date field
+          
+          if (dateSold) {
+            // If this date doesn't exist yet, initialize it
+            if (!acc[dateSold]) {
+              acc[dateSold] = {
+                items: [],
+                dayTotalSales: 0,
+                dayTotalUnits: 0
+              };
+            }
+            
+            // Push the item into its specific date group
+            acc[dateSold].items.push(item);
+            
+            // Accumulate daily metrics
+            acc[dateSold].dayTotalSales += Number(item.TotalPrice) || 0;
+            acc[dateSold].dayTotalUnits += Number(item.Quantity) || 0;
+          }
           return acc;
         }, {});
 
-        // Build table rows
-        const productSalesJsx = Object.entries(productSales)
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([product, quantity]) => (
-            <tr key={product}>
-              <td style={{ padding: "6px" }}>{product}</td>
-              <td style={{ padding: "6px" }}>{quantity} units sold</td>
-            </tr>
-          ));
+        // 2. Sort the dates and render them
+        const renderedDailyGroups = Object.entries(salesGroupedByDate)
+          .sort(([dateA], [dateB]) => {
+            // Helper to transform DD/MM/YYYY into an easily sortable YYYYMMDD format
+            const cleanDate = (dStr) => {
+              const [d, m, y] = dStr.split('/');
+              return `${y}${m.padStart(2, '0')}${d.padStart(2, '0')}`;
+            };
+            return cleanDate(dateB).localeCompare(cleanDate(dateA)); // Latest dates first. Change B and A around to reverse order.
+          })
+          .map(([date, dayData]) => {
+            
+            // Group specific product totals within this single day
+            const dailyProductTotals = dayData.items.reduce((prodAcc, item) => {
+              const pName = item.Product;
+              const qty = Number(item.Quantity) || 0;
+              if (pName) {
+                prodAcc[pName] = (prodAcc[pName] || 0) + qty;
+              }
+              return prodAcc;
+            }, {});
 
-        // Total sales and units
-        const totalSummary = data.reduce(
-          (acc, item) => {
-            acc.totalSales += Number(item.TotalPrice) || 0;
-            acc.totalUnits += Number(item.Quantity) || 0;
-            return acc;
-          },
-          { totalSales: 0, totalUnits: 0 }
-        );
+            return (
+              <div key={date} style={{ background: 'grey', width: '25.5vw', margin: '20px auto', padding: '10px 4px', height: 'auto', borderRadius: '5px' }}>
+                
+                {/* Visual Header displaying the current group's Date */}
+                <h3 style={{ color: 'white', margin: '0 0 10px 0', textAlign: 'center' }}>📅 Date Sold: {date}</h3>
+                
+                <table style={{ width: "25vw", margin: '0px auto', borderCollapse: "collapse", background: 'white' }}>
+                  <thead>
+                    <tr style={{ background: '#ddd' }}>
+                      <th style={{ padding: '6px', textAlign: 'left' }}>Product</th>
+                      <th style={{ padding: '6px', textAlign: 'right' }}>Qty Sold</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(dailyProductTotals).map(([product, quantity]) => (
+                      <tr key={product} style={{ borderBottom: '1px solid #eee' }}>
+                        <td style={{ padding: "6px" }}>{product}</td>
+                        <td style={{ padding: "6px", textAlign: 'right' }}>{quantity} units</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                
+                <div style={{ width: '25vw', background: 'whiteSmoke', margin: '10px auto 0 auto', padding: '8px', boxSizing: 'border-box' }}>
+                  <p style={{ margin: '4px 0' }}>🧾 Total Units Sold: {dayData.dayTotalUnits} units</p>
+                  <p style={{ margin: '4px 0', fontWeight: 'bold' }}>Daily Revenue: GH¢ {dayData.dayTotalSales.toFixed(2)}</p>
+                </div>
+              </div>
+            );
+          });
 
-        // Final JSX message with a borderless table
-        const message = (
-          <div>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <tbody>{productSalesJsx}</tbody>
-            </table>
-            <p>🧾 Total Products Sold: {totalSummary.totalUnits} units</p>
-            <p>Total Sales Made Today: GH¢ {totalSummary.totalSales.toFixed(2)}</p>
-          </div>
-        );
-
-        setSumTotalUp(message);
+        // Save the grouped and sorted JSX components to state
+        setSumTotalUp(renderedDailyGroups);
       }
     } catch (error) {
       console.error("Error fetching sales data:", error);
@@ -1585,6 +1712,10 @@ console.log("ff",dataSales)
 
   fetchData();
 }, [setSumTotalUp]);
+
+
+
+
  
 const onChangeSelectionPayment = (selectedRows) => {
   console.log(selectedRows, "Selected Rows");
@@ -1655,7 +1786,8 @@ const onChangeSelectionPayment = (selectedRows) => {
   }, []);
 
 const receipt = async () => {
-  if (!Array.isArray(salesData)) {
+  console.log('sale', salesDataList)
+  if (!Array.isArray(salesDataList)) {
     alert("Sales data is invalid.");
     return;
   }
@@ -1872,7 +2004,7 @@ setSalesTodayData((prev) => {
 
 
 
-
+console.log('sales sent', cleanedSalesData )
 
   try {
     await axios.post("https://render-backend-28.onrender.com/api/sales/saveSales", cleanedSalesData);
@@ -2126,7 +2258,9 @@ const SaveCreditors = async () => {
         <> 
         
         
-<div id="receipt-area" ></div>
+<div id="receipt-area" >
+   hdhd
+</div>
 
 
   
@@ -2151,6 +2285,9 @@ const SaveCreditors = async () => {
   <li>Purchase</li>
   
   <li onClick={report}>Report</li> 
+  <li ><Link to='/zoom'>WhiteTalk </Link></li>
+  <li ><Link to="/AI_support">White AI </Link></li>
+  
   
 
  </ul>
@@ -2299,17 +2436,7 @@ null
     <th>Name</th>
   </tr>
   
-  <tr>
-  <th><input id='input2' type='checkbox'/></th>
-  <th> Thurs/4/2025 </th>
-    <td>oil</td>
-    <td>1 liters</td>
-    <td>5</td>
-    <td>20</td>
-    <td>100</td>
-    <td>1000</td>
-    <td><img style={{width:"50px", height:"30px"}} src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMHBpY3R1cmV8ZW58MHx8MHx8fDA%3D"/></td>
-  </tr>
+  
 
 
   
@@ -2399,6 +2526,17 @@ null
       <td>{row.TotalPrice}</td>
     )}
 
+{!edit1 ? (
+      <td
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={(e) => handleEditSales(row._id, ' Name', e.target.innerText)}
+      >
+        {row.Name}
+      </td>
+    ) : (
+      <td>{row.Name}</td>
+    )}
     
   </tr>
 ))}
@@ -2786,12 +2924,6 @@ null
 
            </div>
            )}
-
-
-           
-
-
-
 
 
            
@@ -3310,49 +3442,46 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         
         <div className='row_token'  >
        <div className='col-token2 token-liveChat' >
-    <h4>Receipts</h4>
+    
+<h6 id='receipt_header2' >Units</h6>
+        <div className='receipt_display2'>
+          
+       {sumTotalUp}
+       
+        </div>
+
+       </div>
+      
+       <div className='col-token2 token-eLearning' >
+        
+      <h6 id='receipt_header'>Receipts</h6>
        
        {salesTodayDataDisplay.map((item, index) => (
-  <div key={index}>
+  <div className='receipt_display' key={index}>
+    
     
     <ul style={{listStyle:"none"}}>
       <li> <span style={{color:"coral"}}>Name:</span>{item.Name}</li>
       <li> <span style={{color:"coral"}}>Date:</span>{item.Date}</li>
-      <li><span style={{color:"coral"}}>Receipt_No:</span>{item.Date}</li>
+      <li><span style={{color:"coral"}}>Receipt_No:</span>{item.Receipt_No}</li>
       <li><span style={{color:"coral"}}>Status:</span>{item.Status}</li>
       <li><span style={{color:"coral"}}>Quantity:</span>{item.Quantity}</li>
       
       <li><span style={{color:"blue"}}>  TotalPrice:</span>{item.TotalPrice}</li>
+      
     </ul>
-     <hr></hr>
+     <hr style={{color:'white', fontSize:'4px'}}></hr>
   </div>
   
 ))}
 
-
-       {/* <button  id="elearning1">Chat...</button> */}
-       <div><hr hr style={{height:"5px",backgroundColor:"coral", borderRadius:"7px"}}></hr></div>
-       </div>
+    
       
-       <div className='col-token2 token-eLearning' >
-      
-       {/* <img  id ="live" src="https://tse1.mm.bing.net/th?id=OIP.FSmSdnFcdLkRAlZeGgy8FgHaCe&pid=Api&P=0&h=220"/>  */}
-
-       <p>
-       {sumTotalUp}
-       </p>
-     {/* <Link to="/zoom"><button id="elearning" >Meeting...</button></Link>  */}
-      <div><hr hr style={{height:"5px",backgroundColor:"none    ", borderRadius:"7px"}}></hr></div>
        </div>
        
      <div className='col-token2 token-Meetings'>
       
-      <img  id ="live" src="https://i.pinimg.com/474x/23/39/7e/23397e66056aa499bcd29359fd7fe322.jpg"/>
       
-      <p>ClickUp has helped us 3x <br></br>our productivity without having<br></br> to scale our team.”</p>
-
-      <Link to="/AI_support"> <button id="elearning2" onClick={Support} >eLearning...</button></Link>
-      <div><hr style={{height:"5px",backgroundColor:"grey", borderRadius:"7px"}}></hr></div>
       
        </div>
   

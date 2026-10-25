@@ -49,7 +49,7 @@ function AI() {
         setSendingMsg("");
 
         try {
-            const response = await axios.post("http://localhost:9000/chat", { message: sendingMsg });
+            const response = await axios.post("http://localhost:8900/chat", { message: sendingMsg });
             console.log("sending", response);
             setResponse(response.data); // assuming the response has data you want to use
         } catch (error) {
