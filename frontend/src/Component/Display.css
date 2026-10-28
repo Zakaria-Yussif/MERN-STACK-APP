@@ -532,7 +532,7 @@ box-shadow: 0px 0px 0px 0px;
     display: grid;
     box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); 
      width: 95%;
-   grid-template-columns: 40% 30% 30%;
+   grid-template-columns: 40% 20% 40%;
     justify-content: center;
    
      background: linear-gradient(10deg, var(--color--grey-50) ,var(--color--white)); 
@@ -542,7 +542,7 @@ box-shadow: 0px 0px 0px 0px;
     box-shadow: 0px 0px 0px 0px ;
     border-radius: 20px;
   top: 900px;
-  row-gap: 20;
+  row-gap: 20; 
     
     height: 90vh;
     gap: 50px;
@@ -571,6 +571,12 @@ box-shadow: 0px 0px 0px 0px;
     font: 25px  'Courier New', Courier, monospace;
     font-weight: bolder;
 
+}
+
+.token-eLearning{
+    height: inherit;
+
+    overflow-y: scroll;
 }
 
 
@@ -614,11 +620,16 @@ box-shadow: 0px 0px 0px 0px;
 .token-eLearning{
     margin-top: 10px;
     width: 100%;
-    height: auto;
+    height: inherit;
+    
     
     
     overflow-y: hidden;
     /* box-shadow: 10px 10px 10px 6px rgba(44,31,31,.4); */
+}
+
+.token-Meetings{
+    overflow-y: scroll;
 }
 
 #receipt_header2{
@@ -2050,51 +2061,60 @@ justify-content: start;
         min-height:40vh;
        }
        .row_token{
-        margin: -10px 10px 0px ;
-        top:auto;
-        background-color: lightblue;
-       min-width: 100%;
-        place-content: center;
-        justify-content: center;
-        text-align: center;
-    
+        display: flex;
+        flex-direction: column;
+         width: 100%;
+         background-color: #000;
+        
+         justify-content: center;
+         height: 170vh;
+        
+         text-align: center;
+        margin-top: 240px;
+        /* background: linear-gradient(150deg, var(--color--blue-100) , var(--color--white));  */
+    background-color: none;
     }
+
  .col-token2{
     place-items: center;
-    margin:10px 0px 0px 30px ;
+    background-color: #250606;
+    margin:700px 0px 0px 30px ;
     left: 0px;
+    height: auto;
+    
     width: 100%;
     
- }
- .col-token2:hover{
-    display: non;
  }
  .overView{
     width: 100%;
  }
-    .token-liveChat{
-        background-color: white;
-        
-        max-width: 100%;
-        justify-content: center;
-        
+    #receipt_header2{
+        display: none;
+        margin: -600px 0px;
+        background-color: black;
         
     }
     /* .token-eLearning{
         background: linear-gradient(150deg, var(--color--pink-200) , var(--color--white)); 
-    } */.token-eLearning{
+    } */
+     .token-eLearning{
 background-color: white; 
         min-width: 100%;
         justify-content: center;
-        margin: 20px -100px 0px 0px;
+        margin: 1000px 100px 0px 0px;
         right:30px;
+        
         box-shadow:none;
+        display: none;
+        
         right: 20px;
         /* position: absolute; */
         
     }
 .token-Meetings{
 width: 100%;
+margin: 230px 0px;
+
 }
     .phoneSlide23{
         display: block;
@@ -2209,7 +2229,7 @@ width: 100%;
      } 
      
     .col-token2{
-        width: 90%;
+        width: 100%;
         height: auto;
         text-align: center;
         padding: 5px;

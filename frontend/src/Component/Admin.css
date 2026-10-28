@@ -782,20 +782,9 @@ margin: 15px 2px  ;
         min-height:40vh;
        }
 
-       .row_token{
-        display: flex;
-        flex-direction: column;
-         width: 80%;
-         background-color: none;
-         justify-content: center;
-         text-align: center;
-        margin-top: 1250px;
-        /* background: linear-gradient(150deg, var(--color--blue-100) , var(--color--white));  */
-    background-color: none;
-    }
-
+      
     .token-liveChat{
-        background: linear-gradient(10deg, var(--color--blue-200) , var(--color--white));  
+         
     }
     /* .token-eLearning{
         background: linear-gradient(150deg, var(--color--pink-200) , var(--color--white)); 

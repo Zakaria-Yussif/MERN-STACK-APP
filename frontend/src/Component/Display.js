@@ -520,7 +520,7 @@ const MyCarousel = () => {
     };
     
      try {
-       let responseBook = await axios.post("http://localhost:8700/booking", bookInfo);
+       let responseBook = await axios.post("http://localhost:8900/booking", bookInfo);
       console.log(responseBook)
       setBooking(responseBook.data.createBooking)
       
@@ -1102,12 +1102,10 @@ useEffect(() => {
   }
 }, []);
 
-/////
+
 const AddEmployee2 = (newRow)=>{
   setInputVisible(!isInputVisible)
 
-  
-  
   
     }
 
@@ -1154,9 +1152,7 @@ const SaveSales = async (min, max) => {
   console.log('sales',newSalesRecord)
 
   const updatedata= newSalesRecord
-    // Build the updated array using the current state
-    // const updatedSalesData =newSalesRecord
-    
+  
     setSalesData(prev=>[...prev, updatedata])
     console.log('sales', salesData)
     const sendData=salesData.map((item=>({
@@ -1199,8 +1195,7 @@ const SaveSales = async (min, max) => {
     return receipt();
 
     }
-
-    
+ 
    alert("Failed to save sales. Please try again.");
 
 };
@@ -1672,12 +1667,12 @@ useEffect(() => {
             }, {});
 
             return (
-              <div key={date} style={{ background: 'grey', width: '25.5vw', margin: '20px auto', padding: '10px 4px', height: 'auto', borderRadius: '5px' }}>
+              <div key={date} style={{ background: 'grey', width: '100%', margin: '20px auto', padding: '10px 4px', height: 'auto', borderRadius: '5px' }}>
                 
                 {/* Visual Header displaying the current group's Date */}
                 <h3 style={{ color: 'white', margin: '0 0 10px 0', textAlign: 'center' }}>📅 Date Sold: {date}</h3>
                 
-                <table style={{ width: "25vw", margin: '0px auto', borderCollapse: "collapse", background: 'white' }}>
+                <table style={{ width: "100%", margin: '0px auto', borderCollapse: "collapse", background: 'white' }}>
                   <thead>
                     <tr style={{ background: '#ddd' }}>
                       <th style={{ padding: '6px', textAlign: 'left' }}>Product</th>
@@ -3454,7 +3449,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
       
        <div className='col-token2 token-eLearning' >
         
-      <h6 id='receipt_header'>Receipts</h6>
+      {/* <h6 id='receipt_header'>Receipts</h6>
        
        {salesTodayDataDisplay.map((item, index) => (
   <div className='receipt_display' key={index}>
@@ -3473,16 +3468,108 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
      <hr style={{color:'white', fontSize:'4px'}}></hr>
   </div>
   
-))}
+))} */}
 
-    
+    <div >
+      
+      <h4 style={{width:'300px', fontSize:'20px'}} >Activities</h4>
+  
+ <ul  style={{width:'20vw', margin:'25px 0px'}}>
+  <li style={{ margin:'20px 0px'}} >Announcement <span  style={{color:" #774040", fontSize:"22px"}}><Icon className="icon-small icon1" icon="nimbus:marketing" /></span></li>
+  <li style={{ margin:'20px 0px'}} onClick={appoint}>Appointments <span id="icon-small"  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon2" icon="icon-park:appointment" /></span></li> 
+  <li style={{ margin:'20px 0px'}} onClick={marketing}>Work Schedules <span  style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon3" icon="fa-solid:sms" /></span></li>
+  <li style={{ margin:'20px 0px'}} onClick={socialMedia}>Social Marketing <span style={{color:" #774040", fontSize:"22px"}}><Icon  className="icon-small icon4" icon="zondicons:news-paper" /></span></li>
+ </ul>
+    </div>
       
        </div>
        
      <div className='col-token2 token-Meetings'>
       
+
+      <h6  id='receipt_header2' style={{width:'20vw'}}>{Events}</h6>
+
+       {coursel ? (
+  
+    
+    <div style={{justifyContent:"center", textAlign:"center", margin:"20px 0px",height:"100%" ,heigh:'20vh' }}>
+        {isAppointment && (
+            <div className="appoint">
+            
+               
+               <div className="appoint2" style={{width:'30vw', margin:'10px -100px 0px'}}>
+               <div style={{ display:"flex", margin:'40px -10px 0px', flexDirection:"column" ,width:"25vw", justificationContent:"start", right:"20px"}}>
+               <span className='btn btn-outline-warning' style={{margin:"0px 0px"}}>Select Person <Icon icon="ri:arrow-drop-down-line" /></span>
+          <span className='renderBooking'>render</span>
+               </div>
+               <div style={{ display:"flex", flexDirection:"column", margin:"290px -120px", width:"100%"}}>
+
+              <span> Date & Time  <DatePicker
+        selected={selectedDate}
+        className='outline-primary'
+        onChange={handleDateChange}
+        dateFormat="dd/MM/yyyy HH:mm"
+        showTimeSelect
+        // timeFormat="HH:mm"
+        timeIntervals={15}
+        timeCaption="Time"
+      />
+    </span>
+
+
+            <span> 
+            Message...
+            <textarea 
+              style={{width:"300px"}}
+        className="outline-primary "
+        // value={sendingMsg}
+        // ref={inputRef} 
+        //  onChange={handleTyping}
+    onChange={(e) => setSendingMsg(e.target.value)}
+        rows="4"
+        cols="40"
+      > </textarea></span>
+
+      <span  onClick={Book} className='btn btn-outline-primary'>Book</span>
+               </div>
+               </div>
+            </div>
+        )}
+        {emsMarketing && (
+            <div>
+              emsmkerting
+            </div>
+        )}
+        {social && (
+            <div>
+                social Media
+            </div>
+        )}
+        </div>
+       ):(
+        <div style={{margin:'100px 0px'}}>
+          <p>jjjssj</p>
+        </div>
+
+       )}
       
       
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        </div>
   
        
@@ -3517,7 +3604,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
        )}
 
 {token ? (
-  <div className='row4-token' style={{display:"none"}}    >
+  <div className='row4-token' style={{display:'none'}}    >
     <div className="token4 row4Token3">
       
       <h4 id="b" >Activities</h4>
@@ -3531,6 +3618,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     </div>
     <div className="token4 row4Token4 " >
     <h4 id="event" style={{color:"white"}}>{Events}</h4>
+    
     {coursel ? (
     <div style={{justifyContent:"center", textAlign:"center", margin:"20px 100px",height:"100%"}}>
         {isAppointment && (
