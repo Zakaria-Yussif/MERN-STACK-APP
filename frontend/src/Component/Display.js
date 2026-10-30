@@ -36,6 +36,8 @@ import { set, trusted } from 'mongoose';
 import { div, imag, sub } from '@tensorflow/tfjs';
 import { get } from 'jquery';
 import { use } from 'react';
+import ChatBot from "react-chatbotify";
+
 
 //
 const socket = io.connect("https://render-backend-28.onrender.com")
@@ -405,103 +407,118 @@ useEffect(() => {
 
 
 
-const steps = [
-   {
-     id: '0',
-     message: 'Welcome to ConnectBusiness,How may I assist you?',
-     trigger: '1',
-   },
-   {
-      id: '1',
-      message: 'Please, type your request below',
-      trigger: '2',
-    },
-   {
-     id: '2',
-     user: true,
-     trigger: 'waiting1',
-   },
+// const steps = [
+//    {
+//      id: '0',
+//      message: 'Welcome to ConnectBusiness,How may I assist you?',
+//      trigger: '1',
+//    },
+//    {
+//       id: '1',
+//       message: 'Please, type your request below',
+//       trigger: '2',
+//     },
+//    {
+//      id: '2',
+//      user: true,
+//      trigger: 'waiting1',
+//    },
    
-    {
-      id: 'waiting1',
-    message: 'hi {decodedName}, {previousValue}, Please select your options',
-   trigger:'3'
-    },
-    {
-      id: '3',
-    options:[
-      {value:"house keeping",label:"house keeping", trigger:'4'},
-      {value:"Car Wash",label:"Car Wash", trigger:'5'},
-      {value:"Personal Care",label:"Personal Care", trigger:'6'},
-    ],
+//     {
+//       id: 'waiting1',
+//     message: 'hi {decodedName}, {previousValue}, Please select your options',
+//    trigger:'3'
+//     },
+//     {
+//       id: '3',
+//     options:[
+//       {value:"house keeping",label:"house keeping", trigger:'4'},
+//       {value:"Car Wash",label:"Car Wash", trigger:'5'},
+//       {value:"Personal Care",label:"Personal Care", trigger:'6'},
+//     ],
     
-    },
-    {
-      id: '4',
-      component: (
-        <div className='component'  >
-          <span>Thanks for selecting house keeping, kindly schedule an appointemnt for our service' <br></br>You need further assistant connect with customer Agent</span>
-          <button onClick={Chat}>connect</button>
-        </div>
-      ),
-   end:true
-    },
-    {
-      id: '5',
-      component: (
-        <div className='component' >
-          <p>Thanks for selecting Car Wash, kindly schedule an appointemnt for our service'</p>
+//     },
+//     {
+//       id: '4',
+//       component: (
+//         <div className='component'  >
+//           <span>Thanks for selecting house keeping, kindly schedule an appointemnt for our service' <br></br>You need further assistant connect with customer Agent</span>
+//           <button onClick={Chat}>connect</button>
+//         </div>
+//       ),
+//    end:true
+//     },
+//     {
+//       id: '5',
+//       component: (
+//         <div className='component' >
+//           <p>Thanks for selecting Car Wash, kindly schedule an appointemnt for our service'</p>
 
-          <div>You need further assistant connect with customer Agent</div>
-          <button onClick={Chat}>connect</button>
-        </div>
-      ),
-     end:true,
-    },
-    {
-      id: '6',
-      component: (
-        <div className='component' >
-          <p>Thanks for selecting personal care, kindly schedule an appointemnt for our service'</p>
+//           <div>You need further assistant connect with customer Agent</div>
+//           <button onClick={Chat}>connect</button>
+//         </div>
+//       ),
+//      end:true,
+//     },
+//     {
+//       id: '6',
+//       component: (
+//         <div className='component' >
+//           <p>Thanks for selecting personal care, kindly schedule an appointemnt for our service'</p>
 
-          <div>You need further assistant connect with customer Agent</div>
-          <button onClick={Chat}>connect</button>
-        </div>
-      ),
-     end:true
-    },
+//           <div>You need further assistant connect with customer Agent</div>
+//           <button onClick={Chat}>connect</button>
+//         </div>
+//       ),
+//      end:true
+//     },
   
- ];
+//  ];
  
- const responsive = {
-  superLargeDesktop: {
-    // the naming can be any, depends on you.
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5,
-    slidesToSlide: 5,
-  },
-  desktop: {
-    breakpoint: { max: 3000, min: 1024 },
-    items: 3,
-    slidesToSlide: 3,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 464 },
-    items: 2,
-    slidesToSlide: 2,
+//  const responsive = {
+//   superLargeDesktop: {
+//     // the naming can be any, depends on you.
+//     breakpoint: { max: 4000, min: 3000 },
+//     items: 5,
+//     slidesToSlide: 5,
+//   },
+//   desktop: {
+//     breakpoint: { max: 3000, min: 1024 },
+//     items: 3,
+//     slidesToSlide: 3,
+//   },
+//   tablet: {
+//     breakpoint: { max: 1024, min: 464 },
+//     items: 2,
+//     slidesToSlide: 2,
 
-  },
-  mobile: {
-    breakpoint: { max: 464, min: 0 },
-    items: 1,
-    slidesToSlide: 1,
-  }
-};
+//   },
+//   mobile: {
+//     breakpoint: { max: 464, min: 0 },
+//     items: 1,
+//     slidesToSlide: 1,
+//   }
+// };
 
-const doSpecialThing = () => {
-  // Your custom logic here
-  console.log('Carousel has moved! Do something special.');
-};
+// const doSpecialThing = () => {
+//   // Your custom logic here
+//   console.log('Carousel has moved! Do something special.');
+// };
+
+const flow = {
+    start: {
+      message: "Hello! Welcome to our site. What is your name?",
+      path: "ask_name"
+    },
+    ask_name: {
+      user: true, // Waits for user text input
+      path: "goodbye"
+    },
+    goodbye: {
+      message: (params) => `Nice to meet you, ${params.userInput}! Have a great day!`,
+      path: "start" // Loops back to the start
+    }
+  };
 const MyCarousel = () => {
   
 }
@@ -3816,15 +3833,15 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
   
   </div>
 
-{/* 
+ 
   {isVisiblechat &&( 
-    <div className='CHAT' style={{margin:"10px 170px", height:"20vh" ,zIndex:"100" }} >
-    <segment> 
-    <p  style={{margin:"10px 0px", position:"absolute", zIndex:"10", right:"100px"}}>hellosd</p>
-      <ChatBot id="chabotz" steps={steps}  />
+    <div className='CHAT' style={{margin:"10px 170px", height:"20vh" ,zIndex:"10000" }} >
+    <segment > 
+    <p  style={{margin:"10px 0px", position:"absolute", zIndex:"10", right:"100px"}}></p>
+      <ChatBot id="chabotz" flow= {flow} style={{zIndex:'1000'}}   />
     </segment>
   </div>
-)} */}
+)} 
   
         
             </div>
@@ -3867,7 +3884,9 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
             <hr></hr>
             <p>It allows you to access its data and functions  via web from any place or device</p>
           </div>
+          <ChatBot id="chabotz" flow= {flow} style={{zIndex:'1000'}}   />
           </div>
+          
         )}
  
    {token ? (null):(
@@ -3971,7 +3990,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
       <p  id='text_p' style={{padding:"2px" ,color:"black"}}> Organize your work, reminders, and <br></br>calendar events all from your  personalized Home.</p>
       <img id='imgDis' src="https://clickup.com/assets/home-test/stay-ahead.png"/>
       
-
+<ChatBot  flow= {flow} style={{zIndex:'1000'}}   />
      
        </div>
 
