@@ -186,6 +186,7 @@ const [dataPieChart, setdataPieChart] = useState([]);
   const[balance, setBalance]=useState("")
   const [salesCreditorsData, setSalesCreditorsData] = useState([]);
   const [saleDataListcreditor, setSaleDataListCreditor]=useState([])
+  const [news,setNews]=useState([])
 
 
 
@@ -2245,6 +2246,34 @@ const SaveCreditors = async () => {
   }
 };
 
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      // Corrected to axios.get and added the await keyword
+      const response = await axios.get('https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=us&max=10&apikey=60af6d0ebbc18736d75fbbc2a006803a');
+      const data= response.data.articles
+      // Axios stores the server's response payload directly inside the .data object
+      console.log('see',response.data);
+      const dataApp=data.map(item=>({
+        Content:item.content,
+        Image:item.image,
+        Title:item.title,
+        Name:item.name,
+        Description:item.description,
+
+
+      }))
+      setNews(prev=>[prev,...dataApp])
+      
+    } catch (error) {
+      console.error("Error fetching data with Axios:", error);
+    }
+  };
+
+  fetchData();
+}, [setNews]);
+
+
 
 
 
@@ -3536,6 +3565,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
             </div>
         )}
         {emsMarketing && (
+          
             <div>
               emsmkerting
             </div>
@@ -3547,8 +3577,21 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
         )}
         </div>
        ):(
-        <div style={{margin:'100px 0px'}}>
-          <p>jjjssj</p>
+        <div style={{margin:'50px -145px',placeItems:'center',background:'white', width:'70vh'}}>
+        {news.map((item,elem)=>(
+<div  key={elem} style={{width:'100%'}}>
+  <h6 style={{width:'50wv',margin:'10px',fontSize:'20px', fontFamily:'bolder'}}>{item.Title}</h6>
+  <div>
+    <p style={{margin:'15px', color:'grey',fontSize:'17px'}}>{item.Content}</p>
+    <img  style={{width:'300px', height:'200px',placeItems:'center', margin:'5px'}} src={item.Image}/>
+    <p>{item.Description}</p>
+    </div>
+    
+
+<hr style={{lineHeight:'2px'}}></hr>
+</div>
+        ))}  
+
         </div>
 
        )}
@@ -3664,8 +3707,9 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
             </div>
         )}
         {emsMarketing && (
-            <div>
-              emsmkerting
+          
+            <div style={{margin:'100px 0px'}}>
+              
             </div>
         )}
         {social && (
@@ -3706,7 +3750,7 @@ ConnectTeam template library makes it easy for people teams to build, launch, an
     </div>
 )}
 
-z
+
 
 
     </div>
